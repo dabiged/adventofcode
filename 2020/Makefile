@@ -27,3 +27,7 @@ pylint: ## Run pylint on all python files
 
 %.pylint: ## Run pylint on one file: i.e. make day01.pylint
 	python -m pylint $*.py	
+
+.PHONY: pyclean
+pyclean: ## Run py3clean to remove __pycache__ and *.pyc files
+	py3clean .
