@@ -1,10 +1,12 @@
 def file_to_array(path):
+    """Open file and return each line as a list of ints."""
     return [int(line.strip()) for line in open(path, "r")]
 
 
 def get_number_list_from_file(path):
-    with open(path, "r") as f:
-        return [int(opcode) for opcode in f.read().split(",")]
+    """Return a list of numbers for each line in a file"""
+    with open(path, "r") as numberlist_file:
+        return [int(opcode) for opcode in numberlist_file.read().split(",")]
 
 
 def get_numbers_from_string_from_file(path):
