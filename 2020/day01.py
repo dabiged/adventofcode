@@ -1,9 +1,9 @@
 from lib.filehelper import file_to_array
-
+# pylint: disable=missing-module-docstring
 
 def calculate_fuel_needed(mass: int) -> int:
     """
-    Fuel required to launch a given module is based on its mass. 
+    Fuel required to launch a given module is based on its mass.
     Specifically, to find the fuel required for a module, take its mass, divide
     by three, round down, and subtract 2.
     """
@@ -12,19 +12,19 @@ def calculate_fuel_needed(mass: int) -> int:
 
 def calculate_fuel_for_fuel(mass: int) -> int:
     """
-    So, for each module mass, calculate its fuel and add it to the total. 
+    So, for each module mass, calculate its fuel and add it to the total.
     Then, treat the fuel amount you just calculated as the input mass and
     repeat the process,
-    continuing until a fuel requirement is zero or negative. 
+    continuing until a fuel requirement is zero or negative.
     """
     fuel_needed = calculate_fuel_needed(mass)
     if fuel_needed <= 0:
         return 0
-    else:
-        return fuel_needed + calculate_fuel_for_fuel(fuel_needed)
+    return fuel_needed + calculate_fuel_for_fuel(fuel_needed)
 
 
 def day01_01():
+    """Run part 1 of Day 1's code"""
     path = "./input/01/input.txt"
     fuel_list = [calculate_fuel_needed(mass) for mass in file_to_array(path)]
     fuel_needed = sum(fuel_list)
@@ -32,6 +32,7 @@ def day01_01():
 
 
 def day01_02():
+    """Run part 2 of Day 1's code"""
     path = "./input/01/input02.txt"
     fuel_list = [calculate_fuel_for_fuel(mass) for mass in file_to_array(path)]
     fuel_needed = sum(fuel_list)
