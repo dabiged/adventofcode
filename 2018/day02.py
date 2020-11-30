@@ -43,24 +43,38 @@ def checksum_multiple_labels(boxidlist: list) -> int:
     return checksum
 
 
-
-
-##  def calibrate_freq_twice_device(freqchange: list) -> int:
-##      """
-##      Returns the first frequency to be seen twice given a list of changes.
-##  
-##      Note: freqchange is a list of strs prefixed with a + or -.
-##      """
-##      seenfreqs={}
-##      frequency=0
-##      while True:
-##          for freq in freqchange:
-##              if frequency not in seenfreqs.keys():
-##                  seenfreqs[frequency]=1
-##              elif seenfreqs[frequency] == 1:
-##                  return frequency
-##              frequency = frequency + int(freq.lstrip("+"))
-
+def find_similar_boxids(boxidlist: list) -> tuple:
+    """
+    Given a list of str, find the two that are the most similar.
+    Similar is equal letters in equal spaces.
+    """
+    # Create a dict to store scores, and one to store the common characters.
+    similarboxids_scores={}
+    similarboxids_chars={}
+    # Loop over all pairs of boxids
+    for boxid1 in boxidlist:
+        for boxid2 in boxidlist:
+            if boxid1 == boxid2 :
+                # don't compre the same boxids.
+                break
+            if (boxid1, boxid2) in similarboxids_scores.keys():
+                # don't compare boxid pairs already seen
+                break
+            samechars = 0
+            similarchars=""
+            # compare character in each boxid.
+            for char1, char2 in zip(boxid1,boxid2):
+                if char1 == char2:
+                # If they are the same character add one to the score and 
+                #    append the character to a temp str.
+                    samechars+=1
+                    similarchars+=char1
+            # Store the scores and character in our dicts, with tuples of boxid pairs.
+            similarboxids_scores[(boxid2,boxid1)] = samechars
+            similarboxids_chars[(boxid2,boxid1)] = similarchars
+    # Return the similar characters of the boxids with the highest score. from here.
+    # https://stackoverflow.com/questions/268272/getting-key-with-maximum-value-in-dictionary
+    return similarboxids_chars[max(similarboxids_scores,key=similarboxids_scores.get)]
 
 def day02_01():
     """Run part 1 of Day 2's code"""
@@ -71,11 +85,11 @@ def day02_01():
 
 def day02_02():
     """Run part 2 of Day 1's code"""
-    path = "./input/01/input.txt"
-    final_freq = calibrate_freq_twice_device(file_to_str_array(path))
-    print(f"final frequency: {final_freq}")
+    path = "./input/02/input.txt"
+    common_letters = find_similar_boxids([ boxid for boxid in file_to_str_array(path)])
+    print(f"Similar Characters: {common_letters}")
 
 
 if __name__ == "__main__":
     day02_01()
-    #day02_02()
+    day02_02()
