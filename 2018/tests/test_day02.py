@@ -1,4 +1,4 @@
-from day02 import checksum_one_label, checksum_multiple_labels, find_similar_boxids, find_similar_chars
+from day02 import checksum_one_label, checksum_multiple_labels, find_similar_boxids
 
 
 class TestDay02:
@@ -51,14 +51,7 @@ class TestDay02:
         assert expected == result
 
     def test_find_similar_boxids(self):
-        expected = ("fghij", "fguij")
+        expected = "fgij"
         inputvalue = ["abcde", "fghij", "klmno", "pqrst", "fguij", "axcye", "wvxyz"]
         result = find_similar_boxids(inputvalue)
         assert expected == result
-
-    def test_find_similar_chars(self):
-        expected = "fgij"
-        inputvalue = ("fghij", "fguij")
-        result = find_similar_chars(inputvalue)
-        assert expected == result
-
