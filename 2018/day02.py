@@ -1,13 +1,18 @@
+"""
+AOC day 02 2018
+"""
+
 from lib.filehelper import file_to_str_array
 # pylint: disable=missing-module-docstring
 
 def checksum_one_label(boxid: str) -> dict:
     """
-    Create a dict which contains a bool int represetation of if a str contains a double or triple letter.
+    Create a dict which contains a bool int represetation of if a str contains a
+    double or triple letter.
     """
     # Create a dict of each letter and how many there are.
     characters={}
-    
+
     for character in boxid:
         if character in characters.keys():
             characters[character] += 1
@@ -16,7 +21,7 @@ def checksum_one_label(boxid: str) -> dict:
 
     # Create a dict with how many double and triples there are.
     bool_dict = {}
-    for key, value in characters.items():
+    for value in characters.values():
         for num in range(2,4):
             if value == num:
                 bool_dict[num] = 1
@@ -65,7 +70,7 @@ def find_similar_boxids(boxidlist: list) -> tuple:
             # compare character in each boxid.
             for char1, char2 in zip(boxid1,boxid2):
                 if char1 == char2:
-                # If they are the same character add one to the score and 
+                # If they are the same character add one to the score and
                 #    append the character to a temp str.
                     samechars+=1
                     similarchars+=char1
@@ -79,14 +84,14 @@ def find_similar_boxids(boxidlist: list) -> tuple:
 def day02_01():
     """Run part 1 of Day 2's code"""
     path = "./input/02/input.txt"
-    final_checksum = checksum_multiple_labels([boxid for boxid in file_to_str_array(path)])
+    final_checksum = checksum_multiple_labels(file_to_str_array(path))
     print(f"final checksum: {final_checksum}")
 
 
 def day02_02():
     """Run part 2 of Day 1's code"""
     path = "./input/02/input.txt"
-    common_letters = find_similar_boxids([ boxid for boxid in file_to_str_array(path)])
+    common_letters = find_similar_boxids(file_to_str_array(path))
     print(f"Similar Characters: {common_letters}")
 
 
