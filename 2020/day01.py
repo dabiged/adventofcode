@@ -1,42 +1,46 @@
+"""
+Advent of Code Day 01 2020
+"""
+
 from lib.filehelper import file_to_array
 # pylint: disable=missing-module-docstring
 
-def calculate_fuel_needed(mass: int) -> int:
+def product_of_sumto2020(expenses: list) -> int:
     """
-    Fuel required to launch a given module is based on its mass.
-    Specifically, to find the fuel required for a module, take its mass, divide
-    by three, round down, and subtract 2.
+    Find two expenses in a list of expenses and return the product of the
+    two expenses whose sum is 2020.
     """
-    return int(mass / 3) - 2
+    for expense1 in expenses:
+        for expense2 in expenses:
+            if expense1+ expense2 == 2020:
+                return expense1*expense2
+    return None
 
-
-def calculate_fuel_for_fuel(mass: int) -> int:
+def product_of_3_sumto2020(expenses: list) -> int:
     """
-    So, for each module mass, calculate its fuel and add it to the total.
-    Then, treat the fuel amount you just calculated as the input mass and
-    repeat the process,
-    continuing until a fuel requirement is zero or negative.
+    Find three expenses in a list of expenses and return the product of the
+    three expenses whose sum is 2020.
     """
-    fuel_needed = calculate_fuel_needed(mass)
-    if fuel_needed <= 0:
-        return 0
-    return fuel_needed + calculate_fuel_for_fuel(fuel_needed)
+    for expense1 in expenses:
+        for expense2 in expenses:
+            for expense3 in expenses:
+                if expense1+ expense2 +expense3 == 2020:
+                    return expense1*expense2*expense3
+    return None
 
 
 def day01_01():
     """Run part 1 of Day 1's code"""
     path = "./input/01/input.txt"
-    fuel_list = [calculate_fuel_needed(mass) for mass in file_to_array(path)]
-    fuel_needed = sum(fuel_list)
-    print(f"fuel needed: {fuel_needed}")
+    product = product_of_sumto2020(file_to_array(path))
+    print(f"0101: product of two numbers summing to 2020: {product}")
 
 
 def day01_02():
     """Run part 2 of Day 1's code"""
-    path = "./input/01/input02.txt"
-    fuel_list = [calculate_fuel_for_fuel(mass) for mass in file_to_array(path)]
-    fuel_needed = sum(fuel_list)
-    print(f"fuel needed for fuel: {fuel_needed}")
+    path = "./input/01/input.txt"
+    product = product_of_3_sumto2020(file_to_array(path))
+    print(f"0102: product of three numbers summing to 2020: {product}")
 
 
 if __name__ == "__main__":
