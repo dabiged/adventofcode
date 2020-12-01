@@ -39,3 +39,26 @@ make pylint
 ```
 make day01.pylint
 ```
+
+## Comments:
+### Day01
+No Issues.
+
+### Day02
+Initially made a mistake in the function find_similar-boxids. 
+I Originally did:
+```
+for char1 in boxid1:
+  for char2 in boxid2:
+    if char1==char2:
+       ...
+```
+This is incorrect as it compares everything to everything else in each string.
+
+### Day03
+I initially wrote this as a hacky set of functions using lists (note: I am avoiding numpy for this year).
+I made a number of mistakes:
+1. I used variables like Xsize and YSize, rather than Rows and columns. This just confused the code.
+2. I got rows and columns mixed around.
+3. I didn;t have a good way of viewing my grid without needing a lot of [[".","."]] characters. Switching to a class using the ```__repr__``` method made this much much easier to debug.
+
