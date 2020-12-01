@@ -12,14 +12,14 @@ def read_cut(line):
     return CutNum, Xloc, YLoc, XSize, YSize
     """
     # CutNum(int) @ Xloc(int),Yloc(int): Xsize(int)x(Ysize)
-    CutName,     _, location,                 size = tuple(line.split())
+    cutname,     _, location,                 size = tuple(line.split())
     location=location.rstrip(":")
-    CutNum=CutName.lstrip("#")
-    (CutXloc,CutYloc) = tuple(location.split(","))
-    (CutXsize, CutYsize ) = tuple(size.split("x"))
-    return int(CutNum), int(CutXloc), int(CutYloc), int(CutXsize), int(CutYsize)
+    cutnum=cutname.lstrip("#")
+    (cutxloc,cutyloc) = tuple(location.split(","))
+    (cutxsize, cutysize ) = tuple(size.split("x"))
+    return int(cutnum), int(cutxloc), int(cutyloc), int(cutxsize), int(cutysize)
 
-class fabric_square:
+class FabricSquare:
     """
     A 2d fabric square upon which cuts may be made.
     """
@@ -30,24 +30,21 @@ class fabric_square:
         """
         self.summary={}
         self.grid=[]
-        for row in range(0,rows):
+        for _ in range(0,rows):
             thisrow=[]
-            for col in range(0,cols):
+            for _ in range(0,cols):
                 thisrow.append(".")
             self.grid.append(thisrow)
 
     def __repr__(self):
         """
-        A helper method that allows us to run 
+        A helper method that allows us to run
         > print(mysquare)
         to return a human readable representation of the cuts.
         """
         gridplot=""
         for thisrow in self.grid:
-            row=""
-            for item in thisrow:
-                row+=item
-            gridplot+=(row+"\n")
+            gridplot+="".join(thisrow)+"\n"
         return gridplot
 
 
@@ -59,11 +56,11 @@ class fabric_square:
         with the cutNum.
         If the location is already claimed place an X there.
         """
-        CutNum, CutColStartloc, CutRowStartloc, CutColsize, CutRowsize = read_cut(cut)
-        for column in range(CutColStartloc, CutColStartloc+CutColsize):
-            for row in range(CutRowStartloc,CutRowStartloc+CutRowsize):
+        cutnum, cutcolstartloc, cutrowstartloc, cutcolsize, cutrowsize = read_cut(cut)
+        for column in range(cutcolstartloc, cutcolstartloc+cutcolsize):
+            for row in range(cutrowstartloc,cutrowstartloc+cutrowsize):
                 if self.grid[row][column] == ".":
-                    self.grid[row][column]=str(CutNum)
+                    self.grid[row][column]=str(cutnum)
                 else:
                     self.grid[row][column] = "X"
 
@@ -78,7 +75,7 @@ class fabric_square:
                 if self.grid[row][col] == "X":
                     count+=1
         return count
-    
+
     def summarise(self):
         """
         Count the number of inches of each claim.
@@ -94,11 +91,11 @@ class fabric_square:
         """
         Does the current cut have no overlaps with others?
         """
-        CutNum, _, _, CutColsize, CutRowsize = read_cut(cut)
-        if str(CutNum) not in self.summary.keys():
+        cutnum, _, _, cutcolsize, cutrowsize = read_cut(cut)
+        if str(cutnum) not in self.summary.keys():
             return False
-        if self.summary[str(CutNum)] == CutColsize*CutRowsize:
-           return True
+        if self.summary[str(cutnum)] == cutcolsize*cutrowsize:
+            return True
         return False
 
 
@@ -115,13 +112,14 @@ class fabric_square:
         return self.numrows(), self.numcols()
 
     def getsummary(self):
+        """Show summary of claim name and sqin size"""
         return self.summary
 
 def day03_01():
     """Run part 1 of Day 3's code"""
 
     path = "./input/03/input.txt"
-    mysquare=fabric_square()
+    mysquare=FabricSquare()
     for cut in file_to_str_array(path):
         mysquare.addcut(cut)
     result = mysquare.overlaps()
@@ -130,7 +128,7 @@ def day03_01():
 def day03_02():
     """Run part 2 of Day 3's code"""
     path = "./input/03/input.txt"
-    mysquare=fabric_square()
+    mysquare=FabricSquare()
     for cut in file_to_str_array(path):
         mysquare.addcut(cut)
     mysquare.summarise()
@@ -138,7 +136,6 @@ def day03_02():
         if mysquare.nooverlap(cut):
             result= cut.split()[0]
     print(f'0302: Cut with no overlaps: {result}')
-    pass
 
 if __name__ == "__main__":
     day03_01()
