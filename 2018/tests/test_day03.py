@@ -1,20 +1,20 @@
-from day03 import build_empty_grid, read_cut, build_grid, print_fabric
+from day03 import fabric_square, read_cut
 
 
 class TestDay03:
     def test_build_2x2_grid(self):
-        expected = [[".","."],[".","."]]
-        result = build_empty_grid(xsize=2, ysize=2)
+        expected = '..\n..\n'
+        result = str(fabric_square(rows=2, cols=2))
         assert expected == result
 
-    def test_build_1x1_grid(self):
-        expected = [["."]]
-        result = build_empty_grid(xsize=1, ysize=1)
+    def test_build_10x1_grid(self):
+        expected = '.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n'
+        result = str(fabric_square(rows=10, cols=1))
         assert expected == result
 
-    def test_build_5x1_grid(self):
-        expected = [[".",".",".",".","."]]
-        result = build_empty_grid(xsize=5, ysize=1)
+    def test_build_1x10_grid(self):
+        expected = '..........\n'
+        result = str(fabric_square(rows=1, cols=10))
         assert expected == result
 
     def test_read_cuts1(self):
@@ -30,45 +30,63 @@ class TestDay03:
         assert expected == result
 
     def test_build_1cut_grid(self):
-        expected = [["1"]]
-        testinput= ["#1 @ 0,0: 1x1"]
-        result = build_grid(testinput, xsize=1,ysize=1)
+        expected = '1\n'
+        testinput= "#1 @ 0,0: 1x1"
+        testsquare=fabric_square(rows=1, cols=1)
+        testsquare.addcut(testinput)
+        result = str(testsquare)
         assert expected == result
 
-    def test_build_example1_grid(self):
-        expected = [
-        [".",".",".",".",".",".",".",".",".",".","."],
-        [".",".",".",".",".",".",".",".",".",".","."],
-        [".",".",".","1","1","1","1","1",".",".","."],
-        [".",".",".","1","1","1","1","1",".",".","."],
-        [".",".",".","1","1","1","1","1",".",".","."],
-        [".",".",".","1","1","1","1","1",".",".","."],
-        [".",".",".",".",".",".",".",".",".",".","."],
-        [".",".",".",".",".",".",".",".",".",".","."],
-        [".",".",".",".",".",".",".",".",".",".","."]]
-        testinput= ["#1 @ 3,2: 5x4"]
-        result = build_grid(testinput, xsize=11,ysize=9)
-        print_fabric(expected)
-        print(" ------------------- ")
-        print_fabric(result)
-        assert len(expected) == len(result)
-        assert len(expected[0]) == len(result[0])
+    def test_example1_grid(self):
+        expected = '...........\n...........\n...11111...\n...11111...\n...11111...\n...11111...\n...........\n...........\n...........\n'
+        testinput= "#1 @ 3,2: 5x4"
+        testsquare=fabric_square(rows=9, cols=11)
+        testsquare.addcut(testinput)
+        result = str(testsquare)
         assert expected == result
 
-
-    def test_build_example2_grid(self):
-        expected = [
-        [".",".",".",".",".",".",".","."],
-        [".",".",".","2","2","2","2","."],
-        [".",".",".","2","2","2","2","."],
-        [".","1","1","X","X","2","2","."],
-        [".","1","1","X","X","2","2","."],
-        [".","1","1","1","1","3","3","."],
-        [".","1","1","1","1","3","3","."],
-        [".",".",".",".",".",".",".","."]]
+    def test_example2_grid(self):
+        expected = '........\n...2222.\n...2222.\n.11XX22.\n.11XX22.\n.111133.\n.111133.\n........\n'
         testinput= ["#1 @ 1,3: 4x4","#2 @ 3,1: 4x4","#3 @ 5,5: 2x2"]
-        result = build_grid(testinput, xsize=8,ysize=8)
-        print_fabric(expected)
-        print(" ------------------- ")
-        print_fabric(result)
+        testsquare=fabric_square(rows=8, cols=8)
+        for cut in testinput:
+            testsquare.addcut(cut)
+        result = str(testsquare)
+        assert expected == result
+
+    def test_shape(self):
+        expected = (4, 5)
+        testsquare = fabric_square(rows=4, cols=5)
+        result = testsquare.shape()
+        assert expected == result
+
+    def test_overlaps(self):
+        expected = 4
+        testinput= ["#1 @ 1,3: 4x4","#2 @ 3,1: 4x4","#3 @ 5,5: 2x2"]
+        testsquare=fabric_square(rows=8, cols=8)
+        for cut in testinput:
+            testsquare.addcut(cut)
+        result = testsquare.overlaps()
+        assert expected == result
+
+    def test_summary(self):
+        expected = {'.':32,'1':12,'2':12,'3': 4 ,'X': 4}
+        testinput= ["#1 @ 1,3: 4x4","#2 @ 3,1: 4x4","#3 @ 5,5: 2x2"]
+        testsquare=fabric_square(rows=8, cols=8)
+        for cut in testinput:
+            testsquare.addcut(cut)
+        testsquare.summarise()
+        result = testsquare.getsummary()
+        assert expected == result
+
+    def test_nooverlaps(self):
+        expected = '#3'
+        testinput= ["#1 @ 1,3: 4x4","#2 @ 3,1: 4x4","#3 @ 5,5: 2x2"]
+        testsquare=fabric_square(rows=8, cols=8)
+        for cut in testinput:
+            testsquare.addcut(cut)
+        testsquare.summarise()
+        for cut in testinput:
+            if testsquare.nooverlap(cut):
+                result= cut.split()[0]
         assert expected == result
