@@ -1,5 +1,8 @@
 # Advent of Code 2018 in Python
 
+Goals:
+1. Write professional quality, debugable, tested python code.
+2. Use more classes and dunder methods.
 
 
 ## Setup
@@ -53,7 +56,7 @@ for char1 in boxid1:
     if char1==char2:
        ...
 ```
-This is incorrect as it compares everything to everything else in each string.
+This is incorrect as it compares everything to everything else in each string. The newer implementation uses zip which works.
 
 ### Day03
 I initially wrote this as a hacky set of functions using lists (note: I am avoiding numpy for this year).

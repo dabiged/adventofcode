@@ -1,6 +1,8 @@
 # Advent of Code 2020 in Python
 
-
+Goals:
+1. Write readable, tested, professional quality code.
+2. Explore gaps in my python knowledge, specifically standard libraries I am not familiar with including itertools.
 
 ## Setup
 
