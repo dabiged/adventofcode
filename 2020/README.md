@@ -48,3 +48,7 @@ make day01.pylint
 1. Current implmentation is slow O(n^2) and O(n^3) but functional. 
 2. Others have used itertools to sample all combinations of 2 or 3 from the pool which is something I should look at in future.
 3. writing tests took less time than I feared and was very helpful.
+
+### Day02
+
+1. I originally misread part 2 and thought the letter had to be at BOTH locations in the password.
