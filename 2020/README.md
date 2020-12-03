@@ -52,3 +52,17 @@ make day01.pylint
 ### Day02
 
 1. I originally misread part 2 and thought the letter had to be at BOTH locations in the password.
+
+### Day03
+1. I had a previously built class using very similar syntax from 2018 AOC. It already had init, repr, numcols, numrows and shape methods.
+2. Made a mistake with an off-by-one error whilst looping through the run, and being overly specific with the end condition (!= instead of <=):
+```
+while row !=self.runrows()
+```
+should have been:
+```
+while row<= self.numrows()-1
+```
+3. Forgot to add a "self" parameter to the tree_count method which gave some odd errors.
+4. Correctly set row and column steps as parameters in the tree_count method which made part 2 very easy.
+5. Wrote all code and submitted both answers with writing tests.

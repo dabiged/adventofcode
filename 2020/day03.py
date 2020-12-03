@@ -12,19 +12,20 @@ class ToboganRun:
 
     def __init__(self, listofrun, repeats=500):
         """
-        Initialises the size of the square.
+        Initialises the tobogan run by reading rows from a file,
+        a repeating them a number of times..
         """
         self.grid=[]
         for row in listofrun:
             thisrow=""
-            for repeat in range(repeats):
+            for _ in range(repeats):
                 thisrow+=row
             self.grid.append(list(thisrow))
 
     def __repr__(self):
         """
         A helper method that allows us to run
-        > print(mytobogan
+        > print(mytobogan)
         to return a human readable representation of the run
         """
         gridplot=""
@@ -33,7 +34,7 @@ class ToboganRun:
         return gridplot
 
     def tree_count(self, right=3, down=1, startrow=0, startcol=0):
-        """ 
+        """
         return the number of trees encounted starting at the startrow,startcol
         and moving down and right in steps specified until you hit the bottom.
         """
@@ -76,7 +77,7 @@ def day03_02():
      myrun.tree_count(right=1,down=1)* \
      myrun.tree_count(right=5,down=1)* \
      myrun.tree_count(right=7,down=1)* \
-     myrun.tree_count(right=1,down=2) 
+     myrun.tree_count(right=1,down=2)
     print(f'0302: Number of Trees Intercepted on 5 runs:{result}')
 
 if __name__ == "__main__":
