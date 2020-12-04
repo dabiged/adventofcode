@@ -6,9 +6,12 @@ from lib.filehelper import file_to_str_array
 # pylint: disable=missing-module-docstring
 
 class Passport:
-    """A passport containing fields."""
+    """A passport containing fields.
+    You can return each field by calling the field method, or by passing the option "checkIsValid=True" 
+    you can check if the formatting on that field is correct."""
 
     def __init__(self, inputdict):
+        """Initialise the Passport by reading a python dict: note keys and values are str"""
         self.fields=inputdict
         required_keys=["byr","eyr","hgt","pid","hcl","iyr","ecl"]
         optional_keys=['cid']
@@ -67,6 +70,7 @@ class Passport:
         """Passport ID - pid (Passport ID) - a nine-digit number, including leading zeroes."""
         if checkIsValid:
             try:
+                # Occasionally pid contains heights or hcls with non-numeric characters.
                 return True if self.pid() == str(int(self.pid())).zfill(9) and  len(self.pid()) == 9 else False
             except:
                 return False
@@ -78,109 +82,23 @@ class Passport:
             return True
         return self.fields['cid'] if 'cid' in self.fields.keys() else None
 
-    def isValid(self, part1=True, part2=False):
-        if part1:
+    def isValid(self):
+        """Check if all mandatory fields are populated for this passport"""
             if None in [self.byr(), self.eyr(), self.iyr(), self.hgt(), self.ecl(), self.hcl(), self.pid()]:
                 return False
             return True
-        if part2:
 
-            if None in [self.byr(), self.eyr(), self.iyr(), self.hgt(), self.ecl(), self.hcl(), self.pid()]:
-                return False
-            return self.byr(checkIsValid=True) and self.eyr(checkIsValid=True) and \
-            self.iyr(checkIsValid=True) and self.hgt(checkIsValid=True) and \
-            self.ecl(checkIsValid=True) and self.hcl(checkIsValid=True) and \
-            self.pid(checkIsValid=True)
-
-class IdentityList:
-    """
-    A list of identity values
-    """
-
-    def __init__(self, listofrun):
-        """
-        Initialises the Identity List by reading rows from a file.
-        """
-        self.identities={}
-        identity_number=0
-        for row in listofrun:
-            if row == "":
-                identity_number+=1
-            if identity_number not in self.identities.keys():
-                self.identities[identity_number]={}
-            for id_entry in row.split():
-                idkey, idvalue = id_entry.split(":")
-                self.identities[identity_number][idkey]=idvalue
-
-    def __repr__(self):
-        """
-        """
-        output=""
-        for identity, idinfo in self.identities.items():
-            output+=str(identity)+"\n"
-            for idkey, idval in idinfo.items():
-                output+=str(idkey)+":"+str(idval)+"\n"
-            output+="\n"
-        return output
-
-    def numids(self):
-        """The Number of columns in the grid"""
-        return len(self.identities.keys())
-
-    def count_valid(self,reqkeys):
-        """
-        Count the number of ids containing all keys in reqkeys
-        """
-        count_valid_passports=0
-        for identity, idinfo in self.identities.items():
-            if set(reqkeys).issubset( set(idinfo.keys())):
-                count_valid_passports+=1
-        return count_valid_passports
-
-##      def count_more_valid(self,reqkeys):
-##          """
-##          Count the number of ids containing all keys in reqkeys
-##          """
-##          count_invalid_passports=0
-##          for identity, idinfo in self.identities.items():
-##              ValidPassport=True
-##              if not 1920 <= int(idinfo['byr']) <= 2002:
-##                  # Birth Year) - four digits; at least 1920 and at most 2002.
-##                  ValidPassport = False
-##              if not 2010 <= int(idinfo['iyr']) <= 2020:
-##                  #(Issue Year) - four digits; at least 2010 and at most 2020.
-##                  ValidPassport = False
-##              if not 2020 <= idinfo['eyr'] <= 2030:
-##                  # (Expiration Year) - four digits; at least 2020 and at most 2030.
-##                  ValidPassport = False
-##              if "cm" in idinfo['hgt'] and not 150 <= int(idinfo['hgt'][0:2]) <= 193:
-##                  # (Height) - a number followed by either cm or in: 
-##                  # If cm, the number must be at least 150 and at most 193.
-##                  ValidPassport = False
-##              if "in" in idinfo['hgt'] and not 59 <= int(idinfo['hgt'][0:1]) <= 76:
-##                  # (Height) - a number followed by either cm or in: 
-##                  # If in, the number must be at least 59 and at most 76.
-##                  ValidPassport = False
-##              if idinfo['hcl']
-##                  # (Hair Color) - a # followed by exactly six characters 0-9 or a-f.
-##              if idinfo['ecl'] not in ["amb","blu","brn","gry","grn","hzl","oth"]
-##                  # (Eye Color) - exactly one of: amb blu brn gry grn hzl oth.
-##                  ValidPassport = False
-##              if idinfo['pid']
-##                  # (Passport ID) - a nine-digit number, including leading zeroes.
-##                  ValidPassport = False
-##              if not set(reqkeys).issubset( set(idinfo.keys())):
-##                  ValidPassport=False
-##  
-##              if ValidPassport:
-##                  count_valid_passports += 1
-##  
-##          return count_valid_passports
-
+    def isValidStrict(self):
+        """Check that all manadatory fields are populated, and all of those fields have valid values"""
+        if None in [self.byr(), self.eyr(), self.iyr(), self.hgt(), self.ecl(), self.hcl(), self.pid()]:
+            return False
+        return self.byr(checkIsValid=True) and self.eyr(checkIsValid=True) and \
+        self.iyr(checkIsValid=True) and self.hgt(checkIsValid=True) and \
+        self.ecl(checkIsValid=True) and self.hcl(checkIsValid=True) and \
+        self.pid(checkIsValid=True)
 
 def day04_01():
     """Run part 1 of Day 04's code"""
-
     path = "./input/04/input_formatted.txt"
     ValidPassports=0
     for passport_details in file_to_str_array(path):
@@ -193,7 +111,7 @@ def day04_02():
     path = "./input/04/input_formatted.txt"
     ValidPassports=0
     for passport_details in file_to_str_array(path):
-        if Passport(eval(passport_details)).isValid(part2=True, part1=False):
+        if Passport(eval(passport_details)).isValidStrict():
             ValidPassports+=1
     print(f'0402: Number of valid passports: {ValidPassports}')
 
