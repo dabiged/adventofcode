@@ -80,5 +80,6 @@ is not the same as this:
 "a" in list("0123456789abcdef")
 True
 ```
-3. I opted to preprocess the input list into the same format as a python dict (i.e. {key1:value1,key2:value2...}). This is a bit against the spirit of the AOC (but life got in the way today). I was unable to use this format until I discovered the ```eval``` function.
+3. I opted to preprocess the input list into the same format as a python dict (i.e. {key1:value1,key2:value2...}). This is a bit against the spirit of the AOC (but life got in the way today). I was unable to use this format until I discovered the ```eval``` function. Apparently this is bad practice to use and I should have used the set_attr instead.
 4. When checking the pid value I was casting the pid value to a int, zero padding and comparing to the original. Some pid's in invalid passports contain heights (e.g. 175cm) or hair colours (e.g. #3937bc). The casting of these strs to int failed so I used a try/except to fix it.
+
