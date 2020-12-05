@@ -5,21 +5,32 @@ from lib.filehelper import file_to_str_array
 # pylint: disable=missing-module-docstring
 
 class Polymer:
+    """A magic polymer for Santa's suit"""
     def __init__(self, inputstr):
         """ """
         self.inputstr = inputstr
         self.polymer = list(inputstr)
 
     def __len__(self):
+        """Length of the polymer"""
         return len(self.polymer)
 
     def __repr__(self):
-        return "".join([i for i in self.polymer])
+        """Conver the list to a str for display"""
+        return "".join(i for i in self.polymer)
 
     def reactonce(self):
+        """Perform one pass of polymer reacting"""
         i = len(self.polymer)-2
         while i >=0:
-            if (self.polymer[i].islower() and self.polymer[i+1].isupper() and self.polymer[i] == self.polymer[i+1].lower()) or (self.polymer[i].lower() == self.polymer[i+1] and self.polymer[i].isupper() and self.polymer[i+1].islower()):
+            if \
+            (self.polymer[i].islower() and \
+            self.polymer[i+1].isupper() \
+            and self.polymer[i] == self.polymer[i+1].lower()) \
+            or \
+            (self.polymer[i].lower() == self.polymer[i+1] \
+            and self.polymer[i].isupper() \
+            and self.polymer[i+1].islower()):
                 if i == 0:
                     self.polymer = self.polymer[2:]
                     i-=1
@@ -34,13 +45,16 @@ class Polymer:
 
 
     def react(self):
+        """Perform as many reactions as required until the lenght stops changing"""
         oldlen = 0
         while oldlen != len(self.polymer):
             oldlen = len(self.polymer)
             self.reactonce()
 
     def remove_unit(self,unit):
-       self.polymer = [value for value in self.polymer if value not in [unit, unit.lower(), unit.upper()]] 
+        """Remove a letter (upper and lower) from the polymer"""
+        self.polymer = [value for value in self.polymer \
+        if value not in [unit, unit.lower(), unit.upper()]]
 
 def day05_01():
     """Run part 1 of Day 5's code"""
