@@ -65,3 +65,6 @@ I made a number of mistakes:
 2. I got rows and columns mixed around.
 3. I didn;t have a good way of viewing my grid without needing a lot of [[".","."]] characters. Switching to a class using the ```__repr__``` method made this much much easier to debug.
 
+### Day04
+1. I had a lot of issues naming variable and methods here. 
+2. Again I started wtih a hacky set of functions. Classes are so superior for testing!!!!
