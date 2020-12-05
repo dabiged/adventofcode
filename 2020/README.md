@@ -83,3 +83,7 @@ True
 3. I opted to preprocess the input list into the same format as a python dict (i.e. {key1:value1,key2:value2...}). This is a bit against the spirit of the AOC (but life got in the way today). I was unable to use this format until I discovered the ```eval``` function. Apparently this is bad practice to use and I should have used the set_attr instead.
 4. When checking the pid value I was casting the pid value to a int, zero padding and comparing to the original. Some pid's in invalid passports contain heights (e.g. 175cm) or hair colours (e.g. #3937bc). The casting of these strs to int failed so I used a try/except to fix it.
 
+### Day05
+1. All mistakes very minor. Binary partitioning implemented first go!
+2. I was reminded that I do not need to create methods for accessing class variables and trying to do so will give very odd error messages. I had a str called self.rows, and a method called self.rows() which return self.rows. When I called self.rows() the error message was "'str' object is not callable".
+3. Used a class for each boarding pass, with 3 methods, one each to calculate the row, col and seatid. Easy to debug, easy to implement.
