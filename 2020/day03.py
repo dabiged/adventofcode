@@ -78,7 +78,7 @@ def day03_02():
      myrun.tree_count(right=5,down=1)* \
      myrun.tree_count(right=7,down=1)* \
      myrun.tree_count(right=1,down=2)
-    print(f'0302: Product of Trees Intercepted on 5 runs:{result}')
+    print(f'0302: Product of Trees Intercepted on 5 runs: {result}')
 
 if __name__ == "__main__":
     day03_01()
