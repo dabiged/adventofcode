@@ -87,3 +87,7 @@ True
 1. All mistakes very minor. Binary partitioning implemented first go!
 2. I was reminded that I do not need to create methods for accessing class variables and trying to do so will give very odd error messages. I had a str called self.rows, and a method called self.rows() which return self.rows. When I called self.rows() the error message was "'str' object is not callable".
 3. Used a class for each boarding pass, with 3 methods, one each to calculate the row, col and seatid. Easy to debug, easy to implement.
+
+### Day06
+1. Managed to get part 1 quickly, part 2 was more complex.
+2. Finally used Any/All in combination with a list comp!
