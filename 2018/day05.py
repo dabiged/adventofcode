@@ -2,6 +2,7 @@
 AOC day 05 2018
 """
 from lib.filehelper import file_to_str_array
+import copy
 # pylint: disable=missing-module-docstring
 
 class Polymer:
@@ -69,9 +70,14 @@ def day05_02():
     """Run part 2 of Day 5's code"""
     path = "./input/05/input.txt"
     removed_letters={}
+    # Run part 1 and use it's input to each letter
+    for string in file_to_str_array(path):
+        santa_polymer=Polymer(string)
+        santa_polymer.react()
+    part2input=santa_polymer.polymer
+
     for letter in "abcdefghijklmnopqrstuvwxyz":
-        for string in file_to_str_array(path):
-            santa_polymer=Polymer(string)
+        santa_polymer=Polymer(part2input)
         santa_polymer.remove_unit(letter)
         santa_polymer.react()
         removed_letters[letter]=len(santa_polymer)
