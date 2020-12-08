@@ -94,3 +94,7 @@ True
 
 ## Day07
 1. I really struggled with this. I was able to build the tree, using nested dicts quite easily but struggled to tranverse it without overwriting sections of the tree. The deque solved this.
+
+## Day08
+1. I found today quite easy, perhaps from all the trauma of the incode computer from 2019. I quickly wrote a class for the computer and was able to solve part 1 within ~40mins of starting.
+2. Part 2 was not that much more difficult. I did make a mistake on not using a var.copy() when I should have.

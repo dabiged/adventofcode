@@ -4,8 +4,8 @@ from day03 import day03_01, day03_02
 from day04 import day04_01, day04_02
 from day05 import day05_01, day05_02
 from day06 import day06_01, day06_02
-##  from day07 import day07_01, day07_02
-##  from day08 import day08_01, day08_02
+from day07 import day07_01, day07_02
+from day08 import day08_01, day08_02
 ##  from day09 import day09_01, day09_02
 ##  from day10 import day10_01, day10_02
 ##  from day11 import day11_01, day11_02
@@ -39,10 +39,10 @@ if __name__ == "__main__":
     day05_02()
     day06_01()
     day06_02()
-    ##  day07_01()
-    ##  day07_02()
-    ##  day08_01()
-    ##  day08_02()
+    day07_01()
+    day07_02()
+    day08_01()
+    day08_02()
     ##  day09_01()
     ##  day09_02()
     ##  day10_01()
