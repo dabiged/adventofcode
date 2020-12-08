@@ -91,3 +91,6 @@ True
 ### Day06
 1. Managed to get part 1 quickly, part 2 was more complex.
 2. Finally used Any/All in combination with a list comp!
+
+## Day07
+1. I really struggled with this. I was able to build the tree, using nested dicts quite easily but struggled to tranverse it without overwriting sections of the tree. The deque solved this.
