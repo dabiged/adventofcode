@@ -62,7 +62,7 @@ def day06_01():
     """Run part 1 of Day 06's code"""
     path = "./input/06/input.txt"
     result = count_uniq_questions(file_to_str_array(path))
-    print(f'0601: the Sum of questions answer is: {result}')
+    print(f'0601: The Sum of questions answer is: {result}')
 
 def day06_02():
     """Run part 2 of Day 06's code"""
