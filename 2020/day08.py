@@ -4,16 +4,16 @@ AOC day 08 2018
 from lib.filehelper import file_to_str_array
 # pylint: disable=missing-module-docstring
 
-class VM_InstrNotFound(Exception):
-    pass
+class VMInstrNotFound(Exception):
+    """Exception in case bootcode instruction is not found"""
 
-class VM_PositionOutOfBounds(Exception):
-    pass
+class VMPositionOutOfBounds(Exception):
+    """Exception for position going out of bound of program"""
 
 class BootCode:
-
+    """An assembler like computer for executing small programs"""
     def __init__(self,inputbootcode, accumulator=0, position=0):
-        """ initialise the boot code, by reading the program line by line 
+        """ initialise the boot code, by reading the program line by line
         We store the program in a dict, with:
         key = position in the program  from 0 to len(self.bootcode)
         value = list of str. """
@@ -50,11 +50,12 @@ class BootCode:
 
         else:
             # A catchall Exception raised if the instruction is not recognised.
-            raise VM_InstrNotFound("The Instruction", self.bootcode[self.position][0], "at location", self.position, "is not Valid")
+            raise VMInstrNotFound("The Instruction", self.bootcode[self.position][0], \
+            "at location", self.position, "is not Valid")
 
         if  self.position < 0  or self.position > len(self.bootcode):
             # Another exception to check if the position has moved outside the program.
-            raise VM_PositionOutOfBounds("Position", self.position," is out of bounds")
+            raise VMPositionOutOfBounds("Position", self.position," is out of bounds")
 
         return self.accumulator, self.position
 
@@ -64,8 +65,8 @@ class BootCode:
         self.position=position
         # A list of past positions.
         positions_seen = []
-        Finished=False
-        while not Finished:
+        finished=False
+        while not finished:
             # Add current position to list of positions visited.
             positions_seen.append(self.position)
             # Step the program
@@ -76,10 +77,11 @@ class BootCode:
             if self.position in positions_seen:
                 if verbose:
                     print("cyclical behaviour detected")
-                return accum
-            elif self.position==len(self.bootcode):
-                return accum
+                finished=True
+            if self.position==len(self.bootcode):
+                finished=True
 
+        return accum
 def day08_01():
     """Run part 1 of Day 08's code"""
     path = "./input/08/input.txt"

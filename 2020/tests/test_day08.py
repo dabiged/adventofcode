@@ -1,4 +1,4 @@
-from day08 import BootCode, VM_InstrNotFound, VM_PositionOutOfBounds
+from day08 import BootCode, VMInstrNotFound, VMPositionOutOfBounds
 from lib.filehelper import file_to_str_array
 import pytest
 
@@ -12,7 +12,7 @@ class TestDay08:
         testinput=file_to_str_array("tests/day08_testdata.txt")
         testbootcode=BootCode(testinput)
         testbootcode.step()
-        assert testbootcode.accumulator == 0 
+        assert testbootcode.accumulator == 0
         assert testbootcode.position == 1
         testbootcode.step()
         assert testbootcode.accumulator == 1
@@ -42,11 +42,11 @@ class TestDay08:
     def test_unknown_instr_error(self):
         testinput=["nop +0","brk -1"]
         testbootcode=BootCode(testinput)
-        with pytest.raises(VM_InstrNotFound):
+        with pytest.raises(VMInstrNotFound):
             result = testbootcode.run()
 
     def test_position_out_of_bounds(self):
         testinput=["nop +0","jmp +7","acc +1"]
         testbootcode=BootCode(testinput)
-        with pytest.raises(VM_PositionOutOfBounds):
+        with pytest.raises(VMPositionOutOfBounds):
             result = testbootcode.run()
