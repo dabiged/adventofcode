@@ -55,6 +55,29 @@ def bags_that_can_contain_our_bag(bags_to_contain,ourdict):
         bags_to_contain = bags_that_can_contain_bags_to_contain
     return validbags
 
+def bags_could_contain_our_bag_queue(bags_to_contain,ourdict):
+    """
+    Find which bags could be used to contain our bag, 'shiny gold'
+    using a queue data structure.
+    """
+    # The list of bags to return
+    bags = []
+    # Our queue of bags to check
+    queue = deque(['shiny gold'])
+    while len(queue) >0:
+        #Grab the key to check
+        key = queue.pop()
+        # Loop over everything in ourdict
+        for bagkey in ourdict:
+            # if the bag exists inside another bag add the outer bag to the list, 
+            #   and check if the new outer bag is inside any other bags by adding 
+            #   it to the queue.
+            if key in ourdict[bagkey]:
+                bags.append(bagkey)
+                queue.append(bagkey)
+    # Return only the list of unique bags.
+    return set(bags)
+
 def bags_in_our_bag(contained_bags,ourdict):
     """
     Final all bags that are in our bag
@@ -90,6 +113,8 @@ def day07_01():
     ourbag={'shiny gold':1}
     result=len(bags_that_can_contain_our_bag(ourbag,part1dict))
     print(f'0701: The number of bags that can contain our bag is: {result}')
+    result2=len(bags_could_contain_our_bag_queue(ourbag,part1dict))
+    print(f'0701: the number of bags that can contain our bag (with queue data structure) is: {result2}')
 
 def day07_02():
     """Run part 2 of Day 07's code"""

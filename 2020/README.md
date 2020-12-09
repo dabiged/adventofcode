@@ -2,7 +2,7 @@
 
 Goals:
 1. Write readable, tested, professional quality code.
-2. Explore gaps in my python knowledge, specifically standard libraries I am not familiar with including itertools.
+2. Explore gaps in my python knowledge, specifically standard libraries I am not familiar with including itertools, deque, defaultdict
 
 ## Setup
 
@@ -94,6 +94,7 @@ True
 
 ## Day07
 1. I really struggled with this. I was able to build the tree, using nested dicts quite easily but struggled to tranverse it without overwriting sections of the tree. The deque solved this.
+2. I rewrote part 1 to also used the deque functionality, which I now understand much better.
 
 ## Day08
 1. I found today quite easy, perhaps from all the trauma of the incode computer from 2019. I quickly wrote a class for the computer and was able to solve part 1 within ~40mins of starting.
