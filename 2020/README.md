@@ -92,10 +92,15 @@ True
 1. Managed to get part 1 quickly, part 2 was more complex.
 2. Finally used Any/All in combination with a list comp!
 
-## Day07
+### Day07
 1. I really struggled with this. I was able to build the tree, using nested dicts quite easily but struggled to tranverse it without overwriting sections of the tree. The deque solved this.
 2. I rewrote part 1 to also used the deque functionality, which I now understand much better.
 
-## Day08
+### Day08
 1. I found today quite easy, perhaps from all the trauma of the incode computer from 2019. I quickly wrote a class for the computer and was able to solve part 1 within ~40mins of starting.
 2. Part 2 was not that much more difficult. I did make a mistake on not using a var.copy() when I should have.
+
+### Day09
+1. Easy one! I think I will probably rewrite both parts to use an itertools combination function.
+2. Part 2 was particularly easy?!?!?
+
