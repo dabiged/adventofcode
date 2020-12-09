@@ -1,8 +1,8 @@
 """
 AOC day 07 2018
 """
-from lib.filehelper import file_to_str_array
 from collections import deque
+from lib.filehelper import file_to_str_array
 # pylint: disable=missing-module-docstring
 
 def build_dict(test_input):
@@ -17,7 +17,7 @@ def build_dict(test_input):
     bags={}
     # loop over lines.
     for i in test_input:
-        # light red bags contain 1 bright white bag, 2 muted yellow bags. 
+        # light red bags contain 1 bright white bag, 2 muted yellow bags.
         # |--outergbag-|         |----- inner baglist ------------------|
         outerbag, innerbaglist = map(str, i.split("contain"))
         outerbag=outerbag.replace(" bags ","")
@@ -63,14 +63,15 @@ def bags_could_contain_our_bag_queue(bags_to_contain,ourdict):
     # The list of bags to return
     bags = []
     # Our queue of bags to check
-    queue = deque(['shiny gold'])
+    bagname, _ = bags_to_contain.popitem()
+    queue = deque([bagname])
     while len(queue) >0:
         #Grab the key to check
         key = queue.pop()
         # Loop over everything in ourdict
         for bagkey in ourdict:
-            # if the bag exists inside another bag add the outer bag to the list, 
-            #   and check if the new outer bag is inside any other bags by adding 
+            # if the bag exists inside another bag add the outer bag to the list,
+            #   and check if the new outer bag is inside any other bags by adding
             #   it to the queue.
             if key in ourdict[bagkey]:
                 bags.append(bagkey)
@@ -84,7 +85,7 @@ def bags_in_our_bag(contained_bags,ourdict):
     """
     bags = {}
     # Create a double ended Queue to traverse the tree row by row.
-    queue = deque([{'shiny gold':1}])
+    queue = deque([contained_bags])
     while len(queue) > 0:
         # Grab the next item in the queue
         thisbag = queue.pop()
@@ -99,7 +100,7 @@ def bags_in_our_bag(contained_bags,ourdict):
             # Traverse the tree adding the new leaves to the queue to process later.
             queue.append({key: ourdict[color][key] * amount})
             if key not in bags.keys():
-                # I hate this initialise/add to dict as an if statement. 
+                # I hate this initialise/add to dict as an if statement.
                 #  Note to self: Look into defaultdicts or something like that.
                 bags[key] = ourdict[color][key] * amount
             else:
@@ -114,7 +115,7 @@ def day07_01():
     result=len(bags_that_can_contain_our_bag(ourbag,part1dict))
     print(f'0701: The number of bags that can contain our bag is: {result}')
     result2=len(bags_could_contain_our_bag_queue(ourbag,part1dict))
-    print(f'0701: the number of bags that can contain our bag (with queue data structure) is: {result2}')
+    print(f'0701: The number of bags that can contain out bag is: {result2}')
 
 def day07_02():
     """Run part 2 of Day 07's code"""
