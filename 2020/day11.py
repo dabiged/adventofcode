@@ -18,7 +18,8 @@ class BoardingLounge:
         self.numneighbours=[]
         for row in strarray:
             self.grid.append(list(row))
-            # This initialisation of numneighbours is a shitty hack. it sould be initialsie as all zeroes.
+            # This initialisation of numneighbours is a shitty hack.
+            #  it should be initialised as all zeroes.
             self.numneighbours.append(list(row))
         self.numrows=len(self.grid)
         self.numcols=len(self.grid[0])
@@ -34,13 +35,21 @@ class BoardingLounge:
             gridplot+="".join(thisrow)+"\n"
         return gridplot
     def occupied(self,row,col):
-        """ Return a bool is seat is occupied or not"""
+        """ Return a bool if seat is occupied or not"""
         if self.grid[row][col] == '#':
             return True
         return False
 
     def get_neighbours(self,row,col):
-        """ get the number of occupied neightbours surrounding this seat"""
+        """ get the number of occupied neightbours surrounding this seat
+        neighbours is defined as the surrounding seats only,
+        i.e. for the seat at '@' there are 8 possible neighbours
+        123
+        4@5
+        678
+
+        returns an int between 0 and 8
+        """
         if self.grid[row][col] == ".":
             return 0
         numneighbours=0
@@ -66,6 +75,7 @@ class BoardingLounge:
         ..L..
         .#.#.
         Sees no seats.
+        returns an int between 0 and 8
         """
 
         if self.grid[row][col] == ".":
@@ -94,41 +104,54 @@ class BoardingLounge:
                 elif self.grid[thisrow][thiscol] == '.':
                     pass
                 else:
-                    raise ValueError("Something went wrong")
+                    print(thisrow, thiscol, self.grid[thisrow][thiscol])
+                   # raise ValueError("Something went wrong")
 
         return numneighbours
 
-    def calc_neighbours(self):
+    def calc_neighbours(self,part=1):
+        """ Update the class variable numneighbours with the number of
+        neighbours seen by each location"""
         for row in range(0,self.numrows):
             for col in range(0,self.numcols):
-                self.numneighbours[row][col]=self.get_neighbours(row,col)
+                if part == 1:
+                    self.numneighbours[row][col]=self.get_neighbours(row,col)
+                elif part ==2 :
+                    self.numneighbours[row][col]=self.get_neighbours_part2(row,col)
 
-    def calc_neighbours(self):
-        for row in range(0,self.numrows):
-            for col in range(0,self.numcols):
-                self.numneighbours[row][col]=self.get_neighbours(row,col)
 
-    def update(self):
-        self.calc_neighbours()
+    def update(self,part=1):
+        """Perform one update to the seating arrangement of the boarding lounge
+        Updates class variable "grid" """
+
+        if part==1:
+            self.calc_neighbours()
+            thres=4
+        elif part==2:
+            self.calc_neighbours(part=2)
+            thres=5
         for row in range(0,self.numrows):
             for col in range(0,self.numcols):
                 if self.grid[row][col] == "L" \
                 and self.numneighbours[row][col] == 0:
                     self.grid[row][col] = '#'
                 elif self.grid[row][col] == "#" \
-                and self.numneighbours[row][col] >= 4:
+                and self.numneighbours[row][col] >= thres:
                     self.grid[row][col]='L'
 
-    def run(self):
+    def run(self,part=1):
+        """Step the boarding pass until it ceases changing
+        Updates class variables grid and numneighbours"""
         old_state=''
         count=0
         while str(self) != old_state:
             old_state=self.__repr__()
-            self.update()
+            self.update(part=part)
             count+=1
         return count
 
     def count_occupied(self):
+        """ count the number of occupied seats in the boarding lounge"""
         numoccupied=0
         for row in range(0,self.numrows):
             for col in range(0,self.numcols):
@@ -136,22 +159,22 @@ class BoardingLounge:
                     numoccupied+=1
         return numoccupied
 
-
-
 def day11_01():
     """Run part 1 of Day 11's code"""
     path = "./input/11/input.txt"
     part11lounge=BoardingLounge(file_to_str_array(path))
     part11lounge.run()
     result=part11lounge.count_occupied()
-    print(f'1101: {result}')
+    print(f'1101: Number of occupied seats: {result}')
 
 def day11_02():
     """Run part 2 of Day 11's code"""
     path = "./input/11/input.txt"
-    result=""
-    print(f'1101: {result}')
+    part11lounge=BoardingLounge(file_to_str_array(path))
+    part11lounge.run(part=2)
+    result=part11lounge.count_occupied()
+    print(f'1102: Number of occupied seats {result}')
 
 if __name__ == "__main__":
     day11_01()
-    #day11_02()
+    day11_02()
