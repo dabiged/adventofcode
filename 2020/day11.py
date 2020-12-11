@@ -18,6 +18,7 @@ class BoardingLounge:
         self.numneighbours=[]
         for row in strarray:
             self.grid.append(list(row))
+            # This initialisation of numneighbours is a shitty hack. it sould be initialsie as all zeroes.
             self.numneighbours.append(list(row))
         self.numrows=len(self.grid)
         self.numcols=len(self.grid[0])
@@ -39,21 +40,68 @@ class BoardingLounge:
         return False
 
     def get_neighbours(self,row,col):
-
+        """ get the number of occupied neightbours surrounding this seat"""
         if self.grid[row][col] == ".":
             return 0
         numneighbours=0
         for deltarow in [-1, 0, 1]:
             for deltacol in [-1, 0, 1]:
                 if row+deltarow <0 or row+deltarow>self.numrows-1:
+                    # out of bounds
                     pass
                 elif col+deltacol <0 or col+deltacol >self.numcols-1:
+                    # out of bounds
                     pass
                 elif deltarow == 0 and deltacol == 0:
+                    # don't count this seat
                     pass
                 elif self.occupied(row+deltarow, col+deltacol):
                     numneighbours+=1
         return numneighbours
+
+    def get_neighbours_part2(self,row,col):
+        """ get the number of occupied seats along diagonals and lines.
+        i.e.
+        .#.#.
+        ..L..
+        .#.#.
+        Sees no seats.
+        """
+
+        if self.grid[row][col] == ".":
+            # Floor space
+            return 0
+        numneighbours=0
+        for deltarow, deltacol in [(x,y) for x in [-1,0,1] for y in [-1,0,1] if not y == x == 0]:
+            done=False
+            thisrow, thiscol = row, col
+            while not done:
+                thisrow+=deltarow
+                thiscol+=deltacol
+                if thisrow>self.numrows-1 or thisrow<0:
+                    # Out of bounds
+                    done=True
+                elif thiscol>self.numcols-1 or thiscol<0:
+                    # Out of bounds
+                    done=True
+                elif self.grid[thisrow][thiscol] == '#':
+                    # Saw neighbour
+                    numneighbours+=1
+                    done=True
+                elif self.grid[thisrow][thiscol] == 'L':
+                    #saw empty seat
+                    done=True
+                elif self.grid[thisrow][thiscol] == '.':
+                    pass
+                else:
+                    raise ValueError("Something went wrong")
+
+        return numneighbours
+
+    def calc_neighbours(self):
+        for row in range(0,self.numrows):
+            for col in range(0,self.numcols):
+                self.numneighbours[row][col]=self.get_neighbours(row,col)
 
     def calc_neighbours(self):
         for row in range(0,self.numrows):
