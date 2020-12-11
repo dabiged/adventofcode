@@ -107,3 +107,8 @@ True
 ### Day10
 1. Today was very satisfying as I managed to use deque, combinations from itertools and defaultdict; the three things I wanted to learn to use in this AOC!!!!
 2. Part2 I knew how to solve within about 2 mins and managed to get the code running with very little debugging (missed colons, misnamed variables etc). __I managed to get my highest ranking so far of 3500 globally!!__
+
+### Day11
+1. I was able to reuse a lot of utility methods from day 3. I avoided most of the pitfalls from that day.
+2. I thought the piece of code to look along lines of sight was neat.
+3. Initialising numneighours to be the same as grid is poor practice, but seems to work.
