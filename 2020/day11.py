@@ -139,7 +139,7 @@ class BoardingLounge:
                 and self.numneighbours[row][col] >= thres:
                     self.grid[row][col]='L'
 
-    def run(self,part=1):
+    def run(self,part=1, show=False):
         """Step the boarding pass until it ceases changing
         Updates class variables grid and numneighbours"""
         old_state=''
@@ -148,6 +148,8 @@ class BoardingLounge:
             old_state=self.__repr__()
             self.update(part=part)
             count+=1
+            if show:
+                print(self)
         return count
 
     def count_occupied(self):
@@ -163,7 +165,7 @@ def day11_01():
     """Run part 1 of Day 11's code"""
     path = "./input/11/input.txt"
     part11lounge=BoardingLounge(file_to_str_array(path))
-    part11lounge.run()
+    part11lounge.run(show=False)
     result=part11lounge.count_occupied()
     print(f'1101: Number of occupied seats: {result}')
 
@@ -171,7 +173,7 @@ def day11_02():
     """Run part 2 of Day 11's code"""
     path = "./input/11/input.txt"
     part11lounge=BoardingLounge(file_to_str_array(path))
-    part11lounge.run(part=2)
+    part11lounge.run(part=2,show=False)
     result=part11lounge.count_occupied()
     print(f'1102: Number of occupied seats {result}')
 
