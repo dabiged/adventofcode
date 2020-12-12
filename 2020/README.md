@@ -111,4 +111,9 @@ True
 ### Day11
 1. I was able to reuse a lot of utility methods from day 3. I avoided most of the pitfalls from that day.
 2. I thought the piece of code to look along lines of sight was neat.
-3. Initialising numneighours to be the same as grid is poor practice, but seems to work.
+3. Initialising numneighours to be the same as self.grid is poor practice, but seems to work.
+
+### Day12
+1. total time was ~ 90 mins for both parts. 
+2. implementing the rotations was the most interesting part. I tried cycle from itertools but ran into infinite loops, and resorted to traditional geometry/trig.
+3. for part 2, the formula I came up with for rotating around the origin in 90 degree increments was surprisingly simple. I had never noticed this before.
