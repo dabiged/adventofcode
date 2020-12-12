@@ -14,7 +14,7 @@ def dayXX_02():
     """Run part 2 of Day XX's code"""
     path = "./input/XX/input.txt"
     result=""
-    print(f'XX01: {result}')
+    print(f'XX02: {result}')
 
 if __name__ == "__main__":
     dayXX_01()
