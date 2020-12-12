@@ -1,4 +1,4 @@
-from day12 import NavComp
+from day12 import NavComp, NavCompPart2
 from lib.filehelper import file_to_str_array
 
 
@@ -18,9 +18,10 @@ class TestDay12:
         result = testnavcomp.dist_from_origin()
         assert expected == result
 
-##      def test_init_print(self):
-##          expected = 
-##          inputvalue = 
-##          result = (inputvalue)
-##          assert expected == result
-##  
+    def test_turnright_part2(self):
+        expected=286
+        testnavcomp = NavCompPart2(file_to_str_array('tests/day12_testdata.txt'))
+        result = testnavcomp.dist_from_origin()
+        assert result == expected
+
+
