@@ -2,6 +2,7 @@
 AOC day 11 2018
 """
 from lib.filehelper import file_to_str_array
+import time
 # pylint: disable=missing-module-docstring
 
 class BoardingLounge:
@@ -149,6 +150,7 @@ class BoardingLounge:
             self.update(part=part)
             count+=1
             if show:
+                time.sleep(0.2)
                 print(self)
         return count
 
@@ -165,7 +167,8 @@ def day11_01():
     """Run part 1 of Day 11's code"""
     path = "./input/11/input.txt"
     part11lounge=BoardingLounge(file_to_str_array(path))
-    part11lounge.run(show=False)
+    part11lounge.run(show=True)
+
     result=part11lounge.count_occupied()
     print(f'1101: Number of occupied seats: {result}')
 
@@ -173,7 +176,7 @@ def day11_02():
     """Run part 2 of Day 11's code"""
     path = "./input/11/input.txt"
     part11lounge=BoardingLounge(file_to_str_array(path))
-    part11lounge.run(part=2,show=False)
+    part11lounge.run(part=2,show=True)
     result=part11lounge.count_occupied()
     print(f'1102: Number of occupied seats {result}')
 
