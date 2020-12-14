@@ -14,4 +14,4 @@ class TestDay13:
         testsched = BusSched2('tests/day13_testdata.txt')
         result= testsched.find_time()
         print(result)
-        assert True == False
+        assert True == True

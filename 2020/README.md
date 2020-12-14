@@ -117,3 +117,13 @@ True
 1. total time was ~ 90 mins for both parts. 
 2. implementing the rotations was the most interesting part. I tried cycle from itertools but ran into infinite loops, and resorted to traditional geometry/trig.
 3. for part 2, the formula I came up with for rotating around the origin in 90 degree increments was surprisingly simple. I had never noticed this before.
+
+### Day13
+1. Part 1 was pretty simple, but I was completely stumped on part 2. Due to my hectic schedule I did not get to spend the required time on it and instead used the sympy implementation of crt.
+2. Today felt like another one of those math tricks you either know or don't and it is impossible to solve without it.
+
+### Day14
+1. I misread 36 as 32 and spent 10 mins trying to find out why my ```assert len(input) == 32``` was failing.
+2. I wrote a class straight up with init, bin2int, int2bin, mask and run methods.  I was able to write all 5 methods in one go, then test them individually and get it up and running inside 50 mins (note I was busy this afternoon).
+3. Used a double ended queue in part2 to deal with the increasing number of memlocs.
+4. Made the mistake of using the part1 example to test part 2. Part1 example had 34 X's which made for a LOT of memory addresses in the queue to deal with.
