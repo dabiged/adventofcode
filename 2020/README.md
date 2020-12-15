@@ -127,3 +127,28 @@ True
 2. I wrote a class straight up with init, bin2int, int2bin, mask and run methods.  I was able to write all 5 methods in one go, then test them individually and get it up and running inside 50 mins (note I was busy this afternoon).
 3. Used a double ended queue in part2 to deal with the increasing number of memlocs.
 4. Made the mistake of using the part1 example to test part 2. Part1 example had 34 X's which made for a LOT of memory addresses in the queue to deal with.
+
+### Day15
+1. Today's problem was easy to implement. I had a functional part 1 submitted in ~ 38 mins. Part 2 was another story. I went through the following to get part 2 running:
+2. Wrote part 1 with a full memory of the entire game as a list, which was appended to each step. Looking for the two last spoken number involved a nested search backwards through the entire list. Max turns ~50k in 30 sec.
+```
+        for i in reversed(range(0,len(memory)):
+            if memory[i] == num:
+                save(i)
+            for j in reversed(range(0,i):
+                if memory[i] == num
+                    save[j]
+                    break
+```
+3. Refactored the search algorithm to use a single loop that terminated when the second entry was found. This got my max turns upto around 100k in 30sec.
+```
+        lastcalled=[]
+        while len(lastcalled) <2:
+            if memory[i] == num:
+                lastcalled.append(i)
+        
+        return lastcalled[0],lastcalled[1]
+```
+4. Tried lru_cache decorators on my functions to do memoization.
+5. Refactored the memory of the entire game into a dictionary with key's as turn number and values as numbers. I was hoping to leverage the hash table lookup features but still keeping all of the game in the dictionary. I think this got the speed up to around 500k in 30 sec.
+6. Realised that you don't need to keep all of the memory of the game stored. Switched to using a dictionary of numbers as keys, and a list of the last 2 times the number was spoken as values. This gets around 30M turns in 20secs.
