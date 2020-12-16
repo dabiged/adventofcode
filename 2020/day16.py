@@ -15,7 +15,7 @@ class Tickets:
         self.myticket=[]
         # Other ticket format: list of list of ints.
         self.othertickets=[]
-        # other ticket by field:key = location within ticket (int), 
+        # other ticket by field:key = location within ticket (int),
         #  value=set of values that field contains for all tickets in other tickets.
         self.otherticketbyfield={}
         # rules_allowedValues: key=fieldname, value = set of valid str values for that field.
@@ -46,7 +46,7 @@ class Tickets:
 
 
     def ticket_scanning_error_rate(self):
-        '''The ticket scanning error rate is the sum of all incorrect values 
+        '''The ticket scanning error rate is the sum of all incorrect values
         in all tickets that could not fit into any field.'''
         # Build a set of all allowed values.
         allowed_values=set()
@@ -88,22 +88,21 @@ class Tickets:
                     # if any field value is invalid, the whole ticket is invalid.
                     valid=False
 
-            # if ticket is valid add each field location to a new dict mapping each 
+            # if ticket is valid add each field location to a new dict mapping each
             #   field placing to all values in the field for all tickets.
             if valid:
                 for fieldnum, value in enumerate(ticket):
                     if fieldnum not in self.otherticketbyfield.keys():
                         self.otherticketbyfield[fieldnum]=set({value})
-                    else: 
+                    else:
                         self.otherticketbyfield[fieldnum]|=set({value})
-        return None
 
     def decode_fields(self):
         '''Determine which numbers on our ticket correspond to the fields listed.
         Returns a list of fieldnames for each location on the ticket'''
         # Use a queue to keep track of which fields have not been solved yet.
         field_queue=deque([])
-        for key in self.rules.keys():
+        for key in self.rules:
             field_queue.append(key)
         # The name to field mapping like {'seat':1, 'row':2}. i.e. the solution.
         name_to_field_mapping={}
@@ -113,27 +112,28 @@ class Tickets:
             field=field_queue.pop()
             # check if any of the fields match this fields allowed values.
             possible=[]
-            for fieldnum in self.otherticketbyfield.keys():
+            for fieldnum in self.otherticketbyfield:
                 # all of the values are a match, this field may match)
-                if all([ value in self.rules_allowedvalues[field] for value in self.otherticketbyfield[fieldnum]]):
-                   possible.append((field,fieldnum))
+                if all([ value in self.rules_allowedvalues[field] \
+                    for value in self.otherticketbyfield[fieldnum]]):
+                    possible.append((field,fieldnum))
             #if only one field matched our rule, this is the mapping
             if len(possible) ==1:
                 # save it to the output dict.
                 name_to_field_mapping[possible[0][0]]=possible[0][1]
                 #print(name_to_field_mapping)
                 # Remove this field from input
-                del(self.otherticketbyfield[possible[0][1]])
+                del self.otherticketbyfield[possible[0][1]]
             else:
             # otherwise put this field back in the queue and try another.
                 field_queue.appendleft(field)
             counter+=1
             if counter >len(self.rules)**2:
-                # Counter prevents any infinite loops, in the event that we made a input error 
+                # Counter prevents any infinite loops, in the event that we made a input error
                 #   and multiple fields are valid for more than one rule.
                 print("Error Solving fields")
                 return None
-        self.mapping = {k:v for k, v in sorted(name_to_field_mapping.items(), key=lambda item: item[1])}
+        self.mapping = sorted(name_to_field_mapping.items(), key=lambda item: item[1])
         return [k for k, v in sorted(name_to_field_mapping.items(), key=lambda item: item[1])]
 
 

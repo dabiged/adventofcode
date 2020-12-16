@@ -152,3 +152,7 @@ True
 4. Tried lru_cache decorators on my functions to do memoization.
 5. Refactored the memory of the entire game into a dictionary with key's as turn number and values as numbers. I was hoping to leverage the hash table lookup features but still keeping all of the game in the dictionary. I think this got the speed up to around 500k in 30 sec.
 6. Realised that you don't need to keep all of the memory of the game stored. Switched to using a dictionary of numbers as keys, and a list of the last 2 times the number was spoken as values. This gets around 30M turns in 20secs.
+
+### Day16
+1. Key takeaway from today was the difference between deque.append and deque.leftappend and the fact that deque.pop selects from the right side of the queue. My implementation had a system where if you couldn't solve a field now, it went in the queue for checking later. However as I used append, not leftappend it just popped the same field forever.
+2. I made two mistakes with initialising variables in the wrong loop. 
