@@ -43,7 +43,7 @@ make day01.pylint
 ```
 
 ## Comments:
-### Day01
+### Day01 - 
 
 1. Current implmentation is slow O(n^2) and O(n^3) but functional. 
 2. Others have used itertools to sample all combinations of 2 or 3 from the pool which is something I should look at in future.
