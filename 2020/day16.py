@@ -133,7 +133,7 @@ class Tickets:
                 #   and multiple fields are valid for more than one rule.
                 print("Error Solving fields")
                 return None
-        self.mapping = sorted(name_to_field_mapping.items(), key=lambda item: item[1])
+        self.mapping = {k:v for k,v in sorted(name_to_field_mapping.items(), key=lambda item: item[1])}
         return [k for k, v in sorted(name_to_field_mapping.items(), key=lambda item: item[1])]
 
 
@@ -150,7 +150,7 @@ def day16_01():
     path = "./input/16/input.txt"
     mytickets = Tickets(file_to_str_array(path))
     result= mytickets.ticket_scanning_error_rate()
-    print(f'1601: Ticket scanning error rate is:{result}')
+    print(f'1601: Ticket scanning error rate is: {result}')
 
 def day16_02():
     """Run part 2 of Day 16's code"""
