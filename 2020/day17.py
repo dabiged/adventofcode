@@ -1,7 +1,6 @@
 """
 AOC day 17 2018
 """
-from collections import defaultdict
 from lib.filehelper import file_to_str_array
 # pylint: disable=missing-module-docstring
 
@@ -14,12 +13,13 @@ class Conway3D:
         for row, rowdata in enumerate(inputdata):
             for col, char in enumerate(rowdata):
                 if char == '#':
-                    self.board[(row,col,0)] = '#' 
+                    self.board[(row,col,0)] = '#'
                 elif char == '.':
                     self.board[row,col,0] = '.'
 
 
     def __repr__(self):
+        # pylint: disable-msg=too-many-locals
         '''print the board as a block for debugging'''
         minrow = maxrow= maxcol = mincol = minzplane = maxzplane = 0
         for point in self.board:
@@ -43,7 +43,8 @@ class Conway3D:
             output+=thiszplane+'\n'
         return output
 
-    def get_all_neighbours(self,target):
+    @staticmethod
+    def get_all_neighbours(target):
         '''
         A generator method that gives all neighbours near a point in 3d space.
         '''
@@ -60,8 +61,8 @@ class Conway3D:
         Count the number of occupied points near a point.
         '''
         numoccupied=0
-        for point in self.get_all_neighbours(point):
-            if self.board.get(point,False) == '#':
+        for thispoint in self.get_all_neighbours(point):
+            if self.board.get(thispoint,False) == '#':
                 numoccupied+=1
         return numoccupied
 
@@ -69,10 +70,11 @@ class Conway3D:
         ''' Update the board according to the rules.'''
         occupied={}
         # Note the set comp below to only vist each point including neightbours once only
-        for point in { point for centrecell in self.board.keys() for point in self.get_all_neighbours(centrecell)}:
+        for point in { point for centrecell in self.board \
+                        for point in self.get_all_neighbours(centrecell)}:
             occupied[point] = self.count_occupied(point)
         for point, numneighbours in occupied.items():
-            if self.board.get(point,False)== '#' and ( numneighbours == 2 or numneighbours ==3):
+            if self.board.get(point,False)== '#' and numneighbours in (2,3):
                 self.board[point] = '#'
             elif self.board.get(point,False) != '#' and numneighbours == 3:
                 self.board[point] = '#'
@@ -81,7 +83,7 @@ class Conway3D:
 
     def count_active(self):
         '''Returns the number of active points in the board'''
-        return sum(['#' == val for val in self.board.values()])
+        return sum([val == '#' for val in self.board.values()])
 
     def run(self,numsteps):
         '''Run the game numsteps times'''
@@ -102,6 +104,7 @@ class Conway4D:
                     self.board[(row,col,0,0)] = '.'
 
     def __repr__(self):
+        # pylint: disable-msg=too-many-locals
         '''print the board as a block for debugging'''
         minrow = maxrow= maxcol = mincol = minzplane = maxzplane=minw=maxw = 0
         for point in self.board:
@@ -128,7 +131,8 @@ class Conway4D:
                 output+=thiszplane+'\n'
         return output
 
-    def get_all_neighbours(self,target):
+    @staticmethod
+    def get_all_neighbours(target):
         '''
         A generator method that gives all neighbours near a point in 4d space.
         input: len(tuple) == 4
@@ -137,20 +141,23 @@ class Conway4D:
         for drow in range(-1,2):
             for dcol in range(-1,2):
                 for dzplane in range(-1,2):
-                    for dw in range(-1,2):
-                        if dw == drow == dcol == dzplane ==0:
+                    for dwdim in range(-1,2):
+                        if dwdim == drow == dcol == dzplane ==0:
                             # do not include current position
                             pass
                         else:
-                            yield (target[0]+drow, target[1]+dcol, target[2]+dzplane, target[3]+dw)
+                            yield (target[0]+drow, \
+                                   target[1]+dcol, \
+                                   target[2]+dzplane, \
+                                   target[3]+dwdim)
 
     def count_occupied(self,point):
         '''
         Count the number of occupied points near a point.
         '''
         numoccupied=0
-        for point in self.get_all_neighbours(point):
-            if self.board.get(point,False) == '#':
+        for thispoint in self.get_all_neighbours(point):
+            if self.board.get(thispoint,False) == '#':
                 numoccupied+=1
         return numoccupied
 
@@ -158,10 +165,11 @@ class Conway4D:
         ''' Update the board'''
         occupied={}
         # Note the set comp below to only vist each point once
-        for point in { point for centrecell in self.board.keys() for point in self.get_all_neighbours(centrecell)}:
+        for point in { point for centrecell in self.board \
+                        for point in self.get_all_neighbours(centrecell)}:
             occupied[point] = self.count_occupied(point)
         for point, numneighbours in occupied.items():
-            if self.board.get(point,False)== '#' and ( numneighbours == 2 or numneighbours ==3):
+            if self.board.get(point,False)== '#' and numneighbours in (2,3):
                 self.board[point] = '#'
             elif self.board.get(point,False) != '#' and numneighbours == 3:
                 self.board[point] = '#'
@@ -169,10 +177,12 @@ class Conway4D:
                 self.board[point] ='.'
 
     def count_active(self):
-        return sum(['#' == val for val in self.board.values()])
+        '''returns the number of active locations in the space'''
+        return sum([val == '#' for val in self.board.values()])
 
     def run(self,numsteps):
-        for turn in range(numsteps):
+        '''Run the simulation for numsteps'''
+        for _ in range(numsteps):
             self.step()
         return self.count_active()
 
@@ -183,14 +193,14 @@ def day17_01():
     path = "./input/17/input.txt"
     mygame=Conway3D(file_to_str_array(path))
     result = mygame.run(6)
-    print(f'1701: {result}')
+    print(f'1701: Number of active spaces after 6 steps (3D): {result}')
 
 def day17_02():
     """Run part 2 of Day 17's code"""
     path = "./input/17/input.txt"
     mygame=Conway4D(file_to_str_array(path))
     result = mygame.run(6)
-    print(f'1702: {result}')
+    print(f'1702: Number of active spaces after 6 steps (4D): {result}')
 
 if __name__ == "__main__":
     day17_01()
