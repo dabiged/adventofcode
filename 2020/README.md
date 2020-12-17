@@ -156,3 +156,8 @@ True
 ### Day16
 1. Key takeaway from today was the difference between deque.append and deque.leftappend and the fact that deque.pop selects from the right side of the queue. My implementation had a system where if you couldn't solve a field now, it went in the queue for checking later. However as I used append, not leftappend it just popped the same field forever.
 2. I made two mistakes with initialising variables in the wrong loop. 
+
+### Day17
+1. Used a generator method to find all neightbours.
+2. discovered you can query a dictionary with dict.get(key,ValueNotFound) where ValueNotFound is returned if the key does not exist. THis is super useful for problems like this.
+3. By using a set of all board positions I was able to update the board without a copy saving a bunch of memory!
