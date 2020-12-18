@@ -161,3 +161,8 @@ True
 1. Used a generator method to find all neightbours.
 2. discovered you can query a dictionary with dict.get(key,ValueNotFound) where ValueNotFound is returned if the key does not exist. THis is super useful for problems like this.
 3. By using a set of all board positions I was able to update the board without a copy saving a bunch of memory!
+
+### Day18
+1. Made the mistake of storing the equation as a dict, then after evaluating bracketed sections, I had to renumber (read: re-key) the entire dictionary. I refactored the storage of the equation to a list and this was done for me!
+2. Immediately knew that this problem required the use of the eval function!
+3. Wrote 1 method to do calculations without brackets and one method to remove brackets. this made part2 easy as I only needed to modify the calculation method.
