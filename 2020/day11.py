@@ -167,7 +167,7 @@ def day11_01():
     """Run part 1 of Day 11's code"""
     path = "./input/11/input.txt"
     part11lounge=BoardingLounge(file_to_str_array(path))
-    part11lounge.run(show=True)
+    part11lounge.run(show=False)
 
     result=part11lounge.count_occupied()
     print(f'1101: Number of occupied seats: {result}')
@@ -176,7 +176,7 @@ def day11_02():
     """Run part 2 of Day 11's code"""
     path = "./input/11/input.txt"
     part11lounge=BoardingLounge(file_to_str_array(path))
-    part11lounge.run(part=2,show=True)
+    part11lounge.run(part=2,show=False)
     result=part11lounge.count_occupied()
     print(f'1102: Number of occupied seats {result}')
 

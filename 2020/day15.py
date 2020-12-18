@@ -30,8 +30,8 @@ class MemoryGame:
 
     def run(self,numturns):
         while self.index <= numturns:
-            if self.index % 1000000 == 0:
-                print("On loop:", self.index)
+            #if self.index % 1000000 == 0:
+                #print("On loop:", self.index)
             # Loop until we get to the last turn
             if self.spoken[self.previous][0] == self.spoken[self.previous][1]:
                 # If the last and second last turns are equal this 
@@ -56,13 +56,13 @@ def day15_01():
     """Run part 1 of Day 15's code"""
     mymemgame=MemoryGame('19,0,5,1,10,13')
     result=mymemgame.run(numturns=2020)
-    print(f'1501: {result}')
+    print(f'1501: 2020th number spoken is: {result}')
 
 def day15_02():
     """Run part 2 of Day 15's code"""
     mymemgame=MemoryGame('19,0,5,1,10,13')
     result= mymemgame.run(numturns=30000000)
-    print(f'1502: {result}')
+    print(f'1502:30,000,000th number spoken is: {result}')
 
 if __name__ == "__main__":
     day15_01()
