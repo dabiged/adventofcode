@@ -10,37 +10,55 @@ class Tile:
     it consists of a 10x10 chars.
 
     storage is a dict with tuple keys, and char values.'''
-    def __init__(self,tile: list):
+    def __init__(self,tilenum: int, tile: list, verbose=False):
         '''Initialise a tile'''
-        self.tilegeom={}
-        for rownum, row in enumerate(tile):
-            for colnum, col in enumerate(row):
-                self.tilegeom[complex(colnum-5,rownum-5)]=col
+        self.pairs=set()
+        self.tilenum = tilenum
+        self.borders=[]
 
+        self.tile=[]
+        [self.tile.append(i) for i in tile]
+        # top, bottom, left, right
+        self.borders=[self.tile[0], \
+            self.tile[-1], \
+            ''.join([row[0] for row in self.tile]),\
+            ''.join([row[-1] for row in self.tile])]
+
+        reversed_borders=[i[::-1] for i in self.borders]
+        for revborder in reversed_borders:
+            self.borders.append(revborder)
+
+        if verbose:
+            print('Tile Number')
+            print(self.tilenum)
+            print('Borders')
+            print(self.borders)
+            print('Pairs')
+            print(self.pairs)
+            print('tile')
+            print(self.tile)
+
+    def pair(self,other):
+        '''Check to see if this tile shares a border with other tile'''
+        for thistileborder in self.borders:
+            for othertileborder in other.borders:
+                if thistileborder == othertileborder:
+                    if self.tilenum == other.tilenum:
+                        continue
+                    else:
+                        self.pairs|={other.tilenum}
+
+    def trim_sides(self):
+        return [ row[1:-1] for row in self.tile]
+
+    def rotate(self):
+        self.tile = [''.join(s) for s in zip(*self.tile[::-1])]
 
     def __repr__(self):
         output=''
-        for im in range(-5,6):
-            for re in range(-5,6):
-                output+=self.tilegeom.get(complex(re,im),'')
-            output+='\n'
+        for row in self.tile:
+            output+=row+'\n'
         return output
-
-    def flip(self,tile):
-        ''' a generator that flips a tile  horizontally and vertically'''
-        pass
-
-    def rotate(self):
-        ''' a generator that rotates a tile by 90 degs 3 times '''
-        output={}
-        for key,value in self.tilegeom.items():
-            output[key*1j]=value
-        self.tilegeom=output
-
-    def permute(self,tile):
-        ''' a generator that returns all possible tile rotations and flips'''
-        pass
-
 
 class ImageTiler:
     def __init__(self,inputdata):
