@@ -1,6 +1,7 @@
 """
 AOC day 20 2018
 """
+from collections import deque
 from lib.filehelper import file_to_str_array
 # pylint: disable=missing-module-docstring
 
@@ -55,16 +56,16 @@ class Tile:
         self.tile = [''.join(s) for s in zip(*self.tile[::-1])]
 
     def __repr__(self):
-        output=''
+        output='<Tile Object:\n'
         for row in self.tile:
             output+=row+'\n'
-        return output
+        return output+'>\n'
 
 class ImageTiler:
     def __init__(self,inputdata):
         '''read in all tiles and create a dict of tiles'''
         self.ordering={} # key=2d-tuple, vale = tile num.
-
+        
         self.tiles={}
         thistile=[]
         for line in inputdata:
@@ -72,32 +73,42 @@ class ImageTiler:
                 tilenum=int(line.replace('Tile ','').replace(':',''))
             elif '#' in line or '.' in line:
                 thistile.append(line)
-                self.tiles[tilenum]=Tile(thistile)
-                thistile=[]
             elif line == '':
-                pass
+                self.tiles[tilenum]=Tile(tilenum,thistile)
+                thistile=[]
             else:
                 print('Unknown input detected')
 
 
-    def sort_tiles(self):
-        raise NotImplementedError
-        '''for tile1 in list of tiles:
-            for tile2 in list of tiles:
-                if tile1==tile2:
-                    continue
-                else:
-                    for comb1 in tile1.permute():
-                        for comb2 in tile2.permute():
-                            if firstrow tile1 == last row tile2:
-                                store tile geometry
-        '''
+    def pair_tiles(self):
+        for tile1 in self.tiles.values():
+            for tile2 in self.tiles.values():
+                tile1.pair(tile2)
 
+    def product_of_corners(self):
+        output=1
+        for tile in self.tiles.values():
+            if len(tile.pairs) == 2:
+                output*= tile.tilenum
+        return output
+
+    def build_image(self):
+        ''' let n = sqrt (len self.tiles)
+        start with a corner piece, then build the puzzle row by row until len(row) == np.sqrt(n)
+        once we have sqrt(n) x (1xsqrt n) tiles build rows in a larger tile.'''
+        twopiecequeue = deque([tile for tile in self.tiles if len(tile.pairs) ==2])
+        threepiecequeue = deque([tile for tile in self.tiles if len(tile.pairs) ==2])
+        fourpiecequeue = deque([tile for tile in self.tiles if len(tile.pairs) ==2])
+        first_corner = twopiecequeue.pop()
+        pass
 
 def day20_01():
     """Run part 1 of Day 20's code"""
     path = "./input/20/input.txt"
-    result=""
+    mytiler = ImageTiler(file_to_str_array(path))
+    mytiler.pair_tiles()
+    result = mytiler.product_of_corners()
+    print(len(mytiler.tiles))
     print(f'2001: {result}')
 
 def day20_02():

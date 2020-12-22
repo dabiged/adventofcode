@@ -1,6 +1,7 @@
 """
 AOC day 19 2018
 """
+from itertools import product
 from lib.filehelper import file_to_str_array
 # pylint: disable=missing-module-docstring
 
@@ -12,13 +13,12 @@ class RegExpComputer:
             value = list of str in the rule
         self.messages: a list of strs containing messages '''
 
-        self.rules=[]
+        self.rules={}
         self.messages=[]
 
         for linenum, line in enumerate(inputdata):
             if ':' in line:
-                rulenum, rule = line.split(': ')[0], line.split(': ')[1].split('|')
-                self.rules.append([ rule.strip().replace('"','') for rule in rule ])
+                self.rules[int(line.split(': ')[0])] = line.split(': ')[1].strip().replace('"','') 
             elif 'a' in line or 'b' in line:
                 self.messages.append(line.strip())
             elif line == '':
@@ -28,14 +28,26 @@ class RegExpComputer:
                 print('Input looked like \n',line)
         print(self.rules)
 
+
     def check_one_message(self,message):
         '''
         Check one message against all rules to see if it is valid.d
         '''
         # find all single chars and replace references to them with their values.
-        for rule in self.rules:
-            if rule.isalpha():
-                print(rule)
+        thisstep_alpha={}
+        for rulenum, rule in self.rules.items():
+            if all([ char == '|' or char == ' ' or char.isalpha() for char in rule]):
+                thisstep_alpha[rulenum] = rule
+        print(thisstep_alpha)
+        for alphanum ,alpha in thisstep_alpha.items():
+            print("Running: ", alpha)
+            for rulenum, rule in self.rules.items():
+                if str(alphanum) in rule :
+                    self.rules[rulenum] = rule.replace(str(alphanum),alpha)
+            del self.rules[alphanum]
+        print(self.rules)
+
+
 
         ##  allowed_msgs=[]
         ##  for rule in self.rules:
