@@ -166,3 +166,23 @@ True
 1. Made the mistake of storing the equation as a dict, then after evaluating bracketed sections, I had to renumber (read: re-key) the entire dictionary. I refactored the storage of the equation to a list and this was done for me!
 2. Immediately knew that this problem required the use of the eval function!
 3. Wrote 1 method to do calculations without brackets and one method to remove brackets. this made part2 easy as I only needed to modify the calculation method.
+
+### Day19
+
+### Day20
+
+### Day21
+1. I thought the problem statement was quite vague and spent a lot of time trying to understand it. I used sets for both the ingredients and allergens which was a nice shorthand.
+2. Made a mistake again with no copy.
+
+### Day22
+1. On first pass I wrote a recursive program that gave the winner of the game. this was not enough and I needed to keep track of what the players hands were during the game.
+2. Current implementation is very slow and needs optimizing. I would start by looking at using a hash algorithm over my current list of tuples.
+
+### Day23
+1. I tried implementing part1 using lists, but keeping track of the updates to the location was too hard. I gave up and looked at what others had done and used the dictionary system in place now.
+
+### Day24
+
+### Day25
+1. Today was surprisingly easy! my brute force search for the loop_size found the answer in only a minute or two. Not sure how to speed this up.
