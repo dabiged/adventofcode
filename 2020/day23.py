@@ -37,7 +37,7 @@ class CrabCups:
                 print("Hand",hand)
                 print(self.cycle)
             next_cup= self.currentcup -1
-            while next_cup in hand or next_cup <= 0:
+            while next_cup == hand[0] or next_cup == hand[1] or next_cup == hand[2] or next_cup <= 0:
                 next_cup -= 1
                 if next_cup <=0:
                     next_cup = self.maxval
