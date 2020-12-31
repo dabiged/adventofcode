@@ -1,7 +1,7 @@
 """
 AOC day 24 2018
 """
-from collections import defaultdict
+import time
 from lib.filehelper import file_to_str_array
 # pylint: disable=missing-module-docstring
 
@@ -34,6 +34,7 @@ class HexBoard:
                     raise ValueError(f'Unknown Direction found in instruction\n{instr}\nAt location:{i}')
             self.instructions.append(thisinstr)
     def __repr__(self):
+        ''' A display method that shows the hex board'''
         alloutput=''
         minrow,maxrow,mincol,maxcol =0,0,0,0
         for row,col in self.board:
@@ -42,7 +43,7 @@ class HexBoard:
             mincol=min(mincol,col)
             maxcol=max(maxcol,col)
         alloutput+=f'Board Dimensions:\nRows: {minrow}-{maxrow}\nCols: {mincol}-{maxcol}\n'
-        minrow,maxrow,mincol,maxcol =-10,10,-10,10
+        minrow,maxrow,mincol,maxcol =-64,66,-57,56
         for row in range(maxrow+1,minrow-2,-1):
             if row % 2 ==1:
                 output=' '
@@ -58,32 +59,38 @@ class HexBoard:
 
 
     def west(self,rcloc):
+        '''update rcloc by moving it west'''
         row,col=rcloc
         return (row,col-1)
 
     def east(self,rcloc):
+        '''update rcloc by moving it east'''
         row,col=rcloc
         return (row,col+1)
 
     def southwest(self,rcloc):
+        '''update rcloc by moving it southwest'''
         row,col=rcloc
         if abs(row) % 2 == 1:
             return (row-1,col)
         return (row-1,col-1)
 
     def southeast(self,rcloc):
+        '''update rcloc by moving it southeast'''
         row,col=rcloc
         if abs(row) % 2 == 1:
             return (row-1,col+1)
         return (row-1,col)
 
     def northeast(self,rcloc):
+        '''update rcloc by moving it northeast'''
         row,col=rcloc
         if abs(row) % 2 == 1:
             return (row+1,col+1)
         return (row+1,col)
 
     def northwest(self,rcloc):
+        '''update rcloc by moving it northwest'''
         row,col=rcloc
         if abs(row) % 2 == 1:
             return (row+1,col)
@@ -128,6 +135,7 @@ class HexBoard:
             self.run_instr(instruction)
 
     def count_black_tiles(self):
+        '''Returns the number of black tiles on the board.'''
         blacktiles=0
         for location,numflips in self.board.items():
             if numflips==1:
@@ -135,6 +143,7 @@ class HexBoard:
         return blacktiles
 
     def count_occupied(self,loc):
+        '''Count the number of occupied neighbours'''
         numoccupied=0
         for thispoint in self.get_neighbours(loc):
             if self.board.get(thispoint,0) ==1:
@@ -173,16 +182,19 @@ def day24_01():
     result = myhex.count_black_tiles()
     print(f'2401: Number of Black tiles: {result}')
 
-def day24_02():
+def day24_02(display=False):
     """Run part 2 of Day 24's code"""
     path = "./input/24/input.txt"
     myhex = HexBoard(path)
     myhex.setup()
     for _ in range(100):
+        if display:
+            time.sleep(0.1)
+            print(str(myhex))
         myhex.step()
     result= myhex.count_black_tiles()
     print(f'2402: Number of black tiles after 100 days: {result}')
 
 if __name__ == "__main__":
     day24_01()
-    day24_02()
+    day24_02(display=True)
