@@ -62,7 +62,7 @@ def day15_02():
     """Run part 2 of Day 15's code"""
     mymemgame=MemoryGame('19,0,5,1,10,13')
     result= mymemgame.run(numturns=30000000)
-    print(f'1502:30,000,000th number spoken is: {result}')
+    print(f'1502: 30,000,000th number spoken is: {result}')
 
 if __name__ == "__main__":
     day15_01()

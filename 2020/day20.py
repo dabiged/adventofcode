@@ -108,8 +108,7 @@ def day20_01():
     mytiler = ImageTiler(file_to_str_array(path))
     mytiler.pair_tiles()
     result = mytiler.product_of_corners()
-    print(len(mytiler.tiles))
-    print(f'2001: {result}')
+    print(f'2001: Product of corner piece numbers: {result}')
 
 def day20_02():
     """Run part 2 of Day 20's code"""

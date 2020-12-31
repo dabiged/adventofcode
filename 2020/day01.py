@@ -33,14 +33,14 @@ def day01_01():
     """Run part 1 of Day 1's code"""
     path = "./input/01/input.txt"
     product = product_of_sumto2020(file_to_array(path))
-    print(f"0101: product of two numbers summing to 2020: {product}")
+    print(f"0101: Product of two numbers summing to 2020: {product}")
 
 
 def day01_02():
     """Run part 2 of Day 1's code"""
     path = "./input/01/input.txt"
     product = product_of_3_sumto2020(file_to_array(path))
-    print(f"0102: product of three numbers summing to 2020: {product}")
+    print(f"0102: Product of three numbers summing to 2020: {product}")
 
 
 if __name__ == "__main__":

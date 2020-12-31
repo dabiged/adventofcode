@@ -118,7 +118,7 @@ class AllergenList:
         for allergen in allergen_sorted_keys:
             part2output+=self.allergens[allergen]+','
         print(f'2101: Number of appearances of safe ingredients: {sum([ingnum for ingnum in self.safeingredients.values()])}')
-        print(f'2102: list of Allergens: {part2output.rstrip(",")}')
+        print(f'2102: List of Allergens: {part2output.rstrip(",")}')
         return sum([ingnum for ingnum in self.safeingredients.values()])
 
 
@@ -127,6 +127,9 @@ def day21_01():
     path = "./input/21/input.txt"
     testrec = AllergenList(path)
     result=testrec.run()
+
+def day21_02():
+    pass
 
 if __name__ == "__main__":
     day21_01()
