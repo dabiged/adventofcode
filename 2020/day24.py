@@ -12,7 +12,7 @@ class HexBoard:
     '''
     def __init__(self, instr):
         '''Read in instructions and initialise the hex board'''
-        self.board=defaultdict(int)
+        self.board={}
         self.instructions=[]
         with open(instr) as f:
             instructions = f.read()
@@ -33,7 +33,27 @@ class HexBoard:
                 else:
                     raise ValueError(f'Unknown Direction found in instruction\n{instr}\nAt location:{i}')
             self.instructions.append(thisinstr)
+    def __repr__(self):
+        alloutput=''
+        minrow,maxrow,mincol,maxcol =0,0,0,0
+        for row,col in self.board:
+            minrow=min(minrow,row)
+            maxrow=max(maxrow,row)
+            mincol=min(mincol,col)
+            maxcol=max(maxcol,col)
+        alloutput+=f'Board Dimensions:\nRows: {minrow}-{maxrow}\nCols: {mincol}-{maxcol}\n'
+        minrow,maxrow,mincol,maxcol =-10,10,-10,10
+        for row in range(maxrow+1,minrow-2,-1):
+            if row % 2 ==1:
+                output=' '
+            else:
+                output=''
+            for col in range(mincol-1,maxcol+2):
+                output+=str(self.board.get((row,col),'.'))+' '
+            alloutput+=output+'\n'
+        alloutput+='Black Tiles: '+str(self.count_black_tiles())
 
+        return alloutput
 
 
 
@@ -47,27 +67,27 @@ class HexBoard:
 
     def southwest(self,rcloc):
         row,col=rcloc
-        if row % 2 == 1:
-            return (row-1,col-1)
-        return (row-1,col)
+        if abs(row) % 2 == 1:
+            return (row-1,col)
+        return (row-1,col-1)
 
     def southeast(self,rcloc):
         row,col=rcloc
-        if row % 2 == 1:
-            return (row-1,col)
-        return (row-1,col+1)
+        if abs(row) % 2 == 1:
+            return (row-1,col+1)
+        return (row-1,col)
 
     def northeast(self,rcloc):
         row,col=rcloc
-        if row % 2 == 1:
-            return (row+1,col)
-        return (row+1,col+1)
+        if abs(row) % 2 == 1:
+            return (row+1,col+1)
+        return (row+1,col)
 
     def northwest(self,rcloc):
         row,col=rcloc
-        if row % 2 == 1:
-            return (row+1,col-1)
-        return (row+1,col)
+        if abs(row) % 2 == 1:
+            return (row+1,col)
+        return (row+1,col-1)
 
     def move(self,instr,loc):
         '''Given a single movement, change the location'''
@@ -100,7 +120,7 @@ class HexBoard:
         if current_value == 0:
             self.board[location] =1
         elif current_value==1:
-            del self.board[location]
+            del self.board[location] 
 
     def setup(self):
         ''' Run all instructions in the instruction list'''
@@ -130,14 +150,17 @@ class HexBoard:
     def step(self):
         '''Step the tile floor 1 day'''
         # Count the number of neighbours of each hex.
+
         black_tile_num_neighbours={}
         # Note the use of a set comprehension here so we only count each one once.
-        for thishex in {neighbourhex for centrehex in self.board\
-                    for neighbourhex in self.get_neighbours(centrehex)}:
+        all_tiles_and_neighbours=set(self.board)
+        all_tiles_and_neighbours|={neighbourhex for centrehex in self.board\
+                    for neighbourhex in self.get_neighbours(centrehex)}
+
+        for thishex in all_tiles_and_neighbours:
             black_tile_num_neighbours[thishex]=self.count_occupied(thishex)
-        print(black_tile_num_neighbours)
         for thishex, numneighbours in black_tile_num_neighbours.items():
-            if self.board.get(thishex,0) == 1 and numneighbours in (0,2,3,4,5,6):
+            if self.board.get(thishex,0) == 1 and ( numneighbours ==0 or numneighbours >2 ):
                 del self.board[thishex] 
             elif self.board.get(thishex,0) == 0 and numneighbours == 2:
                 self.board[thishex]=1
@@ -148,14 +171,18 @@ def day24_01():
     myhex = HexBoard(path)
     myhex.setup()
     result = myhex.count_black_tiles()
-    print(f'2401: Number of Black tiles:{result}')
+    print(f'2401: Number of Black tiles: {result}')
 
 def day24_02():
     """Run part 2 of Day 24's code"""
     path = "./input/24/input.txt"
-    result=""
-    print(f'2402: {result}')
+    myhex = HexBoard(path)
+    myhex.setup()
+    for _ in range(100):
+        myhex.step()
+    result= myhex.count_black_tiles()
+    print(f'2402: Number of black tiles after 100 days: {result}')
 
 if __name__ == "__main__":
     day24_01()
-    #day24_02()
+    day24_02()

@@ -29,16 +29,46 @@ class TestDay24:
         result = myhex.locate_tile(myhex.instructions[0])
         assert result == (0,0)
 
-    def test_example1(self):
+    def test_small_loop1(self):
+        inputdata='tests/day24_testinput.txt'
+        myhex = HexBoard(inputdata)
+        myhex.instructions[0]=['nw','ne']
+        result = myhex.locate_tile(myhex.instructions[0])
+        assert result == (2,0)
+
+    def test_example1_setup(self):
         inputdata='tests/day24_testinput.txt'
         myhex = HexBoard(inputdata)
         myhex.setup()
-        myhex.step()
         result = myhex.count_black_tiles()
-        assert result == 15
-        myhex.step()
-        result = myhex.count_black_tiles()
-        assert result == 12
-        myhex.step()
-        result = myhex.count_black_tiles()
-        assert result == 25
+        assert result == 10
+        expected=[(0,0),(1,-1),(1,-2),(0,-2),(-1,-2),(-2,-2),(-3,-2),(-2,1),(0,2),(3,1)]
+        for testhex in expected:
+            assert testhex in myhex.board
+
+    def test_example1_part2(self):
+        inputdata='tests/day24_testinput.txt'
+        myhex = HexBoard(inputdata)
+        myhex.setup()
+        results=[15,12,25,14,23,28,41,37,49,37]
+        for num in range(10):
+            myhex.step()
+            print(str(myhex))
+            print(num)
+            assert myhex.count_black_tiles() == results[num]
+
+    def test_example1_part2a(self):
+        inputdata='tests/day24_testinput.txt'
+        myhex = HexBoard(inputdata)
+        myhex.setup()
+        results=[37,132,259,406,566,788,1106,1373,1844,2208]
+        for num in range(10):
+            for _ in range(10):
+                myhex.step()
+            print(str(myhex))
+            print(num*10)
+            assert myhex.count_black_tiles() == results[num]
+
+
+
+
