@@ -168,8 +168,11 @@ True
 3. Wrote 1 method to do calculations without brackets and one method to remove brackets. this made part2 easy as I only needed to modify the calculation method.
 
 ### Day19
+1. I felt this problem was the hardest of all 25 at first glimpse. I thought it was a Choamsky grammar style question requiring a custom parser. 
+2. I peeked at the solution on reddit and saw that it could be easily done with regexp, after which I found it quite easy.
 
 ### Day20
+1. The last puzzle I solved. part1 I finished about 2 days after release and I left part 2 until early January.
 
 ### Day21
 1. I thought the problem statement was quite vague and spent a lot of time trying to understand it. I used sets for both the ingredients and allergens which was a nice shorthand.
@@ -183,6 +186,9 @@ True
 1. I tried implementing part1 using lists, but keeping track of the updates to the location was too hard. I gave up and looked at what others had done and used the dictionary system in place now.
 
 ### Day24
+1. A fun puzzle. I made a lot of silly mistakes with the movements, and didn't really solve all of them until I had a full suite of tests.
+2. In part 2 I made one major mistake, and that was to iterate only over hexes next to black tiles, and not black tiles themselves. This meant black tiles never flipped white.
+3. I mis-transcribed one digit (day 6) on part 2 and so my tests were not working for this day. I ended up making an animation to debug this, which I didn't need!
 
 ### Day25
 1. Today was surprisingly easy! my brute force search for the loop_size found the answer in only a minute or two. Not sure how to speed this up.
