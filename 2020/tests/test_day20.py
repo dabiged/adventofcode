@@ -32,10 +32,21 @@ class TestDay20:
         testtile2.rotate()
         assert testtile2.tile[0] == 'jihgfedcba'
 
-    def test_tile_rotate(self):
+    def test_tile_flip(self):
+        inputdata2=['zzzzzzzzzz','zzzzzzzzzz','zzzzzzzzzz','zzzzzzzzzz','zzzzzzzzzz','zzzzzzzzzz','zzzzzzzzzz','zzzzzzzzzz','zzzzzzzzzz','abcdefghij']
+        testtile2=Tile(3141, inputdata2, verbose=True)
+        testtile2.flip()
+        print(testtile2)
+        assert True== False
+
+
+    def test_tile_product_of_corners(self):
         inputdata='tests/day20_testinput.txt'
         testtiler = ImageTiler(file_to_str_array(inputdata))
         print(testtiler.tiles)
         testtiler.pair_tiles()
         result = testtiler.product_of_corners()
         assert result == 20899048083289
+    
+
+

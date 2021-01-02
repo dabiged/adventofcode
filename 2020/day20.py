@@ -1,6 +1,7 @@
 """
 AOC day 20 2018
 """
+import math
 from collections import deque
 from lib.filehelper import file_to_str_array
 # pylint: disable=missing-module-docstring
@@ -20,10 +21,7 @@ class Tile:
         self.tile=[]
         [self.tile.append(i) for i in tile]
         # top, bottom, left, right
-        self.borders=[self.tile[0], \
-            self.tile[-1], \
-            ''.join([row[0] for row in self.tile]),\
-            ''.join([row[-1] for row in self.tile])]
+        self.borders=[self.top(), self.bottom(), self.left(), self.right()]
 
         reversed_borders=[i[::-1] for i in self.borders]
         for revborder in reversed_borders:
@@ -48,24 +46,53 @@ class Tile:
                         continue
                     else:
                         self.pairs|={other.tilenum}
+                        return True, thistileborder
+        return False, None
 
     def trim_sides(self):
+        ''' Remove all borders from tile
+        result has 2 less cols and 2 less rows.'''
         return [ row[1:-1] for row in self.tile]
+    def left(self):
+        ''' return the left side of the tile'''
+        return ''.join([row[0] for row in self.tile])
+    def right(self):
+        ''' return the right side of the tile'''
+        return ''.join([row[-1] for row in self.tile])
+    def top(self):
+        ''' return the top side of the tile'''
+        return self.tile[0]
+    def bottom(self):
+        ''' return the bottom side of the tile'''
+        return self.tile[-1]
+
+    def flip(self):
+        ''' perform a horizontal flip '''
+        return  [''.join(row[::-1]) for row in self.tile]
 
     def rotate(self):
-        self.tile = [''.join(s) for s in zip(*self.tile[::-1])]
+        ''' rotate the tile '''
+        return [''.join(s) for s in zip(*self.tile[::-1])]
+
+    def orientations(self):
+        for _ in range(0,4):
+            yield Tile(self.tilenum,[''.join(row) for row in self.rotate()])
+            self.tile=self.rotate()
+            yield Tile(self.tilenum,[''.join(row) for row in map(list,zip(*self.tile))])
+
 
     def __repr__(self):
+        ''' Helper method for debugging. '''
         output='<Tile Object:\n'
         for row in self.tile:
             output+=row+'\n'
-        return output+'>\n'
+        return output+str(self.tilenum)+'>\n'
 
 class ImageTiler:
     def __init__(self,inputdata):
         '''read in all tiles and create a dict of tiles'''
         self.ordering={} # key=2d-tuple, vale = tile num.
-        
+        self.common_borders=[]
         self.tiles={}
         thistile=[]
         for line in inputdata:
@@ -83,7 +110,9 @@ class ImageTiler:
     def pair_tiles(self):
         for tile1 in self.tiles.values():
             for tile2 in self.tiles.values():
-                tile1.pair(tile2)
+                IsBorder, border = tile1.pair(tile2)
+                if IsBorder == True and border not in self.common_borders and border[::-1] not in self.common_borders:
+                    self.common_borders.append(border)
 
     def product_of_corners(self):
         output=1
@@ -92,15 +121,88 @@ class ImageTiler:
                 output*= tile.tilenum
         return output
 
-    def build_image(self):
+    
+
+
+    def build_image(self, verbose=False):
         ''' let n = sqrt (len self.tiles)
         start with a corner piece, then build the puzzle row by row until len(row) == np.sqrt(n)
         once we have sqrt(n) x (1xsqrt n) tiles build rows in a larger tile.'''
-        twopiecequeue = deque([tile for tile in self.tiles if len(tile.pairs) ==2])
-        threepiecequeue = deque([tile for tile in self.tiles if len(tile.pairs) ==2])
-        fourpiecequeue = deque([tile for tile in self.tiles if len(tile.pairs) ==2])
-        first_corner = twopiecequeue.pop()
-        pass
+        # Sort the pieces into 3 piles, corners, edges and middle pieces.
+        twopiecequeue = deque([tile for tile in self.tiles.values() if len(tile.pairs) ==2])
+        threepiecequeue = deque([tile for tile in self.tiles.values() if len(tile.pairs) ==3])
+        fourpiecequeue = deque([tile for tile in self.tiles.values() if len(tile.pairs) ==4])
+        # Take a piece with two corners and manipulate it until its bottom and right sides are matches.
+        # This will be the top left corner piece of the puzzle.
+        # Loop over each location in the puzzle.
+        puzzle_dims=int(math.sqrt(len(self.tiles)))
+        print(puzzle_dims)
+        for row in range(1,int(math.sqrt(len(self.tiles)))+1):
+            for col in range(1,int(math.sqrt(len(self.tiles)))+1):
+                # loop over the puzzle from left to right and top to bottom
+                # Choose the next piecepile
+                if row in [1,int(math.sqrt(len(self.tiles)))] and col in [1,int(math.sqrt(len(self.tiles)))]:
+                    # Corners
+                    nextpiecequeue = twopiecequeue
+                elif row in [1,int(math.sqrt(len(self.tiles)))] or col in [1,int(math.sqrt(len(self.tiles)))]:
+                    # edges
+                    nextpiecequeue = threepiecequeue
+                else:
+                    # Middle bits
+                    nextpiecequeue = fourpiecequeue
+                # If this is the top left corner, rotate and flip the piece until the bottom and right
+                #  have matching borders
+                if row ==1 and col ==1:
+                    thispiece=nextpiecequeue.pop()
+                    done=False
+                    while not done:
+                        if thispiece.right() not in self.common_borders and \
+                            thispiece.bottom() not in self.common_borders:
+                            thispiece.tile=thispiece.rotate()
+                        else:
+                            done=True
+                        if thispiece.right() not in self.common_borders and \
+                            thispiece.bottom() not in self.common_borders:
+                            thispiece.tile=thispiece.flip()
+                        else:
+                            done = True
+                    # The tile is now correctly oriented for the top left corner.
+                    self.ordering[(1,1)]=thispiece
+                else:
+                    if col ==1:
+                        done=False
+                        while not done:
+                            thispiece=nextpiecequeue.pop()
+                            # Match the first col to the row above
+                            for orientation in thispiece.orientations():
+                                if orientation.top() == self.ordering[(row-1,col)].bottom():
+                                    self.ordering[(row,col)]=orientation
+                                    done=True
+                            if not done:
+                                nextpiecequeue.appendleft(thispiece)
+                    else:
+                        # Match to the piece to the left
+                        done=False
+                        while not done:
+                            thispiece=nextpiecequeue.pop()
+                            # Match the first col to the row above
+                            for orientation in thispiece.orientations():
+                                if orientation.left() == self.ordering[(row,col-1)].right():
+                                    self.ordering[(row,col)]=orientation
+                                    done=True
+                                    break
+                            if not done:
+                                nextpiecequeue.appendleft(thispiece)
+        # Up to here. Build the big image.
+        for imgrow in range(1,13):
+            for i in range(1,10):
+                thisrow=''
+                for imgcol in range(1,13):
+                    thisrow+=self.ordering[imgrow,imgcol].tile[i]+' '
+
+                print(thisrow)
+            print()
+
 
 def day20_01():
     """Run part 1 of Day 20's code"""
@@ -113,9 +215,13 @@ def day20_01():
 def day20_02():
     """Run part 2 of Day 20's code"""
     path = "./input/20/input.txt"
+    #path ='tests/day20_testinput.txt'
+    mytiler = ImageTiler(file_to_str_array(path))
+    mytiler.pair_tiles()
+    result=mytiler.build_image()
     result=""
     print(f'2002: {result}')
 
 if __name__ == "__main__":
-    day20_01()
-    #day20_02()
+    #day20_01()
+    day20_02()
