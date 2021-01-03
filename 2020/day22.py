@@ -95,10 +95,10 @@ class CombatGameP2:
         ''' play recursive combat according to the rules
         This is a recursive function.'''
         oldgamestates=[]
-        n=0
+        round_num=0
         while len(player1hand) >0 and len(player2hand) >0:
             if verbose:
-                print("-- Round",n,"--")
+                print("-- Round",round_num,"--")
                 print("Player 1's hand: ",player1hand)
                 print("Player 2's hand: ",player2hand)
 
@@ -113,28 +113,27 @@ class CombatGameP2:
                     print("Ending game for Player 1")
                 winner='p1'
                 return winner, player1hand, player2hand
+            oldgamestates.append((list(player1hand),list(player2hand)))
+            # the players begin the round by each drawing the top card of their deck as normal.
+            player1card=player1hand.popleft()
+            player2card=player2hand.popleft()
+            if verbose:
+                print("Player 1 draws:", player1card)
+                print("Player 2 draws:", player2card)
+            # If both players have at least as many cards remaining in their deck as the value
+            #  of the card they just drew, the winner of the round is determined by playing a
+            #  new game of Recursive Combat. Note each player only keeps the number of cards
+            #  on the card they played.
+            if player1card <= len(player1hand) and player2card <= len(player2hand):
+                winner, _, _ = self.recursive_combat(\
+                    deque(list(player1hand.copy())[:player1card]),\
+                    deque(list(player2hand.copy())[:player2card]))
+            elif player1card > player2card:
+                winner='p1'
+            elif player2card > player1card:
+                winner='p2'
             else:
-                oldgamestates.append((list(player1hand),list(player2hand)))
-                # the players begin the round by each drawing the top card of their deck as normal.
-                player1card=player1hand.popleft()
-                player2card=player2hand.popleft()
-                if verbose:
-                    print("Player 1 draws:", player1card)
-                    print("Player 2 draws:", player2card)
-                # If both players have at least as many cards remaining in their deck as the value
-                #  of the card they just drew, the winner of the round is determined by playing a
-                #  new game of Recursive Combat. Note each player only keeps the number of cards
-                #  on the card they played.
-                if player1card <= len(player1hand) and player2card <= len(player2hand):
-                    winner, _, _ = self.recursive_combat(\
-                        deque(list(player1hand.copy())[:player1card]),\
-                        deque(list(player2hand.copy())[:player2card]))
-                elif player1card > player2card:
-                    winner='p1'
-                elif player2card > player1card:
-                    winner='p2'
-                else:
-                    raise ValueError('Duplicate values found')
+                raise ValueError('Duplicate values found')
             if winner == 'p1':
                 if verbose:
                     print("Player 1 wins!")
@@ -147,7 +146,7 @@ class CombatGameP2:
                 player2hand.append(player1card)
             else:
                 raise ValueError('Unable to determine winner')
-            n+=1
+            round_num+=1
         if verbose:
             print("== Post Game results ==")
             print("Player 1's deck:",player1hand)
@@ -158,13 +157,13 @@ class CombatGameP2:
     def score(self,player1score, player2score):
         ''' Return the score of both players.'''
         player1score, player2score =0,0
-        n1,n2=1,1
+        counter1,counter2=1,1
         while len(self.player1hand) >0 :
-            player1score+=self.player1hand.pop()*n1
-            n1+=1
+            player1score+=self.player1hand.pop()*counter1
+            counter1+=1
         while len(self.player2hand) >0 :
-            player2score+=self.player2hand.pop()*n2
-            n2+=1
+            player2score+=self.player2hand.pop()*counter2
+            counter2+=1
         return player1score, player2score
 
 def day22_01():
@@ -180,7 +179,7 @@ def day22_02():
     path = "tests/day22_testinput.txt"
     path = "./input/22/input.txt"
     mygame = CombatGameP2(path)
-    winner, p1h, p2h = mygame.recursive_combat(mygame.player1hand,mygame.player2hand)
+    _, p1h, p2h = mygame.recursive_combat(mygame.player1hand,mygame.player2hand)
     result=max(mygame.score(p1h,p2h))
     print(f'2202: Winners score: {result}')
 
