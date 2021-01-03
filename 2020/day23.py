@@ -1,11 +1,11 @@
 """
 AOC day 23 2018
 """
-from lib.filehelper import file_to_str_array
 # pylint: disable=missing-module-docstring
 
 
 class CrabCups:
+    '''An implementation of the game crab cups!'''
     def __init__(self,labels):
         '''Take in a list and initialise our cycle dict
         the dictionary cycle, points to the next location in our circle'''
@@ -37,12 +37,12 @@ class CrabCups:
                 print("Hand",hand)
                 print(self.cycle)
             next_cup= self.currentcup -1
-            while next_cup == hand[0] or next_cup == hand[1] or next_cup == hand[2] or next_cup <= 0:
+            while next_cup == hand[0] or next_cup==hand[1] or next_cup==hand[2] or next_cup <= 0:
                 next_cup -= 1
                 if next_cup <=0:
                     next_cup = self.maxval
 
-            # Point the current location, to the location immediately after the last card in our hand.
+            # Point the current location, to location immediately after the last card in our hand.
             self.cycle[self.currentcup] = self.cycle[hand[-1]]
             # point the last card in our hand to the card following the destination cup.
             self.cycle[hand[-1]] = self.cycle[next_cup]
@@ -55,7 +55,7 @@ class CrabCups:
         ''' Part 1 output'''
         output=''
         output+=str(self.cycle[1])
-        for i in range(7):
+        for _ in range(7):
             output+=str(self.cycle[int(output[-1])])
         return output
 
