@@ -3,7 +3,6 @@ AOC day 22 2018
 """
 from copy import deepcopy
 from collections import deque
-from lib.filehelper import file_to_str_array
 # pylint: disable=missing-module-docstring
 
 
@@ -12,24 +11,24 @@ class CombatGame:
     ''' A combat game to play with a crab?!?!?'''
     def __init__(self,inputfile):
         ''' Read in input data and store hands as deques'''
-        ''' Read in file and setup player hands '''
-        with open(inputfile) as f:
-            playerhands = f.read().split('\n\n')
+        with open(inputfile) as infile:
+            playerhands = infile.read().split('\n\n')
         self.player1hand=deque([int(i) for i in playerhands[0].split('\n')[1:]])
         self.player2hand=deque([int(i) for i in playerhands[1].split('\n')[1:]])
 
     def play(self,verbose=False):
         '''  Play the game. '''
-        n=0
+        turn=0
         while len(self.player1hand) >0 and len(self.player2hand) >0:
             if verbose:
-                print("-- Round",n,"--")
+                print("-- Round",turn,"--")
                 print("Player 1's hand: ",self.player1hand)
                 print("Player 2's hand: ",self.player2hand)
-                print("Player 1 plays:", player1card)
-                print("Player 2 plays:", player2card)
             player1card=self.player1hand.popleft()
             player2card=self.player2hand.popleft()
+            if verbose:
+                print("Player 1 plays:", player1card)
+                print("Player 2 plays:", player2card)
             if player1card > player2card:
                 if verbose:
                     print("Player 1 wins!")
@@ -42,14 +41,13 @@ class CombatGame:
                 self.player2hand.append(player1card)
             else:
                 raise ValueError('Duplicate values found')
-            n+=1
+            turn+=1
         if verbose:
             print("== Post Game results ==")
             print("Player 1's deck:",self.player1hand)
             print("Player 2's deck:",self.player2hand)
 
-    @staticmethod
-    def DetermineWinner(player1hand, player2hand,oldgamestates):
+    def determine_winner(self,player1hand, player2hand,oldgamestates):
         '''Recursive combat game'''
         if (player1hand,player2hand) in oldgamestates:
             print("Previous Game state seen! Player 1 wins!")
@@ -61,7 +59,8 @@ class CombatGame:
             if player1card <= len(player1hand) and player2card <= len(player2hand):
                 # Both players have at least as many cards remaining in hand so play again
                 print("Recursing....")
-                winner = self.DetermineWinner(deepcopy(player1hand),deepcopy(player2hand),oldgamestates)
+                winner=self.determine_winner(deepcopy(player1hand),\
+                                            deepcopy(player2hand),oldgamestates)
             else:
                 # Winner is the highest card
                 if player1card > player2card:
@@ -73,13 +72,13 @@ class CombatGame:
     def score(self):
         ''' Return the score of both players.'''
         player1score, player2score =0,0
-        n1,n2=1,1
+        counter1,counter2=1,1
         while len(self.player1hand) >0 :
-            player1score+=self.player1hand.pop()*n1
-            n1+=1
+            player1score+=self.player1hand.pop()*counter1
+            counter1+=1
         while len(self.player2hand) >0 :
-            player2score+=self.player2hand.pop()*n2
-            n2+=1
+            player2score+=self.player2hand.pop()*counter2
+            counter2+=1
         return player1score, player2score
 
 # Part 2
@@ -87,12 +86,12 @@ class CombatGameP2:
     ''' A recursive version of the combat card game'''
     def __init__(self,inputfile):
         ''' read in input data and store hands as deques'''
-        with open(inputfile) as f:
-            playerhands = f.read().split('\n\n')
+        with open(inputfile) as infile:
+            playerhands = infile.read().split('\n\n')
         self.player1hand=deque([int(i) for i in playerhands[0].split('\n')[1:]])
         self.player2hand=deque([int(i) for i in playerhands[1].split('\n')[1:]])
 
-    def recursive_combat(self,player1hand, player2hand, verbose=False): 
+    def recursive_combat(self,player1hand, player2hand, verbose=False):
         ''' play recursive combat according to the rules
         This is a recursive function.'''
         oldgamestates=[]
@@ -104,8 +103,8 @@ class CombatGameP2:
                 print("Player 2's hand: ",player2hand)
 
             if (list(player1hand), list(player2hand)) in oldgamestates:
-                # if there was a previous round in this game that had exactly the same cards 
-                #  in the same order in the same players' decks, the game instantly ends in 
+                # if there was a previous round in this game that had exactly the same cards
+                #  in the same order in the same players' decks, the game instantly ends in
                 #  a win for player 1.
                 if verbose:
                     print("Existing game state found!")
@@ -122,8 +121,8 @@ class CombatGameP2:
                 if verbose:
                     print("Player 1 draws:", player1card)
                     print("Player 2 draws:", player2card)
-                # If both players have at least as many cards remaining in their deck as the value 
-                #  of the card they just drew, the winner of the round is determined by playing a 
+                # If both players have at least as many cards remaining in their deck as the value
+                #  of the card they just drew, the winner of the round is determined by playing a
                 #  new game of Recursive Combat. Note each player only keeps the number of cards
                 #  on the card they played.
                 if player1card <= len(player1hand) and player2card <= len(player2hand):
