@@ -2,10 +2,10 @@
 AOC day 21 2018
 """
 from collections import defaultdict, deque
-from lib.filehelper import file_to_str_array
 # pylint: disable=missing-module-docstring
 
 class AllergenList:
+    '''Learn a new language from an allergen list'''
     def __init__(self,ingredlistfile):
         '''
         Read a datafile and store recipies ingredients and allergens in a dict.
@@ -18,11 +18,10 @@ class AllergenList:
         self.allingredients=set() # All ingredient names
         self.safeingredients=defaultdict(int) # all non-allegen ingredients
 
-        with open(ingredlistfile) as f:
-            alldata=f.read().split('\n')
+        with open(ingredlistfile) as inputfile:
+            alldata=inputfile.read().split('\n')
         for i, line in enumerate(alldata[:-1]):
             myline=line.replace(')','').split(" (contains ")
-            input_ingredients, input_allergens = myline[0], myline[1]
             ingredients={ingredient for ingredient in myline[0].split()}
             allergens={allergen for allergen in myline[1].replace(',','').split()}
             self.recipies[i]=[ingredients, allergens]
@@ -38,7 +37,8 @@ class AllergenList:
 
     def determine_allergen(self,allergen):
         '''
-        for each recipie containing this allergen, perform the intersection of all ingredients, and if this yields a single ingredient return this ingredient.
+        for each recipie containing this allergen, perform the intersection of all
+        ingredients, and if this yields a single ingredient return this ingredient.
         '''
         assert allergen in self.allallergens
         recipies_with_this_allergen=[]
@@ -61,18 +61,21 @@ class AllergenList:
             1. remove that allergen from all reicpies and allergen lists.
             2. Once all the allergens are identified count the number of safe ingredients
 
+        ToDo: Make this method smaller by breaking out parts into smaller methods.
         '''
         max_allegens_per_rec=max([len(allergens[1]) for allergens in self.recipies.values()])
         allergen_queue = deque()
+        # Find the recipie with the longest list of allergens and add that
+        #  to the queue.
         for recipie in self.recipies.values():
             if len(recipie[1]) == max_allegens_per_rec:
                 for allergen in recipie[1]:
                     allergen_queue.append(allergen)
-        n=0
+        counter=0
         while len(allergen_queue) >0 :
             this_allergen=allergen_queue.pop()
             this_allergen_ing=self.determine_allergen(this_allergen)
-            if this_allergen_ing != None:
+            if this_allergen_ing is not None:
                 # Store mapping
                 self.allergens[this_allergen]=this_allergen_ing
 
@@ -85,7 +88,8 @@ class AllergenList:
 
                 # Update global lists.
                 self.update_alling()
-                # if any ingredients contain no allergens, remove that recipe and put and ingredients in the safe list.
+                # if any ingredients contain no allergens,
+                #  remove that recipe and put and ingredients in the safe list.
                 empty_recipies=[]
                 for key,recipie in self.recipies.items():
                     if len(recipie[1]) == 0:
@@ -100,9 +104,10 @@ class AllergenList:
                     del self.safeingredients[this_allergen_ing]
             else:
                 allergen_queue.appendleft(this_allergen)
-            n+=1
-            if n>10:
-                # this is needed as occasionally there are ingredients in the queue that have already been solved for.
+            counter+=1
+            if counter>10:
+                # this is needed as occasionally there are ingredients in the queue
+                #  that have already been solved for.
                 break
 
 
@@ -117,19 +122,19 @@ class AllergenList:
         part2output=''
         for allergen in allergen_sorted_keys:
             part2output+=self.allergens[allergen]+','
-        print(f'2101: Number of appearances of safe ingredients: {sum([ingnum for ingnum in self.safeingredients.values()])}')
+        print(f'2101: Number of appearances of safe ingredients: {sum(ingnum for ingnum in self.safeingredients.values())}')
         print(f'2102: List of Allergens: {part2output.rstrip(",")}')
-        return sum([ingnum for ingnum in self.safeingredients.values()])
+        return sum(ingnum for ingnum in self.safeingredients.values())
 
 
 def day21_01():
     """Run part 1 of Day 21's code"""
     path = "./input/21/input.txt"
     testrec = AllergenList(path)
-    result=testrec.run()
+    testrec.run()
 
 def day21_02():
-    pass
+    '''Don't run part2 as we solved it in part 1'''
 
 if __name__ == "__main__":
     day21_01()
