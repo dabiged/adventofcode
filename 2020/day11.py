@@ -1,8 +1,8 @@
 """
 AOC day 11 2018
 """
-from lib.filehelper import file_to_str_array
 import time
+from lib.filehelper import file_to_str_array
 # pylint: disable=missing-module-docstring
 
 class BoardingLounge:

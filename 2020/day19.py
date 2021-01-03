@@ -7,7 +7,7 @@ from lib.filehelper import file_to_str_array
 
 class RegExpComputer:
     def __init__(self, inputdata):
-        ''' Read data from file and store internally:
+        r''' Read data from file and store internally:
         self.rules:  a dictionary  of rules, with:
             key = rule number
             value = if tuple => tuple of rules
@@ -104,7 +104,7 @@ class RegExpComputerRecursive:
 
     Allows for certain rules to be recursive'''
     def __init__(self, inputdata):
-        ''' Read data from file and store internally
+        r''' Read data from file and store internally
         self.rules:  a dictionary  of rules, with:
             key = rule number
             value = if tuple => tuple of rules
