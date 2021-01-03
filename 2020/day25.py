@@ -1,7 +1,6 @@
 """
 AOC day 25 2018
 """
-from lib.filehelper import file_to_str_array
 # pylint: disable=missing-module-docstring
 
 def transform(subject_num: int, loop_size=1, value=1)-> int:
@@ -37,12 +36,6 @@ def day25_01():
 
     print(f'2501: Encryption key is: {result}')
 
-def day25_02():
-    """Run part 2 of Day 25's code"""
-    path = "./input/25/input.txt"
-    result=""
-    print(f'2502: {result}')
 
 if __name__ == "__main__":
     day25_01()
-    #day25_02()

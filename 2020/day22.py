@@ -174,7 +174,7 @@ def day22_01():
     mygame=CombatGame(path)
     mygame.play()
     p1s, p2s = mygame.score()
-    print(f'2201: Player1: {p1s}, Player2: {p2s}')
+    print(f'2201: Scores: Player1: {p1s}, Player2: {p2s}')
 
 def day22_02():
     """Run part 2 of Day 22's code"""

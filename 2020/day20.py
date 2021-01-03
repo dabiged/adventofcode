@@ -241,8 +241,8 @@ def day20_02():
     for orientation in BigTile.orientations():
         numMonsters+=orientation.find_monsters()
     result=sum([bool(char=='#') for row in BigTile.tile for char in row ]) - numMonsters*15
-    print(f'2002: {result}')
+    print(f'2002: Number of Monsters: {numMonsters}. Number of rough sea tiles:{result}')
 
 if __name__ == "__main__":
-    #day20_01()
+    day20_01()
     day20_02()

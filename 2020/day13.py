@@ -72,7 +72,7 @@ def day13_01():
     path = "./input/13/input.txt"
     mysched=BusSched(path)
     result=mysched.next_bus()
-    print(f'1301: Product of bus to take, and minutes waited:{result}')
+    print(f'1301: Product of bus to take, and minutes waited: {result}')
 
 def day13_02():
     """Run part 2 of Day 13's code"""

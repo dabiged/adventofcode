@@ -68,7 +68,7 @@ def day06_02():
     """Run part 2 of Day 06's code"""
     path = "./input/06/input.txt"
     result = count_all_answered_questions(file_to_str_array(path))
-    print(f'0602: Sum of questions answered by all in the group:{result}')
+    print(f'0602: Sum of questions answered by all in the group: {result}')
 
 if __name__ == "__main__":
     day06_01()

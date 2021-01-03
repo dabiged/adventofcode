@@ -221,14 +221,14 @@ def day19_01():
     path = "./input/19/input.txt"
     mycomp = RegExpComputer(file_to_str_array(path))
     result=mycomp.match()
-    print(f'1901: number of messages that match: {result}')
+    print(f'1901: Number of messages that match: {result}')
 
 def day19_02():
     """Run part 2 of Day 19's code"""
     path = "./input/19/input.txt"
     mycomp = RegExpComputerRecursive(file_to_str_array(path))
     result=mycomp.match()
-    print(f'1902: number of messages that match: {result}')
+    print(f'1902: Number of messages that match (w. recursive rules): {result}')
 
 if __name__ == "__main__":
     day19_01()
