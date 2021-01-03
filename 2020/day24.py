@@ -2,7 +2,6 @@
 AOC day 24 2018
 """
 import time
-from lib.filehelper import file_to_str_array
 # pylint: disable=missing-module-docstring
 
 class HexBoard:
@@ -10,12 +9,12 @@ class HexBoard:
     Offset odd rows by 1/2 space.
     left and right sides of the hexagons are vertical.
     '''
-    def __init__(self, instr):
+    def __init__(self, instructionfile):
         '''Read in instructions and initialise the hex board'''
         self.board={}
         self.instructions=[]
-        with open(instr) as f:
-            instructions = f.read()
+        with open(instructionfile) as filetoread:
+            instructions = filetoread.read()
         for instr in instructions.split('\n'):
             if instr == '':
                 # Skip blank lines
@@ -31,7 +30,8 @@ class HexBoard:
                     thisinstr.append(instr[i])
                     i+=1
                 else:
-                    raise ValueError(f'Unknown Direction found in instruction\n{instr}\nAt location:{i}')
+                    raise ValueError(f'Unknown Direction found in instruction\n\
+                    {instr}\nAt location:{i}')
             self.instructions.append(thisinstr)
     def __repr__(self):
         ''' A display method that shows the hex board'''
@@ -57,39 +57,39 @@ class HexBoard:
         return alloutput
 
 
-
-    def west(self,rcloc):
+    @staticmethod
+    def west(rcloc):
         '''update rcloc by moving it west'''
         row,col=rcloc
         return (row,col-1)
-
-    def east(self,rcloc):
+    @staticmethod
+    def east(rcloc):
         '''update rcloc by moving it east'''
         row,col=rcloc
         return (row,col+1)
-
-    def southwest(self,rcloc):
+    @staticmethod
+    def southwest(rcloc):
         '''update rcloc by moving it southwest'''
         row,col=rcloc
         if abs(row) % 2 == 1:
             return (row-1,col)
         return (row-1,col-1)
-
-    def southeast(self,rcloc):
+    @staticmethod
+    def southeast(rcloc):
         '''update rcloc by moving it southeast'''
         row,col=rcloc
         if abs(row) % 2 == 1:
             return (row-1,col+1)
         return (row-1,col)
-
-    def northeast(self,rcloc):
+    @staticmethod
+    def northeast(rcloc):
         '''update rcloc by moving it northeast'''
         row,col=rcloc
         if abs(row) % 2 == 1:
             return (row+1,col+1)
         return (row+1,col)
-
-    def northwest(self,rcloc):
+    @staticmethod
+    def northwest(rcloc):
         '''update rcloc by moving it northwest'''
         row,col=rcloc
         if abs(row) % 2 == 1:
@@ -100,15 +100,15 @@ class HexBoard:
         '''Given a single movement, change the location'''
         if   instr == 'e':
             return self.east(loc)
-        elif instr == 'w':
+        if instr == 'w':
             return self.west(loc)
-        elif instr == 'nw':
+        if instr == 'nw':
             return self.northwest(loc)
-        elif instr == 'ne':
+        if instr == 'ne':
             return self.northeast(loc)
-        elif instr == 'sw':
+        if instr == 'sw':
             return self.southwest(loc)
-        elif instr == 'se':
+        if instr == 'se':
             return self.southeast(loc)
         raise ValueError(f'Unknown Instruction: {instr}')
 
@@ -127,7 +127,7 @@ class HexBoard:
         if current_value == 0:
             self.board[location] =1
         elif current_value==1:
-            del self.board[location] 
+            del self.board[location]
 
     def setup(self):
         ''' Run all instructions in the instruction list'''
@@ -137,7 +137,7 @@ class HexBoard:
     def count_black_tiles(self):
         '''Returns the number of black tiles on the board.'''
         blacktiles=0
-        for location,numflips in self.board.items():
+        for numflips in self.board.values():
             if numflips==1:
                 blacktiles+=1
         return blacktiles
@@ -170,7 +170,7 @@ class HexBoard:
             black_tile_num_neighbours[thishex]=self.count_occupied(thishex)
         for thishex, numneighbours in black_tile_num_neighbours.items():
             if self.board.get(thishex,0) == 1 and ( numneighbours ==0 or numneighbours >2 ):
-                del self.board[thishex] 
+                del self.board[thishex]
             elif self.board.get(thishex,0) == 0 and numneighbours == 2:
                 self.board[thishex]=1
 
