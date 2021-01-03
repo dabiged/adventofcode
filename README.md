@@ -9,4 +9,4 @@ Currently at 6 stars
 Currently at 18 stars
 
 ## 2020
-In progress
+Finished! 50 stars
