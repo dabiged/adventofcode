@@ -172,7 +172,8 @@ True
 2. I peeked at the solution on reddit and saw that it could be easily done with regexp, after which I found it quite easy.
 
 ### Day20
-1. The last puzzle I solved. part1 I finished about 2 days after release and I left part 2 until early January.
+1. The last puzzle I solved. part1 I finished about 2 days after release and I left part 2 until early January (3rd).
+2. Part two was probably my favourite of the all. Very satisfying to build one class for small tile, and one for a board, then getting to reuse the tile class on the merged tiles.
 
 ### Day21
 1. I thought the problem statement was quite vague and spent a lot of time trying to understand it. I used sets for both the ingredients and allergens which was a nice shorthand.
