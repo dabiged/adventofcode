@@ -7,7 +7,7 @@ from lib.filehelper import file_to_str_array
 # pylint: disable=missing-module-docstring
 
 class Tile:
-    ''' A tile object 
+    ''' A tile object
 
     it consists of a 10x10 chars.
 
@@ -18,8 +18,8 @@ class Tile:
         self.tilenum = tilenum
         self.borders=[]
 
-        self.tile=[]
-        [self.tile.append(i) for i in tile]
+        self.tile=[i for i in tile]
+        #self.tile.append(i) for i in tile
         # top, bottom, left, right
         self.borders=[self.top(), self.bottom(), self.left(), self.right()]
 
@@ -42,9 +42,7 @@ class Tile:
         for thistileborder in self.borders:
             for othertileborder in other.borders:
                 if thistileborder == othertileborder:
-                    if self.tilenum == other.tilenum:
-                        continue
-                    else:
+                    if self.tilenum != other.tilenum:
                         self.pairs|={other.tilenum}
                         return True, thistileborder
         return False, None
@@ -75,27 +73,30 @@ class Tile:
         return [''.join(s) for s in zip(*self.tile[::-1])]
 
     def orientations(self):
+        '''A generator that return all 8 possible orientations of a tile'''
         for _ in range(0,4):
             yield Tile(self.tilenum,[''.join(row) for row in self.rotate()])
             self.tile=self.rotate()
             yield Tile(self.tilenum,[''.join(row) for row in map(list,zip(*self.tile))])
 
     def find_monsters(self):
+        '''Search the tile for any signs of monsters'''
         monster=['                  # ','#    ##    ##    ###',' #  #  #  #  #  #   ']
-        Monstercount=0
+        monstercount=0
+        # For each location in the tile (less the length/height of the monster)
         for rowloc in range(len(self.tile)-len(monster)+1):
             for colloc in range(len(self.tile[0])-len(monster[0])+1):
-                IsMonster=True
+                is_monster=True
                 for monsterrow in range(len(monster)):
                     for monstercol in range(len(monster[0])):
-                        if monster[monsterrow][monstercol] == '#':
-                            if self.tile[rowloc+monsterrow][colloc+monstercol] == '#':
-                                IsMonster = IsMonster and True
-                            else:
-                                IsMonster = IsMonster and False
-                if IsMonster:
-                    Monstercount+=1
-        return Monstercount
+                        # if any location that is a # in the monster, 
+                        # is not a # in the image, it cannot be a monster.
+                        if monster[monsterrow][monstercol] == '#' and \
+                          self.tile[rowloc+monsterrow][colloc+monstercol] != '#':
+                            is_monster = is_monster and False
+                if is_monster:
+                    monstercount+=1
+        return monstercount
 
 
     def __repr__(self):
@@ -106,6 +107,7 @@ class Tile:
         return output+str(self.tilenum)+'>\n'
 
 class ImageTiler:
+    '''A board to arrange image tiles'''
     def __init__(self,inputdata):
         '''read in all tiles and create a dict of tiles'''
         self.ordering={} # key=2d-tuple, vale = tile num.
@@ -128,8 +130,9 @@ class ImageTiler:
         '''Determine which tiles share a common border'''
         for tile1 in self.tiles.values():
             for tile2 in self.tiles.values():
-                IsBorder, border = tile1.pair(tile2)
-                if IsBorder == True and border not in self.common_borders and border[::-1] not in self.common_borders:
+                is_border, border = tile1.pair(tile2)
+                if is_border and border not in self.common_borders \
+                  and border[::-1] not in self.common_borders:
                     self.common_borders.append(border)
 
     def product_of_corners(self):
@@ -140,32 +143,34 @@ class ImageTiler:
                 output*= tile.tilenum
         return output
 
-    def build_image(self, verbose=False):
+    def build_image(self):
         ''' let n = sqrt (len self.tiles)
         start with a corner piece, then build the puzzle row by row until len(row) == np.sqrt(n)
         once we have sqrt(n) x (1xsqrt n) tiles build rows in a larger tile.'''
+        # This method is a HOT MESS! but it works.
         # Sort the pieces into 3 piles, corners, edges and middle pieces.
         twopiecequeue = deque([tile for tile in self.tiles.values() if len(tile.pairs) ==2])
         threepiecequeue = deque([tile for tile in self.tiles.values() if len(tile.pairs) ==3])
         fourpiecequeue = deque([tile for tile in self.tiles.values() if len(tile.pairs) ==4])
-        # Take a piece with two corners and manipulate it until its bottom and right sides are matches.
+        # Take a piece with two corners, manipulate it until its bottom and right sides are matches.
         # This will be the top left corner piece of the puzzle.
         # Loop over each location in the puzzle.
-        for row in range(1,int(math.sqrt(len(self.tiles)))+1):
-            for col in range(1,int(math.sqrt(len(self.tiles)))+1):
+        puz_side_len=int(math.sqrt(len(self.tiles)))
+        for row in range(1,puz_side_len+1):
+            for col in range(1,puz_side_len+1):
                 # loop over the puzzle from left to right and top to bottom
                 # Choose the next piecepile
-                if row in [1,int(math.sqrt(len(self.tiles)))] and col in [1,int(math.sqrt(len(self.tiles)))]:
+                if row in [1,puz_side_len] and col in [1,puz_side_len]:
                     # Corners
                     nextpiecequeue = twopiecequeue
-                elif row in [1,int(math.sqrt(len(self.tiles)))] or col in [1,int(math.sqrt(len(self.tiles)))]:
+                elif row in [1,puz_side_len] or col in [1,puz_side_len]:
                     # edges
                     nextpiecequeue = threepiecequeue
                 else:
                     # Middle bits
                     nextpiecequeue = fourpiecequeue
-                # If this is the top left corner, rotate and flip the piece until the bottom and right
-                #  have matching borders
+                # If this is the top left corner, rotate and flip the piece until the
+                #  bottom and right have matching borders
                 if row ==1 and col ==1:
                     thispiece=nextpiecequeue.pop()
                     done=False
@@ -193,6 +198,7 @@ class ImageTiler:
                                     self.ordering[(row,col)]=orientation
                                     done=True
                             if not done:
+                                # If this piece doesn't fit, put it back in the pile.
                                 nextpiecequeue.appendleft(thispiece)
                     else:
                         # Match to the piece to the left
@@ -235,13 +241,13 @@ def day20_02():
     #path ='tests/day20_testinput.txt'
     mytiler = ImageTiler(file_to_str_array(path))
     mytiler.pair_tiles()
-    result=mytiler.build_image()
-    BigTile=mytiler.make_big_tile()
-    numMonsters=0
-    for orientation in BigTile.orientations():
-        numMonsters+=orientation.find_monsters()
-    result=sum([bool(char=='#') for row in BigTile.tile for char in row ]) - numMonsters*15
-    print(f'2002: Number of Monsters: {numMonsters}. Number of rough sea tiles:{result}')
+    mytiler.build_image()
+    bigtile=mytiler.make_big_tile()
+    nummonsters=0
+    for orientation in bigtile.orientations():
+        nummonsters+=orientation.find_monsters()
+    result=sum([bool(char=='#') for row in bigtile.tile for char in row ]) - nummonsters*15
+    print(f'2002: Number of Monsters: {nummonsters}. Number of rough sea tiles:{result}')
 
 if __name__ == "__main__":
     day20_01()
