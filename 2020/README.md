@@ -3,6 +3,18 @@
 Goals:
 1. Write readable, tested, professional quality code.
 2. Explore gaps in my python knowledge, specifically standard libraries I am not familiar with including itertools, deque, defaultdict
+3. Write at least 5 class based solutions.
+
+Summary:
+Total runtime of all problems is 1min 38sec on my laptop. Longest running problems are the long games (Crap cup).
+
+I was very happy to have solved all problems with minimal help. 
+
+In terms of my goals:
+1. Overall I was very pressed for time toward the final 15 problems and did not write the quality of code I wanted. I might got back and lint/refactor the code later.
+2. My python knowledge has expanded hugely. I used makefiles, pytest, deque, linked lists, binary trees, regexp(in python), defaultdicts and itertools all for the first time.
+3. I wrote 29 classes in all, including 2 Error classes (not sure these really count). My favourite problem was day 20 part 2 (the jigsaw puzzle) as it used two interacting classes and I was able to use the class I started with to finish the problem.
+
 
 ## Setup
 
