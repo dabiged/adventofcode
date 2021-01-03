@@ -12,16 +12,16 @@ class BusSched:
         stroe departure time stamp in departts.'''
         self.buses=[]
         self.departts=0
-        for n, line in enumerate(file_to_str_array(inputdata)):
-            if n == 0:
+        for i, line in enumerate(file_to_str_array(inputdata)):
+            if i == 0:
                 self.departts=int(line)
-            elif n == 1:
+            elif i == 1:
                 self.buses=line.split(',')
             else:
                 print('EOF')
 
     def next_bus(self):
-        '''find the best bus to take and return the 
+        '''find the best bus to take and return the
         product of it's number with the number of minutes we need to wait'''
         bustimes=[]
         for bus in self.buses:
@@ -48,10 +48,10 @@ class BusSched2:
         bus frequency and offsets stored in a dict called self.buses.
         """
         self.buses={}
-        for n, line in enumerate(file_to_str_array(inputdata)):
-            if n == 0:
+        for i, line in enumerate(file_to_str_array(inputdata)):
+            if i == 0:
                 pass
-            elif n == 1:
+            elif i == 1:
                 for key,busnum in enumerate(line.split(',')):
                     self.buses[key]=busnum
     def find_time(self):
