@@ -6,6 +6,7 @@ from lib.filehelper import file_to_str_array
 # pylint: disable=missing-module-docstring
 
 class RegExpComputer:
+    ''' Convert a normal choamsky form str into a regexp'''
     def __init__(self, inputdata):
         r''' Read data from file and store internally:
         self.rules:  a dictionary  of rules, with:
@@ -13,7 +14,7 @@ class RegExpComputer:
             value = if tuple => tuple of rules
                     if list of tuples => match either
                     if str match literal.
-        self.messages: a list of strs containing messages 
+        self.messages: a list of strs containing messages
 
         rule:                         0:4 1 5 : tuple
                                      /|\
@@ -68,10 +69,10 @@ class RegExpComputer:
         '''Recursively build a regexp according to rule.
         If the rule contains a str, this is a single char, so return it.
         '''
-        if type(self.rules[rule]) is str:
+        if isinstance(self.rules[rule],str):
             return self.rules[rule]
 
-        if type(self.rules[rule]) is list:
+        if isinstance(self.rules[rule],list):
             options=[]
             for subrule in self.rules[rule]:
                 option=''
@@ -79,13 +80,14 @@ class RegExpComputer:
                     option+=self.build_regexp(rule=part)
                 options.append(option)
             return '(' + '|'.join(options)+')'
-        if type(self.rules[rule]) is tuple:
+        if isinstance(self.rules[rule],tuple):
             options=[]
             for subrule in self.rules[rule]:
                 option=''
                 option+=self.build_regexp(rule=subrule)
                 options.append(option)
             return '(' + ''.join(options)+')'
+        return None
 
     def match(self):
         '''
@@ -110,7 +112,7 @@ class RegExpComputerRecursive:
             value = if tuple => tuple of rules
                     if list of tuples => match either
                     if str match literal.
-        self.messages: a list of strs containing messages 
+        self.messages: a list of strs containing messages
 
                 rule:                         0:4 1 5 : tuple
                                              /|\
@@ -181,15 +183,16 @@ class RegExpComputerRecursive:
             # or     a{1}b{1}|a{2}b{2}|a{3}b{3}|a{4}b{4}
             output=''
             for i in range(1,len(max(self.messages, key=len))//2):
-                output+=self.build_regexp(rule=42)+'{'+str(i)+'}'+self.build_regexp(rule=31)+'{'+str(i)+'}|'
+                output+=self.build_regexp(rule=42)+\
+                            '{'+str(i)+'}'+self.build_regexp(rule=31)+'{'+str(i)+'}|'
             # drop the final or char.
             output=output[:-1]
             return '('+output+')'
 
-        if type(self.rules[rule]) is str:
+        if isinstance(self.rules[rule],str):
             return self.rules[rule]
 
-        if type(self.rules[rule]) is list:
+        if isinstance(self.rules[rule],list):
             options=[]
             for subrule in self.rules[rule]:
                 option=''
@@ -197,13 +200,15 @@ class RegExpComputerRecursive:
                     option+=self.build_regexp(rule=part)
                 options.append(option)
             return '(' + '|'.join(options)+')'
-        if type(self.rules[rule]) is tuple:
+
+        if isinstance(self.rules[rule],tuple):
             options=[]
             for subrule in self.rules[rule]:
                 option=''
                 option+=self.build_regexp(rule=subrule)
                 options.append(option)
             return '(' + ''.join(options)+')'
+        return None
 
     def match(self):
         '''
