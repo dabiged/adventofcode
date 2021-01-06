@@ -124,6 +124,11 @@ True
 1. I was able to reuse a lot of utility methods from day 3. I avoided most of the pitfalls from that day.
 2. I thought the piece of code to look along lines of sight was neat.
 3. Initialising numneighours to be the same as self.grid is poor practice, but seems to work.
+4. I wrote an animation routine to help debug.
+
+![day1101](images/Day11_01_Animation.gif)
+![day1102](images/Day11_02_Animation.gif)
+
 
 ### Day12
 1. total time was ~ 90 mins for both parts. 
