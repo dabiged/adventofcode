@@ -31,10 +31,11 @@ class BoardingLounge:
 
         to return a human readable representation of the run
         """
-        gridplot=""
+        gridplot="\n"
         for thisrow in self.grid:
             gridplot+="".join(thisrow)+"\n"
         return gridplot
+
     def occupied(self,row,col):
         """ Return a bool if seat is occupied or not"""
         if self.grid[row][col] == '#':
@@ -149,9 +150,11 @@ class BoardingLounge:
             old_state=self.__repr__()
             self.update(part=part)
             count+=1
-            if show:
+            if show and count%2 == 1:
                 time.sleep(0.2)
                 print(self)
+                if count ==1 or count == 85:
+                    time.sleep(3)
         return count
 
     def count_occupied(self):
@@ -167,7 +170,7 @@ def day11_01():
     """Run part 1 of Day 11's code"""
     path = "./input/11/input.txt"
     part11lounge=BoardingLounge(file_to_str_array(path))
-    part11lounge.run(show=False)
+    part11lounge.run(show=True)
 
     result=part11lounge.count_occupied()
     print(f'1101: Number of occupied seats: {result}')
@@ -176,10 +179,10 @@ def day11_02():
     """Run part 2 of Day 11's code"""
     path = "./input/11/input.txt"
     part11lounge=BoardingLounge(file_to_str_array(path))
-    part11lounge.run(part=2,show=False)
+    part11lounge.run(part=2,show=True)
     result=part11lounge.count_occupied()
     print(f'1102: Number of occupied seats {result}')
 
 if __name__ == "__main__":
-    day11_01()
+    #day11_01()
     day11_02()

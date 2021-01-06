@@ -187,10 +187,12 @@ def day24_02(display=False):
     path = "./input/24/input.txt"
     myhex = HexBoard(path)
     myhex.setup()
-    for _ in range(100):
+    for i in range(100):
         if display:
             time.sleep(0.1)
             print(str(myhex))
+            if i == 99 or i ==0:
+                time.sleep(3)
         myhex.step()
     result= myhex.count_black_tiles()
     print(f'2402: Number of black tiles after 100 days: {result}')
