@@ -202,6 +202,9 @@ True
 1. A fun puzzle. I made a lot of silly mistakes with the movements, and didn't really solve all of them until I had a full suite of tests.
 2. In part 2 I made one major mistake, and that was to iterate only over hexes next to black tiles, and not black tiles themselves. This meant black tiles never flipped white.
 3. I mis-transcribed one digit (day 6) on part 2 and so my tests were not working for this day. I ended up making an animation to debug this, which I didn't need!
+4. I made a neat visualisation of this problem:
+
+![day24](images/Day24_Animation.gif)
 
 ### Day25
 1. Today was surprisingly easy! my brute force search for the loop_size found the answer in only a minute or two. Not sure how to speed this up.
