@@ -1,9 +1,6 @@
 """
 AOC day 15 2018
 """
-from functools import lru_cache
-from collections import defaultdict
-from lib.filehelper import file_to_str_array
 # pylint: disable=missing-module-docstring
 
 class MemoryGame:
@@ -14,7 +11,8 @@ class MemoryGame:
 
     If that was the first time the number has been spoken, the current player says 0.
     Otherwise, the number had been spoken before;
-        the current player announces how many turns apart the number is from when it was previously spoken.
+        the current player announces how many turns apart the number is from
+        when it was previously spoken.
     '''
     def __init__(self,inputstr):
         '''Read in input str and intialise variables'''
@@ -29,16 +27,17 @@ class MemoryGame:
             self.previous=int(num)
 
     def run(self,numturns):
+        ''' Play the game for numturns'''
         while self.index <= numturns:
             #if self.index % 1000000 == 0:
                 #print("On loop:", self.index)
             # Loop until we get to the last turn
             if self.spoken[self.previous][0] == self.spoken[self.previous][1]:
-                # If the last and second last turns are equal this 
+                # If the last and second last turns are equal this
                 #   is the first time we have seen this number.
                 self.previous=0
             else:
-                # Otherwise calc the difference    
+                # Otherwise calc the difference
                 self.previous = self.spoken[self.previous][1]-self.spoken[self.previous][0]
 
             if self.previous in self.spoken:
