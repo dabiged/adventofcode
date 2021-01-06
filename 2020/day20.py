@@ -17,9 +17,8 @@ class Tile:
         self.pairs=set()
         self.tilenum = tilenum
         self.borders=[]
+        self.tile=tile
 
-        self.tile=[i for i in tile]
-        #self.tile.append(i) for i in tile
         # top, bottom, left, right
         self.borders=[self.top(), self.bottom(), self.left(), self.right()]
 
@@ -80,6 +79,7 @@ class Tile:
             yield Tile(self.tilenum,[''.join(row) for row in map(list,zip(*self.tile))])
 
     def find_monsters(self):
+        #pylint: disable=consider-using-enumerate
         '''Search the tile for any signs of monsters'''
         monster=['                  # ','#    ##    ##    ###',' #  #  #  #  #  #   ']
         monstercount=0
@@ -89,7 +89,7 @@ class Tile:
                 is_monster=True
                 for monsterrow in range(len(monster)):
                     for monstercol in range(len(monster[0])):
-                        # if any location that is a # in the monster, 
+                        # if any location that is a # in the monster,
                         # is not a # in the image, it cannot be a monster.
                         if monster[monsterrow][monstercol] == '#' and \
                           self.tile[rowloc+monsterrow][colloc+monstercol] != '#':
@@ -173,6 +173,7 @@ class ImageTiler:
                 #  bottom and right have matching borders
                 if row ==1 and col ==1:
                     thispiece=nextpiecequeue.pop()
+                    #self.firstpiece(thispiece)
                     done=False
                     while not done:
                         if thispiece.right() not in self.common_borders and \
@@ -188,6 +189,7 @@ class ImageTiler:
                     # The tile is now correctly oriented for the top left corner.
                     self.ordering[(1,1)]=thispiece
                 else:
+                    #self.placepiece(queue,row,col)
                     if col ==1:
                         done=False
                         while not done:

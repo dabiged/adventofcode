@@ -133,7 +133,7 @@ class Tickets:
                 #   and multiple fields are valid for more than one rule.
                 print("Error Solving fields")
                 return None
-        self.mapping = {k:v for k,v in sorted(name_to_field_mapping.items(), key=lambda item: item[1])}
+        self.mapping = {k:v for k,v in sorted(name_to_field_mapping, key=lambda item: item[1])}
         return [k for k, v in sorted(name_to_field_mapping.items(), key=lambda item: item[1])]
 
 

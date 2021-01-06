@@ -6,6 +6,7 @@ from lib.filehelper import file_to_str_array
 # pylint: disable=missing-module-docstring
 
 class BusSched:
+    #pylint: disable=too-few-public-methods
     ''' A bus schedule to find the best bus to take'''
     def __init__(self, inputdata):
         ''' Store bus frequency and offset in self.buses.
@@ -39,6 +40,7 @@ class BusSched:
         return ourbus*(time-self.departts)
 
 class BusSched2:
+    #pylint: disable=too-few-public-methods
     '''
     Bus Schedule for the second part of the question.
     '''

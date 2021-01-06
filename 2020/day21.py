@@ -122,7 +122,8 @@ class AllergenList:
         part2output=''
         for allergen in allergen_sorted_keys:
             part2output+=self.allergens[allergen]+','
-        print(f'2101: Number of appearances of safe ingredients: {sum(ingnum for ingnum in self.safeingredients.values())}')
+        numsafe=sum(ingnum for ingnum in self.safeingredients.values())
+        print(f'2101: Number of appearances of safe ingredients: {numsafe}')
         print(f'2102: List of Allergens: {part2output.rstrip(",")}')
         return sum(ingnum for ingnum in self.safeingredients.values())
 

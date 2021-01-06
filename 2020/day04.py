@@ -102,6 +102,7 @@ class Passport:
         self.pid(checkisvalid=True)
 
 def day04_01():
+    #pylint: disable=eval-used
     """Run part 1 of Day 04's code"""
     path = "./input/04/input_formatted.txt"
     validpassports=0
@@ -111,6 +112,7 @@ def day04_01():
     print(f'0401: Number of valid passports: {validpassports}')
 
 def day04_02():
+    #pylint: disable=eval-used
     """Run part 2 of Day 04's code"""
     path = "./input/04/input_formatted.txt"
     validpassports=0

@@ -191,7 +191,7 @@ def day24_02(display=False):
         if display:
             time.sleep(0.1)
             print(str(myhex))
-            if i == 99 or i ==0:
+            if i in(0, 99):
                 time.sleep(3)
         myhex.step()
     result= myhex.count_black_tiles()

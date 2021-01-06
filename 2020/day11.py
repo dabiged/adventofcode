@@ -153,7 +153,7 @@ class BoardingLounge:
             if show and count%2 == 1:
                 time.sleep(0.2)
                 print(self)
-                if count ==1 or count == 85:
+                if count in (1, 85):
                     time.sleep(3)
         return count
 

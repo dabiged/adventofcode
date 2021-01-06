@@ -4,6 +4,7 @@ AOC day 15 2018
 # pylint: disable=missing-module-docstring
 
 class MemoryGame:
+    #pylint: disable=too-few-public-methods
     '''
     In this game, the players take turns saying numbers.
     They begin by taking turns reading from a list of starting numbers (your puzzle input).
