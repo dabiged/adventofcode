@@ -11,7 +11,9 @@ class FunnyMath:
         '''Read in equation and store as self.equation, a list'''
         self.equation=list(equation.replace(' ',''))
 
-    def calculate(self, equation):
+    @staticmethod
+    def calculate(equation):
+        #pylint: disable=eval-used
         '''Calculate an equation according to the new algebra
         Note equations must not have brackets!
 
@@ -31,6 +33,7 @@ class FunnyMath:
         return int(answer)
 
     def remove_brackets(self):
+        #pylint: disable=undefined-loop-variable
         ''' This function modifies self.equation by
         replacing one set of brackets with the evaluated integer'''
         assert '(' in self.equation
@@ -48,7 +51,7 @@ class FunnyMath:
         # closebrackets = [7, 17, 20]
         # take the first close braket symbol.
         endbraket=closebrakets[0]
-        # Look backwards through all open bracket locations to the first one 
+        # Look backwards through all open bracket locations to the first one
         #  before the first close bracket symbol.
         for startbraket in openbrakets[::-1]:
             if startbraket < endbraket:
@@ -72,7 +75,9 @@ class FunnyMath2:
         '''Read in equation and store as self.equation, a list'''
         self.equation=list(equation.replace(' ',''))
 
-    def calculate_plus(self, equation):
+    @staticmethod
+    def calculate_plus(equation):
+        #pylint: disable=eval-used
         '''Calculate an equation according to the new algebra
         Note equations must not have brackets!
 
@@ -86,10 +91,11 @@ class FunnyMath2:
             for key,value in enumerate(equation):
                 if value == '+':
                     listofpluses.append(key)
-            # Since the removal of list elements causes a renumbering, 
+            # Since the removal of list elements causes a renumbering,
             #   start at the end and work backwards.
             for pluslocation in reversed(sorted(listofpluses)):
-                equation[pluslocation]=str(eval(equation[pluslocation-1]+"+"+equation[pluslocation+1]))
+                equation[pluslocation]=str(eval(equation[pluslocation-1]\
+                                            +"+"+equation[pluslocation+1]))
                 del equation[pluslocation-1]
                 del equation[pluslocation]
 
@@ -107,7 +113,8 @@ class FunnyMath2:
         return int(answer)
 
     def remove_brackets(self):
-        ''' This function modifies equationdict representing an equation 
+        #pylint: disable=undefined-loop-variable
+        ''' This function modifies equationdict representing an equation
         and replaces one set of brackets with the evaluated integers'''
         assert '(' in self.equation
         assert ')' in self.equation
@@ -124,7 +131,7 @@ class FunnyMath2:
         # closebrackets = [7, 17, 20]
         # take the first close braket symbol.
         endbraket=closebrakets[0]
-        # Look backwards through all open bracket locations to the first one 
+        # Look backwards through all open bracket locations to the first one
         #  before the first close bracket symbol.
         for startbraket in openbrakets[::-1]:
             if startbraket < endbraket:
@@ -132,7 +139,8 @@ class FunnyMath2:
         # startbraket = 1
         # end braket = 7
         # Evaluate this section and delete the rest of the bracketed section
-        self.equation[startbraket] = str(self.calculate_plus(self.equation[startbraket+1:endbraket]))
+        self.equation[startbraket] = str(self.calculate_plus(\
+                                        self.equation[startbraket+1:endbraket]))
         del self.equation[startbraket+1:endbraket+1]
 
     def run(self):
