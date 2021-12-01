@@ -47,7 +47,13 @@ make day01.pylint
 ```
 
 ## Comments:
-### Day01 - 
+### Day01 
+1. was Rushing for leaderboard on part1 and was off-by-one. Submitted inside 2 mins though!
+2. For part2 I started at arry location 2 and counted the next 2 measurements, not the last two. Again, rushing for leaderboard.
+
+I ranked 3175/3057.
+
+
 
 ### Day02
 

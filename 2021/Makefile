@@ -1,7 +1,7 @@
 SHELL := /usr/bin/env bash
 PYLINT = pylint
 
-PYTHONFILES = $(shell find  -name '*.py')
+PYTHONFILES = $(shell find  -name '*.py' | grep -v 'template'| grep -v filehelper)
 
 #######
 # Help

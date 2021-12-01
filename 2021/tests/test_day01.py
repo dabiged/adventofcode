@@ -1,15 +1,15 @@
-from day01 import *
-
+from day01 import day01_01,day01_02
+# pylint: disable=missing-class-docstring
+# pylint: disable=missing-function-docstring
 
 class TestDay01:
+    # pylint: disable=missing-module-docstring
     def test_01(self):
-        pass
-        result = 0
+        result=day01_01([199,200,208,210,200,207,240,269,260,263])
+        expected = 7
         assert expected == result
 
     def test_02(self):
-        pass
-        expected = 241861950
-        inputtotest = [1721, 979, 366, 299, 675, 1456]
-        result = product_of_3_sumto2020(inputtotest)
+        result=day01_02([199,200,208,210,200,207,240,269,260,263])
+        expected = 5
         assert expected == result
