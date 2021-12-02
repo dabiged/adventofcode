@@ -53,9 +53,12 @@ make day01.pylint
 
 I ranked 3175/3057.
 
-
-
 ### Day02
+Missed start of day by 1 minute.
+1. Had issues with setup (didn't have things ready to go)
+2. Lots of issues running previous day's code (unable to find day01_01 etc).
+3. First mistake was not casting the input number to an int (was left as a str).
+4. Second mistake was using the wrong input file reader (tried to import as array of ints).
 
 ### Day03
 
