@@ -17,7 +17,7 @@ def day02_01(inputlist):
             vert+=num
         if  direction == 'forward':
             horz+=num
-
+    print(f'0201: {horz*vert} is the product of the final depth and horizontal position.')
     return horz*vert
 
 
@@ -36,11 +36,11 @@ def day02_02(inputlist):
         if  direction == 'forward':
             horz+=num
             vert+=aim*num
-
+    print(f'0202: {horz*vert} is the product of the final depth and horizontal position.')
     return horz*vert
 
 if __name__ == "__main__":
     PATH = "./input/day02.txt"
     inputdata=file_to_str_array(PATH)
-    print(day02_01(inputdata))
-    print(day02_02(inputdata))
+    day02_01(inputdata)
+    day02_02(inputdata)
