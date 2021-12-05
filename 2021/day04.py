@@ -101,18 +101,21 @@ class BingoGame():
         return cardid,score
 
 
-def day04_01(inputfile):
+def day04_01():
     """Run part 1 of Day 4's code"""
+    inputfile = "./input/day04.txt"
     mygame=BingoGame(inputfile)
-    return mygame.playgame()
+    cardid,score = mygame.playgame()
+    print (f'0401: {score} is the score of the best bingo card.')
 
 
-def day04_02(inputfile):
+def day04_02():
     """Run part 2 of Day 4's code"""
+    inputfile = "./input/day04.txt"
     mygame=BingoGame(inputfile)
-    return mygame.get_worst()
+    cardid,score= mygame.get_worst()
+    print(f'0402: {score} is the score of the worst bingo card.')
 
 if __name__ == "__main__":
-    PATH = "./input/day04.txt"
-    print('0401:',day04_01(PATH)[1])
-    print('0402:',day04_02(PATH)[1])
+    day04_01()
+    day04_02()
