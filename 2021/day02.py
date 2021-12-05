@@ -4,7 +4,7 @@ Advent of Code Day 02 2021
 from lib.filehelper import file_to_str_array
 # pylint: disable=missing-module-docstring
 
-def day02_01(inputlist):
+def final_position(inputlist):
     """Run part 1 of Day 2's code"""
     vert=0
     horz=0
@@ -17,11 +17,9 @@ def day02_01(inputlist):
             vert+=num
         if  direction == 'forward':
             horz+=num
-    print(f'0201: {horz*vert} is the product of the final depth and horizontal position.')
     return horz*vert
 
-
-def day02_02(inputlist):
+def final_position2(inputlist):
     """Run part 2 of Day 2's code"""
     vert=0
     horz=0
@@ -36,11 +34,20 @@ def day02_02(inputlist):
         if  direction == 'forward':
             horz+=num
             vert+=aim*num
-    print(f'0202: {horz*vert} is the product of the final depth and horizontal position.')
     return horz*vert
 
-if __name__ == "__main__":
+def day02_01():
     PATH = "./input/day02.txt"
     inputdata=file_to_str_array(PATH)
-    day02_01(inputdata)
-    day02_02(inputdata)
+    result=final_position(inputdata)
+    print(f'0201: {result} is the product of the final depth and horizontal position.')
+
+def day02_02():
+    PATH = "./input/day02.txt"
+    inputdata=file_to_str_array(PATH)
+    result=final_position2(inputdata)
+    print(f'0202: {result} is the product of the final depth and horizontal position.')
+
+if __name__ == "__main__":
+    day02_01()
+    day02_02()
