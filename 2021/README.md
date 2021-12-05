@@ -61,12 +61,16 @@ Missed start of day by 1 minute.
 3. First mistake was not casting the input number to an int (was left as a str).
 4. Second mistake was using the wrong input file reader (tried to import as array of ints).
 
+I ranked 6605/5586
+
 ### Day03
 Missed whole day due to work and home stuff.
 1. Initially built part 1 with functions, but refactored to use a class.
 2. For part 1 I used a sort algorithm of sorted(str)[len(str)//2] to get the most common value. This did not work for part 2 and was re-written.
 3. The whole CO2 vs O2 on equal value return confused me and the code is still weird but works.
 4. I kept writing 02 and O2 :( .
+
+No Ranking.
 
 ### Day04
 Was interupted a lot doing this.
@@ -76,7 +80,16 @@ Was interupted a lot doing this.
 4. had to refactor import for part 2.
 5. Part 2 is slow but does the job.
 
-I ranked ~5000.
+I ranked 5292/4993
+
+### Day05
+Started on time.
+1. Perfect example of why I love AOC. simple-ish problem. Lots of nuance.
+2. Coded part 1 in around 17-18 mins. 12 mins towrite test cases and debug.
+3. Part2 was harder than I thought. I just did for row in row1, row2, for col in col1, col2 and drew big squares :( . 
+4. I think there is a more elegant solution to my birds nest of if-then statements.
+
+I ranked 4521/4752.
 
 ### Day06
 
