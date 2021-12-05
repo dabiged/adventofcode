@@ -100,14 +100,14 @@ def day03_01():
     inputfile = "./input/day03.txt"
     myreport=DiagnosticReport(inputfile)
     result=myreport.power_consumption()
-    print('0301:', result)
+    print(f'0301: {result} is the power consumption of the submarine')
 
 def day03_02():
     """Run part 2 of Day 2's code"""
     inputfile = "./input/day03.txt"
     myreport=DiagnosticReport(inputfile)
     result=myreport.life_support_rating()
-    print('0302:', result)
+    print(f'0302: {result} is the life support rating of the submarine')
 
 if __name__ == "__main__":
     day03_01()
