@@ -61,8 +61,21 @@ Missed start of day by 1 minute.
 4. Second mistake was using the wrong input file reader (tried to import as array of ints).
 
 ### Day03
+Missed whole day due to work and home stuff.
+1. Initially built part 1 with functions, but refactored to use a class.
+2. For part 1 I used a sort algorithm of sorted(str)[len(str)//2] to get the most common value. This did not work for part 2 and was re-written.
+3. The whole CO2 vs O2 on equal value return confused me and the code is still weird but works.
+4. I kept writing 02 and O2 :( .
 
 ### Day04
+Was interupted a lot doing this.
+1. really enjoyed today. I was very happy with my implementation.
+2. was able to implement both the card and game classes immediately.
+3. made the mistake of including diagonals.
+4. had to refactor import for part 2.
+5. Part 2 is slow but does the job.
+
+I ranked ~5000.
 
 ### Day06
 
