@@ -4,6 +4,7 @@
 1. use more advance python libraries. Itertools, threading, functools.
 2. Get 20 stars in the month of December. (stretch goal 25)
 3. Write good public classes, unit tests and clean code.
+4. Keep complexity within a method understandable and debuggable. Don't be afraid to build 50 methods in a class if they are all simple.
 
 ### Summary:
 
