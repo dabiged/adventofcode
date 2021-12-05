@@ -1,4 +1,4 @@
-from day03 import day03_01,day03_02,DiagnosticReport
+from day03 import DiagnosticReport
 # pylint: disable=missing-class-docstring
 # pylint: disable=missing-function-docstring
 

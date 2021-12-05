@@ -72,7 +72,6 @@ class DiagnosticReport():
                 for i in self.rows.values():
                     return i 
 
-
     def CO2_rating(self):
         self.rows={}
         self.columns={}
@@ -96,20 +95,20 @@ class DiagnosticReport():
         CO2=self.CO2_rating()
         return self.bin2int(self.O2_rating())*self.bin2int(self.CO2_rating())
 
-
-
-
-def day03_01(inputfile):
+def day03_01():
     """Run part 1 of Day 2's code"""
+    inputfile = "./input/day03.txt"
     myreport=DiagnosticReport(inputfile)
-    return myreport.power_consumption()
+    result=myreport.power_consumption()
+    print('0301:', result)
 
-def day03_02(inputfile):
+def day03_02():
     """Run part 2 of Day 2's code"""
+    inputfile = "./input/day03.txt"
     myreport=DiagnosticReport(inputfile)
-    return myreport.life_support_rating()
+    result=myreport.life_support_rating()
+    print('0302:', result)
 
 if __name__ == "__main__":
-    PATH = "./input/day03.txt"
-    print('0301:', day03_01(PATH))
-    print('0302:', day03_02(PATH))
+    day03_01()
+    day03_02()
