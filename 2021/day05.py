@@ -116,7 +116,7 @@ def day05_01():
     Myseafloor=Seafloor(path)
     Myseafloor.process_flat()
     result=Myseafloor.get_duplicates()
-    print(f'0501: {result}')
+    print(f'0501: {result} overlapping hydrothermal vents')
 
 def day05_02():
     """Run part 2 of Day 05's code"""
@@ -124,7 +124,7 @@ def day05_02():
     Myseafloor=Seafloor(path)
     Myseafloor.process_all()
     result=Myseafloor.get_duplicates()
-    print(f'0502: {result}')
+    print(f'0502: {result} overlapping hydrothermal vents including diagonals.')
 
 if __name__ == "__main__":
     day05_01()

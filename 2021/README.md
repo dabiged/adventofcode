@@ -92,6 +92,9 @@ Started on time.
 I ranked 4521/4752.
 
 ### Day06
+Started 34 min late. Finished in 31 mins.
+1. Used a dictionary of age:count to prevent exponential list operations. This is O(1) vs O(exp).
+2. Was confused about part 2. It was one of the "Just increase the number to ensure you have an efficent algorithm" days.
 
 ### Day07
 
