@@ -4,6 +4,45 @@ AOC day 08 2018
 from lib.filehelper import file_to_str_array
 # pylint: disable=missing-module-docstring
 
+class digits()
+    def __init__(self,digits,measurement):
+        self.digits=digits # list of sets
+        self.meas=measurement # list of sets
+        self.mapping={} # key str of element lit, value: digit
+        self.solve()
+
+   def solve(self):
+        self.solve1478()
+        self.solve6()
+
+
+
+    def solve6(self):
+        for char in self.digits:
+            if len( self.mapping[
+
+    def solve1478(self):
+        for chars in self.digits:
+            if len(chars) == 2
+                self.mapping[chars]=1
+            if len(chars) == 7
+                self.mapping[chars]=7
+            if len(chars) == 4
+                self.mapping[chars]=4
+            if len(chars) == 8
+                self.mapping[chars]=8
+        for val in self.mapping.keys():
+            self.digits.remove(val)
+        return None
+
+    def output_measurement(self):
+        output=""
+        for vals in self.meas:
+            output+=str(self.mapping[vals])
+        return int(output)
+
+
+
 class SevenSegDecoder():
     def __init__(self,inputfile):
         self.inputfile=inputfile
@@ -27,6 +66,8 @@ class SevenSegDecoder():
                 if len(val) in (2,3,4,7):
                     count+=1
         return count
+
+
 
 def day08_01():
     """Run part 1 of Day 08's code"""
