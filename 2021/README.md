@@ -101,8 +101,14 @@ Started 34 min late. Finished in 31 mins.
 2. For part two I brute forced a solution. In hindsight I should have only passed the abs(diff) to the cost function and used a closed form solution to generate it.
 
 ### Day08
+1. Couldn't find time to do this Due to work. Ended up doing 5 separate sessions over 2 days which made things much harder.
+2. Struggled with finding the right data structures. I was initially passing sets which are unhashable and cannot be used as dict keys.
+3. Made the mistake of removing items from a list while looping over it.
+4. Probably the hardest problem so far for me.
 
 ### Day09
+1. Missed start by around 2 hours.
+2. Found this problem surprisingly easy. I was able to write a recursive basin finder on the first try!!
 
 ### Day10
 

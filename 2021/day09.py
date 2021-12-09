@@ -61,7 +61,6 @@ class Map():
             for col in range(self.numcol):
                 if self.is_low_point((row,col)):
                     self.lowpoints.append( (row,col) )
-                    print(row,col)
         return self.lowpoints
 
     def explore_basin(self,point):
@@ -113,7 +112,7 @@ def day09_01():
     testmap=Map(inputfile)
     testmap.process_inputfile()
     result=testmap.get_risk()
-    print(f'0901: {result}')
+    print(f'0901: {result} is the total risk')
 
 def day09_02():
     """Run part 2 of Day 09's code"""
@@ -122,7 +121,7 @@ def day09_02():
     testmap.process_inputfile()
     result=testmap.explore_all_basins()
     result=testmap.part2()
-    print(f'0902: {result}')
+    print(f'0902: {result} is the product of the size of the 3 largest basins')
 
 if __name__ == "__main__":
     day09_01()

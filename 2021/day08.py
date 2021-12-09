@@ -154,14 +154,14 @@ def day08_01():
     path = "./input/day08.txt"
     testdecode=SevenSegDecoder(path)
     result=testdecode.part1()
-    print(f'0801: {result}')
+    print(f'0801: {result} appearances of 1, 4, 7 or 8.')
 
 def day08_02():
     """Run part 2 of Day 08's code"""
     inputfile = "./input/day08.txt"
     testdecode=SevenSegDecoder(inputfile)
     result=testdecode.part2()
-    print(f'0802: {result}')
+    print(f'0802: {result} is the product of all readings')
 
 if __name__ == "__main__":
     day08_01()
