@@ -97,6 +97,8 @@ Started 34 min late. Finished in 31 mins.
 2. Was confused about part 2. It was one of the "Just increase the number to ensure you have an efficent algorithm" days.
 
 ### Day07
+1. Easy puzzle. Coded and worked first try! Done in around 11 mins.
+2. For part two I brute forced a solution. In hindsight I should have only passed the abs(diff) to the cost function and used a closed form solution to generate it.
 
 ### Day08
 
