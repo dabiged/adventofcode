@@ -10,3 +10,8 @@ class TestDay08:
         result=testdecode.part1()
         assert result == 26
 
+    def test_02(self):
+        inputfile = "./tests/input_day08.txt"
+        testdecode=SevenSegDecoder(inputfile)
+        result=testdecode.part2()
+        assert result==61229
