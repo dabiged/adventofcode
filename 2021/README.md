@@ -111,6 +111,9 @@ Started 34 min late. Finished in 31 mins.
 2. Found this problem surprisingly easy. I was able to write a recursive basin finder on the first try!!
 
 ### Day10
+Start on time! Got around 15 mins and got called away for 1 hour.
+1. Nice problem. There is probably a regex solution that is easier to follow than my spaghetti code.
+2. I felt the problem definition was a little ambigious and the example wasn't well laid out. I had to read it about 5 times to understand it.
 
 ### Day11
 
