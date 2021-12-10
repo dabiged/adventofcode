@@ -56,7 +56,7 @@ def day07_01():
     position,cost=testfuelcalc.get_best_position()
 
     result= cost
-    print(f'0701: {result}')
+    print(f'0701: {result} Fuel required')
 
 def day07_02():
     """Run part 2 of Day 07's code"""
@@ -66,7 +66,7 @@ def day07_02():
     position,cost=testfuelcalc.get_best_position()
 
     result= cost
-    print(f'0702: {result}')
+    print(f'0702: {result} fuel required')
 
 if __name__ == "__main__":
     day07_01()
