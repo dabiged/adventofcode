@@ -116,6 +116,10 @@ Start on time! Got around 15 mins and got called away for 1 hour.
 2. I felt the problem definition was a little ambigious and the example wasn't well laid out. I had to read it about 5 times to understand it.
 
 ### Day11
+Missed start by 6 hours. I finished both parts in <50 mins.
+1. wrote two classes. really happy with the approach as it makes the  code readable.
+2. Used a deque to deal with the flashing. This worked flawlessly.
+3. Code (after fixing syntax issues) worked first time!!!
 
 ### Day12
 
