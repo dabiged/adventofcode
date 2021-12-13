@@ -12,15 +12,15 @@ class TestDay11:
         testoct=node(5,5,0)
         assert len(testoct.neighbours()) == 8
 
-    def test_03(self):
-        inputfile='tests/input_day11.txt'
-        testGrid=Grid(inputfile)
-        result=testGrid.part1()
-        assert result == 1656
-
-    def test_04(self):
-        inputfile='tests/input_day11.txt'
-        testGrid=Grid(inputfile)
-        result=testGrid.part2()
-        assert result == 1656
-
+#    def test_03(self):
+#        inputfile='tests/input_day11.txt'
+#        testGrid=Grid(inputfile)
+#        result=testGrid.part1()
+#        assert result == 1656
+#
+#    def test_04(self):
+#        inputfile='tests/input_day11.txt'
+#        testGrid=Grid(inputfile)
+#        result=testGrid.part2()
+#        assert result == 1656
+#

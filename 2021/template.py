@@ -9,7 +9,7 @@ class dayXX():
         self.inputfile=inputfile
         self.processinputfile()
 
-    def processinputfile()
+    def processinputfile(self):
         self.input=file_to_str_array(self.inputfile)
 
 
