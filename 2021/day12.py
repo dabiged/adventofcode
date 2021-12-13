@@ -107,7 +107,7 @@ def day12_01():
     myGraph=Graph(inputfile)
     myGraph.traverse()
     result=len(myGraph.validjourneys)
-    print(f'1201: {result}')
+    print(f'1201: {result} journies through the caves.')
 
 def day12_02():
     """Run part 2 of Day XX's code"""
@@ -115,7 +115,7 @@ def day12_02():
     myGraph=Graph(inputfile)
     myGraph.retraverse()
     result= len(myGraph.validjourneys) 
-    print(f'1202: {result}')
+    print(f'1202: {result} journies through the cave revisiting at mode 1 small cave')
 
 if __name__ == "__main__":
     day12_01()

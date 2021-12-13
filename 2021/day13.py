@@ -59,8 +59,6 @@ class Board():
         for fold in self.folds:
             self.fold(fold)
 
-        print(self)
-
     def part1(self):
         self.fold(self.folds[0])
         count=0
@@ -87,7 +85,7 @@ def day13_01():
     inputfile='input/day13.txt'
     testboard=Board(inputfile)
     result=testboard.part1()
-    print(f'1301: {result}')
+    print(f'1301: {result} Hashes after the first fold')
 
 def day13_02():
     """Run part 2 of Day 13's code"""
@@ -95,7 +93,7 @@ def day13_02():
     testboard=Board(inputfile)
     testboard.part2()
     result='CAFJHZCK'
-    print(f'1302: {result}')
+    print(f'1302: {result} Is the activation key.')
 
 if __name__ == "__main__":
     day13_01()

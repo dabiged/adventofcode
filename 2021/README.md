@@ -122,8 +122,16 @@ Missed start by 6 hours. I finished both parts in <50 mins.
 3. Code (after fixing syntax issues) worked first time!!!
 
 ### Day12
+Missed start by >24hrs
+1. Had fun with this! Was able to do it in around 90 mins.
+2. Did it after day 13.
+3. I love defaultdict and deque.
 
 ### Day13
+Started 2hours late. Was done inside 1 hr.
+1. Great puzzle with a great result.
+2. Thought about doing rows and cols, but gave up and switched to x and ys.
+3. one bug in my code is that I do not remove entries outside the fold area, I just redefined the size of the area.
 
 ### Day14
 
