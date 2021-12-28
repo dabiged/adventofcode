@@ -156,3 +156,8 @@ Started 2hours late. Was done inside 1 hr.
 ### Day24
 
 ### Day25
+1. Made the mistake of trying to overuse previous code for this. I tried to do this with the base data structure as a dict and had to re-write a lot of comparison operators.
+2. I switched to using a list of Strs and was able to use str.replace to do most of the heavy lifting.
+3. I forgot that strs are immuatable and tried to edit the first/last chars. had to do this with list of chars followed by a ```"".join```
+4. The Count method is really elegant using a nested zip. I didn't know you could do this.
+5. I realy liked the transpose operator too. Zip is awesome.

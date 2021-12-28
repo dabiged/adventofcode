@@ -22,7 +22,7 @@ from day13 import day13_01, day13_02
 #from day22 import day22_01, day22_02
 #from day23 import day23_01, day23_02
 #from day24 import day24_01, day24_02
-#from day25 import day25_01
+from day25 import day25_01
 
 
 
@@ -75,4 +75,4 @@ if __name__ == "__main__":
 #    day23_02()
 #    day24_01()
 #    day24_02()
-#    day25_01()
+    day25_01()
