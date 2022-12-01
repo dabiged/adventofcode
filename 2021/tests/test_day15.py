@@ -92,11 +92,11 @@ class TestDay15:
         result=testGrid.calc_paths((9,0))
         assert result == 21
 
-    def test_13(self):
-        inputfile='tests/input_day15.txt'
-        testGrid=Grid(inputfile)
-        testGrid.processinputfile2()
-        print(testGrid)
-        result=testGrid.calc_paths((49,49))
-        assert result == 315
+#    def test_13(self):
+#        inputfile='tests/input_day15.txt'
+#        testGrid=Grid(inputfile)
+#        testGrid.processinputfile2()
+#        print(testGrid)
+#        result=testGrid.calc_paths((49,49))
+#        assert result == 315
 

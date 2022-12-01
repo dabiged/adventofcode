@@ -15,6 +15,45 @@ def convertH2B(hexstr):
 def convertB2D(binarystring):
     return int(binarystring,2)
 
+def packetreader(inputstr,location):
+    inputstr=convertH2B(inputstr[location:])
+    bin_version=inputstr[0:3]
+    bin_typeid=inputstr[3:6]
+    if convertB2D(bin_typeid) == 4:
+        binaryvalue=''
+        pointer=6
+        while True:
+            binaryvalue+=str(inputstr[pointer+1:pointer+5])
+            print(binaryvalue)
+            if inputstr[pointer] == '0':
+                return convertB2D(binaryvalue), pointer+=5
+            pointer+=5
+    else:
+        bin_lengthtypeid= inputstr[7]
+        if bin_lengthtypeid =='0':
+            bin_length_bits=inputstr[8:24]
+            print(convert_B2D(bin_length_bits))
+            remlength=convertB2D(bin_length_bits)
+            values=[]
+            while remlength > 0 :
+                value,pointer=packetreader(inputstr, 
+                
+        elif bin_lengthtypeid=='1':
+            bin_num_subpackets=inputstr[8:24]
+            print(convert_B2D(bin_num_subpackets))
+            startlocation=25
+            values=[]
+            for packet in range(convert_B2D(bin_num_subpackets)):
+                value, pointer=packetreader(inputstr, startlocation)
+                values.append(value)
+                startlocation+=pointer
+        else:
+            raise ValueError('Unknown Length typeid')
+
+
+
+
+        
 #class PacketDecoder():
 #    def __init__(self,inputstring):
 #        self.inputstring=inputstring
