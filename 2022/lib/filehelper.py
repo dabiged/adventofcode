@@ -2,6 +2,10 @@ def file_to_array(path):
     """Open file and return each line as a list of ints."""
     return [int(line.strip()) for line in open(path, "r")]
 
+def file_to_bald_str_array(path):
+    """Open file and return each line as a list of ints."""
+    return [str(line.rstrip('\n')) for line in open(path, "r")]
+
 def file_to_str_array(path):
     """Open file and return each line as a list of ints."""
     return [str(line.strip()) for line in open(path, "r")]
