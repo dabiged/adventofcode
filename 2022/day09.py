@@ -11,14 +11,15 @@ class UnknownDirection(Exception):
 
 
 class RopeBoard():
-    def __init__(self,instrs):
+    def __init__(self,instrs,length=2):
         self.instrs=instrs
-        self.head=0+0j
-        self.tail=0+0j
+        self.rope=[]
+        for i in range(length):
+            self.rope.append(0+0j)
         self.visited=set()
 
     def run(self):
-        self.visited.add(self.tail)
+        self.visited.add(self.rope[-1])
         for instr in self.instrs:
             self.step(instr)
 
@@ -29,44 +30,45 @@ class RopeBoard():
         count = int(instr.split()[1])
         for i in range(count):  
             self.movehead(ludr)
-            self.movetail()
-            self.visited.add(self.tail)
+            self.moverope()
+            self.visited.add(self.rope[-1])
 
     def movehead(self,direction):
         if direction == 'U':
-            self.head+= 1j
+            self.rope[0]+= 1j
         elif direction == 'D':
-            self.head+= -1j
+            self.rope[0]+= -1j
         elif direction == 'L':
-            self.head+= -1
+            self.rope[0]+= -1
         elif direction == 'R':
-            self.head+= 1
+            self.rope[0]+= 1
         else:
             raise UnknownDirection
 
-    def movetail(self):
-        diff = self.head-self.tail
-        if diff in [0,1,-1,1j,-1j, 1+1j, 1-1j, -1+1j, -1-1j]:
-            pass
-        elif diff in (2, -2, -2j, 2j):
-            if diff == 2:
-                self.tail+=1
-            elif diff == -2:
-                self.tail+= -1
-            elif diff == -2j:
-                self.tail+= -1j
-            elif diff == 2j:
-                self.tail+=1j
-        else:
-            direction=cmath.phase(diff)
-            if -math.pi < direction < -math.pi/2:
-                self.tail += -1-1j
-            elif -math.pi/2 < direction < 0:
-                self.tail +=1-1j
-            elif 0 < direction < math.pi/2:
-                self.tail += 1+1j
-            elif math.pi/2 < direction < math.pi:
-                self.tail += -1+1j
+    def moverope(self):
+        for i, knotloc in enumerate(self.rope[1:],start=1):
+            diff = self.rope[i-1]-self.rope[i]
+            if diff in [0,1,-1,1j,-1j, 1+1j, 1-1j, -1+1j, -1-1j]:
+                pass
+            elif diff in (2, -2, -2j, 2j):
+                if diff == 2:
+                    self.rope[i]+=1
+                elif diff == -2:
+                    self.rope[i]+= -1
+                elif diff == -2j:
+                    self.rope[i]+= -1j
+                elif diff == 2j:
+                    self.rope[i]+=1j
+            else:
+                direction=cmath.phase(diff)
+                if -math.pi < direction < -math.pi/2:
+                    self.rope[i] += -1-1j
+                elif -math.pi/2 < direction < 0:
+                    self.rope[i] +=1-1j
+                elif 0 < direction < math.pi/2:
+                    self.rope[i] += 1+1j
+                elif math.pi/2 < direction < math.pi:
+                    self.rope[i] += -1+1j
 
 
 
@@ -80,7 +82,8 @@ def main1(data):
 
 
 def main2(data):
-    pass
+    r=RopeBoard(data,10)
+    return r.run()
 
 def day09_01():
     """Run part 1 of Day 1's code"""
@@ -90,7 +93,7 @@ def day09_01():
 def day09_02():
     """Run part 2 of Day 1's code"""
     path = "./input/input_09.txt"
-    print("0902:")
+    print("0902:", main2(file_to_str_array(path)))
 
 if __name__ == "__main__":
     day09_01()
