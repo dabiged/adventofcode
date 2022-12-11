@@ -28,7 +28,7 @@ class RopeBoard():
     def step(self,instr):
         ludr = instr.split()[0]
         count = int(instr.split()[1])
-        for i in range(count):  
+        for i in range(count):
             self.movehead(ludr)
             self.moverope()
             self.visited.add(self.rope[-1])
@@ -69,12 +69,6 @@ class RopeBoard():
                     self.rope[i] += 1+1j
                 elif math.pi/2 < direction < math.pi:
                     self.rope[i] += -1+1j
-
-
-
-
-
-
 
 def main1(data):
     r=RopeBoard(data)

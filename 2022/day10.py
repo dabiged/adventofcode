@@ -154,6 +154,7 @@ class CPU():
         self.instrs.reverse()
         self.registers={}
         self.screen=[]
+        self.screen.append(' ')
         self.registers['x']=1
         self.score=0
         self.run()
@@ -183,9 +184,9 @@ class CPU():
                 instr_done=True
 
             self.count+=1
+            self.draw()
 
             self.check()
-            self.draw()
 
 
     def check(self):
@@ -200,10 +201,10 @@ class CPU():
         if checker == self.registers['x'] or checker == self.registers['x']+1 or checker == self.registers['x']+2:
             self.screen.append('#')
         else:
-            self.screen.append('.')
+            self.screen.append(' ')
 
     def show(self):
-        return "\n".join(["".join(self.screen[0:39]),"".join(self.screen[40:79]),"".join(self.screen[80:119]),"".join(self.screen[120:159]),"".join(self.screen[160:199]),"".join(self.screen[200:]),])
+        return "\n".join(["".join(self.screen[:40]),"".join(self.screen[40:80]),"".join(self.screen[80:120]),"".join(self.screen[120:160]),"".join(self.screen[160:200]),"".join(self.screen[200:]),])
 
 def main1(data):
     mycpu=CPU(data)
