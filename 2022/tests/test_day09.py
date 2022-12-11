@@ -13,14 +13,14 @@ class TestDay09:
     def test_part1(self):
         r=RopeBoard(Test_input)
         r.step('U 1')
-        assert r.head == 0+1j
-        assert r.tail == 0+0j
+        assert r.rope[0] == 0+1j
+        assert r.rope[-1] == 0+0j
         r.step('U 1')
-        assert r.head == 0+2j
-        assert r.tail == 0+1j
+        assert r.rope[0] == 0+2j
+        assert r.rope[-1] == 0+1j
         r.step('L 1')
-        assert r.head == -1+2j
-        assert r.tail == 0+1j
+        assert r.rope[0] == -1+2j
+        assert r.rope[-1] == 0+1j
         b=RopeBoard(Test_input)
         assert 13 == b.run()
 
