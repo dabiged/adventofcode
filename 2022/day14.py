@@ -26,16 +26,20 @@ class CaveSystem():
 
     def run2(self):
         bottom=max([ int(i.imag) for i in self.a.keys()]) +2
-        boundary=500+bottom+2
-        for real in range(-boundary,boundary):
+        boundary=bottom+2
+        for real in range(500-boundary,500+boundary):
             self.a[real+bottom*1j]='#'
         step=self.run()
         return step+1
 
-    def run(self):
+    def run(self,draw=False):
         step=0
         while self.step():
             step+=1
+            if draw:
+                if step >10:
+                    if step % int(math.log(step,3)) ==0:
+                        print(self)
         return step
 
 
