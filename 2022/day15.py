@@ -111,18 +111,17 @@ class Map():
         self.sensorboundaries={}
         for i, sensor1 in enumerate(self.sensors):
             for j,sensor2 in enumerate(self.sensors[i+1:]):
-                for k,sensor3 in enumerate(self.sensors[j+i+1:]):
-                    for sensor in [sensor1, sensor2, sensor3]:
-                        if sensor not in self.sensorboundaries.keys():
-                            self.sensorboundaries[sensor]=self.halo(sensor)
-                    overlap=set(self.sensorboundaries[sensor1]).intersection(set(self.sensorboundaries[sensor2])).intersection(set(self.sensorboundaries[sensor3]))
-                    print(i,j,k,list(overlap))
+                for sensor in [sensor1, sensor2]:
+                    if sensor not in self.sensorboundaries.keys():
+                        self.sensorboundaries[sensor]=self.halo(sensor)
+                overlap=set(self.sensorboundaries[sensor1]).intersection(set(self.sensorboundaries[sensor2]))
+                print(i,j,list(overlap))
 
-                    for loc in list(overlap):
-                        if 0 > int(loc.real) or int(loc.real) > boundary or 0 > int(loc.imag) or int(loc.imag) > boundary:
-                            continue
-                        if self.empty(loc):
-                            return int(loc.real)*4_000_000+int(loc.imag)
+                for loc in list(overlap):
+                    if 0 > int(loc.real) or int(loc.real) > boundary or 0 > int(loc.imag) or int(loc.imag) > boundary:
+                        continue
+                    if self.empty(loc):
+                        return int(loc.real)*4_000_000+int(loc.imag)
 
 
 print(Map(test_input).part2())
