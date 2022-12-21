@@ -42,8 +42,6 @@ class Map():
     def checkline(self,ycoord):
         count=0
         for realcoord in range(self.mincol,self.maxcol):
-            if realcoord % 10000 ==0:
-                print(realcoord,count)
             if self.inrange(realcoord+ycoord*1j):
                 count+=1
         return count
@@ -107,7 +105,6 @@ class Map():
 
 
     def part2(self,boundary=20):
-        print("begin")
         self.sensorboundaries={}
         for i, sensor1 in enumerate(self.sensors):
             for j,sensor2 in enumerate(self.sensors[i+1:]):
@@ -115,7 +112,6 @@ class Map():
                     if sensor not in self.sensorboundaries.keys():
                         self.sensorboundaries[sensor]=self.halo(sensor)
                 overlap=set(self.sensorboundaries[sensor1]).intersection(set(self.sensorboundaries[sensor2]))
-                print(i,j,list(overlap))
 
                 for loc in list(overlap):
                     if 0 > int(loc.real) or int(loc.real) > boundary or 0 > int(loc.imag) or int(loc.imag) > boundary:
@@ -124,12 +120,10 @@ class Map():
                         return int(loc.real)*4_000_000+int(loc.imag)
 
 
-print(Map(test_input).part2())
-
 def day15_01():
     """Run part 1 of Day 9's code"""
     path = "./input/input_15.txt"
-    #print("1501:",Map(file_to_str_array(path)).checkline(2_000_000))
+    print("1501:",Map(file_to_str_array(path)).checkline(2_000_000))
 
 def day15_02():
     """Run part 2 of Day 9's code"""
