@@ -2,6 +2,7 @@ from lib.filehelper import get_bald_string_list_from_file
 # pylint: disable=missing-module-docstring
 from collections import defaultdict
 import time
+import copy
 
 
 test_data='''        ...#
@@ -60,7 +61,6 @@ class Maze():
                 break
 
     def walk(self,instr):
-        #print(self)
         if instr == 'L':
             self.direction*=-1j
         elif instr == 'R':
@@ -85,14 +85,12 @@ class Maze():
                     if self.part1:
                         self.currloc=self.wrap()
                     else:
-                        #print(self)
-                        self.currdir=self.direction
-                        nextloc=self.cubewrap()
+                        nextloc,nextdir =self.cubewrap()
                         if self.maze[nextloc] == '#':
-                            self.direction=self.currdir
-                        elif self.maze[nextloc] =='.':
+                            pass
+                        else :
                             self.currloc=nextloc
-                        #print(self)
+                            self.direction=nextdir
 
     def wrap(self):
         if self.direction == 1:
@@ -128,74 +126,77 @@ class Maze():
 
     def cubewrap(self):
         if 0 <= int(self.currloc.imag) <= 49 and int(self.currloc.real) == 149:
-            print(' D1 ')
-            self.direction*=-1
-            return 99+(149+(0-int(self.currloc.real)))*1j
+            gate=' D1 '
+            newdir=self.direction*-1
+            newloc= 99 + (149-int(self.currloc.imag))*1j
         elif 50 <= int(self.currloc.imag) <= 99 and int(self.currloc.real) == 99:
-            print(' C2 ')
-            self.direction*=-1j
-            return  100+int(self.currloc.imag) +49j
+            gate=' C2 '
+            newdir=self.direction*-1j
+            newloc=  50+int(self.currloc.imag) +49j
         elif 100 <= int(self.currloc.imag) <= 149 and int(self.currloc.real) == 99:
-            print(' D2 ')
-            self.direction*=-1
-            return 149+(0+(150-int(self.currloc.real)))*1j
+            gate=' D2 '
+            newdir=self.direction*-1
+            newloc= 149+(149-int(self.currloc.imag))*1j
         elif 150 <= int(self.currloc.imag) <= 199 and int(self.currloc.real) == 49:
-            print(' A2 ')
-            self.direction*=-1j
-            return int(self.currloc.imag)-100+149j
-
+            gate=' A2 '
+            newdir=self.direction*-1j
+            newloc= int(self.currloc.imag)-100+149j
         elif 150 <= int(self.currloc.imag) <= 199 and int(self.currloc.real) == 0:
-            print(' F2 ')
-            self.direction*=-1j
-            return int(self.currloc.imag)-100 + 0j
+            gate=' F2 '
+            newdir=self.direction*-1j
+            newloc= int(self.currloc.imag)-100 + 0j
         elif 100 <= int(self.currloc.imag) <= 149 and int(self.currloc.real) == 0:
-            print(' G2 ')
-            self.direction*=-1
-            return 50+(149-int(self.currloc.imag))*1j
+            gate=' G2 '
+            newdir=self.direction*-1
+            newloc= 50+(149-int(self.currloc.imag))*1j
         elif 50 <= int(self.currloc.imag) <= 99 and int(self.currloc.real) == 50:
-            print(' B1 ')
-            self.direction*=-1j
-            return -50+int(self.currloc.imag)+100j
+            gate=' B1 '
+            newdir=self.direction*-1j
+            newloc= -50+int(self.currloc.imag)+100j
         elif 0 <= int(self.currloc.imag) <= 49 and int(self.currloc.real) == 50:
-            print(' G1 ')
-            self.direction*=-1
-            return 0 + (50-int(self.currloc.imag)+100)*1j
+            gate=' G1 '
+            newdir=self.direction*-1
+            newloc= 0 + (149-int(self.currloc.imag))*1j
         elif int(self.currloc.imag) == 0 and 50 <= int(self.currloc.real) <= 99:
-            print(' F1 ')
-            self.direction*=1j
-            return 0 + (int(self.currloc.real)+100)*1j
+            gate=' F1 '
+            newdir=self.direction*1j
+            newloc= 0 + (int(self.currloc.real)+100)*1j
         elif int(self.currloc.imag) == 0 and 100 <= int(self.currloc.real) <= 149:
-            print(' E1 ')
-            return int(self.currloc.real)-100+199j
+            gate=' E1 '
+            newdir=self.direction*1
+            newloc= int(self.currloc.real)-100+199j
         elif int(self.currloc.imag) == 49 and 100 <= int(self.currloc.real) <= 149:
-            print(' C1 ')
-            self.direction*=1j
-            return  99 + (int(self.currloc.real)-50)*1j
+            gate=' C1 '
+            newdir=self.direction*1j
+            newloc=  99 + (int(self.currloc.real)-50)*1j
         elif int(self.currloc.imag) == 149 and 50 <= int(self.currloc.real) <= 99:
-            print(' A1 ')
-            self.direction*=1j
-            return 49+(100+self.currloc.real)*1j
+            gate=' A1 '
+            newdir=self.direction*1j
+            newloc= 49+(100+self.currloc.real)*1j
         elif int(self.currloc.imag) == 199 and 0 <= int(self.currloc.real) <= 49:
-            print(' E2 ')
-            return 100+int(self.currloc.real)+0j
+            gate=' E2 '
+            newdir=self.direction*1
+            newloc= 100+int(self.currloc.real)+0j
         elif int(self.currloc.imag) == 100 and 0 <= int(self.currloc.real) <= 49:
-            print(' B2 ')
-            self.direction*=1j
-            return 50+(50+int(self.currloc.real))*1j
+            gate=' B2 '
+            newdir=self.direction*1j
+            newloc= 50+(50+int(self.currloc.real))*1j
         else:
             raise ValueError(self.currloc)
 
+        return newloc,newdir
 
     def walkmaze(self):
         self.parse()
         self.parseinstr()
         self.start_walk()
-        for instr in self.dirs:
+        for i, instr in enumerate(self.dirs):
+            self.stepnum=i
             self.walk(instr)
 
         answ=0
-        answ+=(int(self.currloc.real)+1)*4
         answ+=(int(self.currloc.imag)+1)*1000
+        answ+=(int(self.currloc.real)+1)*4
         if self.direction == 1:
             answ+=0
         if self.direction == 1j:
@@ -225,10 +226,13 @@ class Maze():
 
 def main1(input_data):
     mymaze=Maze(input_data[:-2],input_data[-1])
-    print(mymaze.walkmaze())
+    mymaze.part1=True
+    return mymaze.walkmaze()
 
-def main2(data):
-    pass
+def main2(input_data):
+    mymaze=Maze(input_data[:-2],input_data[-1])
+    mymaze.part2=False
+    return mymaze.walkmaze()
 
 def day22_01():
     """Run part 1 of Day 22's code"""
@@ -238,7 +242,7 @@ def day22_01():
 def day22_02():
     """Run part 2 of Day 22's code"""
     path = "./input/input_22.txt"
-    print("2202:")
+    print("2202:",main2(get_bald_string_list_from_file(path)))
 
 if __name__ == "__main__":
     day22_01()

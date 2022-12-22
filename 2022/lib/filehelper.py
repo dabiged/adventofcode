@@ -53,4 +53,4 @@ def get_string_list_from_file(path):
     return [line.strip() for line in open(path, "r")]
 
 def get_bald_string_list_from_file(path):
-    return [line for line in open(path, "r")]
+    return [line.replace('\n','') for line in open(path, "r")]
