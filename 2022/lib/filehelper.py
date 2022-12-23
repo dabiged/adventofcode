@@ -1,3 +1,5 @@
+# curl -A 'dabiged via Curl' https://adventofcode.com/2022/day/20/input --cookie "session=53616c7465645f5fe93965373807a2881c6e2979a3e52b61d0d2c0200bd5622b165c6056402e059b7ade30d3530731435b92f6c95170b603a5047112a1922f10" > input/input_20.txt
+
 def file_to_array(path):
     """Open file and return each line as a list of ints."""
     return [int(line.strip()) for line in open(path, "r")]
