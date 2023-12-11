@@ -137,6 +137,7 @@ class Map():
 
     def inside_or_out(self,loc):
         ''' determine if a location is within the polygon'''
+        # First replace all non-loop characters with a '.'
         row=int(loc.imag)
         leftstr=''
         for col in range(int(loc.real)+1):
@@ -145,12 +146,15 @@ class Map():
                 leftstr+=self.map[currloc].char
             else:
                 leftstr+='.'
+
+        # Now replace all sections of pipe going vertically through a row with a single '|'
         output=leftstr
         output=replaceF7.sub('',output)
         output=replaceL7.sub('|',output)
         output=replaceFJ.sub('|',output)
         output=replaceLJ.sub('',output)
 
+        # Count the number of pipes we passed through. if odd, inside, if even; outside.
         parity=0
         for char in output:
             if char == '|':
@@ -159,6 +163,9 @@ class Map():
 
     def ins_and_outs(self):
         '''return a string representation of the ins and outs locations and the loop'''
+        # Ins == 'I'
+        # Outs == 'O'
+        # Loop == original character
         output=''
         for row in range(self.numrows+1):
             thisrow=''
