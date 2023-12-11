@@ -88,11 +88,11 @@ class Map():
             for col,char in enumerate(rowchars):
                 self.map[col+row*1j]=Node(col+row*1j,char)
                 if char == 'S':
-                    self.map[col+row*1j]=Node(col+row*1j,'|')
+                    self.map[col+row*1j]=Node(col+row*1j,'S')
                     self.start=col+row*1j
         self.numrows=row
         self.numcols=col
-        self.get_start_neighbours()
+        self.map[self.start]=Node(self.start,self.get_start_neighbours())
 
     def get_start_neighbours(self):
         dirs=[]
@@ -105,6 +105,18 @@ class Map():
                     if self.start in self.map[loc].neighbours():
                         dirs.append(i+j*1j)
                         self.starting_neighbours.append(loc)
+        if 0+1j in dirs and 0-1j in dirs:
+            return '|'
+        if 1 in dirs and -1 in dirs:
+            return '-'
+        if 0-1j in dirs and 1 in dirs:
+            return 'L'
+        if 0-1j in dirs and -1 in dirs:
+            return 'J'
+        if 0+1j in dirs and 1 in dirs:
+            return 'F'
+        if 0+1j in dirs and -1 in dirs:
+            return '7'
 
     def walk(self):
         max_dist=-1
@@ -226,6 +238,7 @@ def day10_02():
     """Run part 2 of Day 1's code"""
     path = "./input/10.txt"
     print("1002:", part2(file_to_str_array(path)))
+
 
 if __name__ == "__main__":
     day10_01()
