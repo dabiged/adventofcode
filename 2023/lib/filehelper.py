@@ -42,12 +42,18 @@ def get_string_lists_from_file(path):
 def get_map_from_file(path):
     res = []
     with open(path, "r") as f:
+        current_block=[]
         for line in f.readlines():
             current_line = []
-            for letter in line:
-                if letter != "\n":
-                    current_line.append(letter)
-            res.append(current_line)
+            if line =='\n':
+                res.append(current_block)
+                current_block=[]
+            else:
+                for letter in line:
+                    if letter != "\n":
+                        current_line.append(letter)
+                    else:
+                        current_block.append("".join(current_line))
     return res
 
 

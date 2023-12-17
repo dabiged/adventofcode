@@ -227,13 +227,10 @@ def part1(inputdata=test_input1):
             looplen=max(looplen,k)
     return looplen+1
 
-
 def part2(inputdata=test_input2):
     m=Map(inputdata)
     m.walk()
     return m.count_ins()
-
-
 
 def day10_01():
     """Run part 1 of Day 7's code"""
