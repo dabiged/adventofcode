@@ -45,15 +45,19 @@ class File:
         self.fileid=fileid
         self.length=length
         self.isempty=isempty
+        self.moved=moved
 
     def __str__(self):
         if self.isempty:
             return f'<Empty: len={self.length}>'
         else:
-            return f'<File: id={self.fileid},len={self.length}>'
+            return f'<Fid={self.fileid},len={self.length}>'
 
     def __len__(self):
         return int(self.length)
+
+    def __lt__(self,other):
+        return self.position > other.position
 
 
 class FileSystem2:
@@ -84,38 +88,36 @@ class FileSystem2:
 
     def defrag_step(self):
         # get the last file.
-        thisfile=self.disk.pop(self.skip)
+        for i,file in enumerate(sorted(self.disk, key=lambda x: x.position ,reverse=True)):
+            if not file.moved:
+                print(i,file)
 
-        print(self.skip,thisfile)
 
-        found=False
-        if thisfile.isempty:
-            # if empty just forget about it.
-            self.skip-=1
-        else:
-            # look for empty space to put it.
-            for loc, file in enumerate(self.disk):
-                if len(file) > len(thisfile) and file.isempty:
-                    # found somewhere to put it, but it is slightly too smal
-                    found=True
-                    self.disk=self.disk[:loc]+[thisfile]+[File(file.position+len(thisfile),0,len(file)-len(thisfile),True)]+self.disk[loc+1:]
-                    break
-                elif len(file) == len(thisfile) and file.isempty:
-                    # found somewhere and the size matches
-                    found=True
-                    self.disk=self.disk[:locl]+[thisfile]+self.disk[loc+1:]
-                    break
-            # if none found, put it back at the end, and skip it.
-        if not found:
-            if self.skip == -1:
-                self.disk.append(thisfile)
-            else:
-                print('before')
-                print(self)
-                self.disk=self.disk[:self.skip]+[thisfile]+self.disk[self.skip+1:]
-                print('after')
-                print(self)
-            self.skip-=1
+
+        #found=False
+        #if thisfile.isempty:
+        #    # if empty just forget about it.
+        #    self.skip-=1
+        #else:
+        #    # look for empty space to put it.
+        #    for loc, file in enumerate(self.disk):
+        #        if len(file) > len(thisfile) and file.isempty:
+        #            # found somewhere to put it, but it is slightly too smal
+        #            found=True
+        #            self.disk=self.disk[:loc]+[thisfile]+[File(file.position+len(thisfile),0,len(file)-len(thisfile),True)]+self.disk[loc+1:]
+        #            break
+        #        elif len(file) == len(thisfile) and file.isempty:
+        #            # found somewhere and the size matches
+        #            found=True
+        #            self.disk=self.disk[:locl]+[thisfile]+self.disk[loc+1:]
+        #            break
+        #    # if none found, put it back at the end, and skip it.
+        #if not found:
+        #    print('before')
+        #    print(self)
+        #    self.disk=self.disk[:self.skip]+[thisfile]+self.disk[self.skip+1:]
+        #    print('after')
+        #    print(self)
 
 
 
