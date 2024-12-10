@@ -2,157 +2,79 @@ from lib.filehelper import file_to_str_array
 # pylint: disable=missing-module-docstring
 
 
-testdata='2333133121414131402'
+testdata='23331331214141314020'
 
-
-
+class File:
+    def __init__(self,location,length):
+        self.location=location
+        self.length=length
 
 class FileSystem:
     def __init__(self,inputdata):
         self.inputdata=inputdata
         self.disk=[]
+        self.files=[]
+        self.empty=[]
         self.fileid=0
-        for i,value in enumerate(inputdata):
+        location=0
+        for i,value in enumerate(map(int,inputdata)):
             if i % 2 == 0:
+                self.files.append(File(location,int(value)))
                 for j in range(int(value)):
-                    self.disk.append(str(self.fileid))
+                    self.disk.append(int(self.fileid))
                 self.fileid+=1
             else:
+                if value>0:
+                    self.empty.append(File(location,int(value)))
                 for j in range(int(value)):
-                    self.disk.append('.')
+                    self.disk.append(-1)
+            location+=value
                     
 
     def __str__(self):
         return "".join(self.disk)
 
     def defrag(self):
-        while '.' in "".join(self.disk):
+        while -1 in self.disk:
             val=self.disk.pop()
-            if val != '.':
-                self.disk=self.disk[:self.disk.index('.') ]+[val]+self.disk[self.disk.index('.')+1:]
-            print(self.disk.count('.'))
+            if val != -1:
+                self.disk=self.disk[:self.disk.index(-1) ]+[val]+self.disk[self.disk.index(-1)+1:]
 
+    def defrag2(self):
+        for file in self.files[::-1]:
+            for empty_space in self.empty:
+                if empty_space.location >= file.location:
+                    # if empty space location is after the file location don't do anything
+                    break
+                if file.length <= empty_space.length:
+                    # if the file fits into the empty space
+                    for i in range(file.length):
+                        # Adjust the disk structure
+                        # move file to empty space
+                        self.disk[ empty_space.location + i] = self.disk[ file.location + i ]
+                        # set old file location to empty
+                        self.disk[ file.location+i] = -1
+                    # update the empty space tables.
+                    empty_space.location = empty_space.location+file.length
+                    empty_space.length = empty_space.length - file.length
+                    break
 
     def checksum(self):
         cksum=0
         for i,val in enumerate(self.disk):
-            cksum+=i*int(val)
+            if val >0:
+                cksum+=i*val
         return cksum
-
-class File:
-    def __init__ (self,position, fileid, length, isempty,moved=False):
-        self.position=position
-        self.fileid=fileid
-        self.length=length
-        self.isempty=isempty
-        self.moved=moved
-
-    def __str__(self):
-        if self.isempty:
-            return f'<Empty: len={self.length}>'
-        else:
-            return f'<Fid={self.fileid},len={self.length}>'
-
-    def __len__(self):
-        return int(self.length)
-
-    def __lt__(self,other):
-        return self.position > other.position
-
-
-class FileSystem2:
-    def __init__(self,inputdata):
-        self.inputdata=inputdata
-        self.disk=[]
-        self.fileid=0
-        self.position=0
-        self.skip=-1
-        for i,value in enumerate(inputdata):
-            if i % 2 == 0:
-                self.disk.append(File(self.position,self.fileid,value,False))
-                self.fileid+=1
-            else:
-                if int(value) > 0:
-                   self.disk.append(File(self.position,0,value,True))
-
-            for j in range(int(value)):
-                self.position+=0
-                    
-
-    def __str__(self):
-        output='-----\n'
-        for file in self.disk:
-            output+=str(file)+'\n'
-        output+='-----'
-        return output
-
-    def defrag_step(self):
-        # get the last file.
-        for i,file in enumerate(sorted(self.disk, key=lambda x: x.position ,reverse=True)):
-            if not file.moved:
-                print(i,file)
-
-
-
-        #found=False
-        #if thisfile.isempty:
-        #    # if empty just forget about it.
-        #    self.skip-=1
-        #else:
-        #    # look for empty space to put it.
-        #    for loc, file in enumerate(self.disk):
-        #        if len(file) > len(thisfile) and file.isempty:
-        #            # found somewhere to put it, but it is slightly too smal
-        #            found=True
-        #            self.disk=self.disk[:loc]+[thisfile]+[File(file.position+len(thisfile),0,len(file)-len(thisfile),True)]+self.disk[loc+1:]
-        #            break
-        #        elif len(file) == len(thisfile) and file.isempty:
-        #            # found somewhere and the size matches
-        #            found=True
-        #            self.disk=self.disk[:locl]+[thisfile]+self.disk[loc+1:]
-        #            break
-        #    # if none found, put it back at the end, and skip it.
-        #if not found:
-        #    print('before')
-        #    print(self)
-        #    self.disk=self.disk[:self.skip]+[thisfile]+self.disk[self.skip+1:]
-        #    print('after')
-        #    print(self)
-
-
-
-
-
 
 def part1(inputdata=testdata):
     a=FileSystem(inputdata)
     a.defrag()
-    print(a.checksum())
-
-    
+    return a.checksum()
 
 def part2(inputdata=testdata):
-    a=FileSystem2(inputdata)
-    print(a)
-    a.defrag_step()
-    print(a)
-    a.defrag_step()
-    print(a)
-    a.defrag_step()
-    print(a)
-    a.defrag_step()
-    print(a)
-    a.defrag_step()
-    print(a)
-    a.defrag_step()
-    print(a)
-    a.defrag_step()
-    print(a)
-    a.defrag_step()
-    print(a)
-    a.defrag_step()
-    print(a)
-
+    a=FileSystem(inputdata)
+    a.defrag2()
+    return a.checksum()
 
 
 def day09_01():
@@ -164,10 +86,8 @@ def day09_01():
 def day09_02():
     """Run part 2 of Day 09's code"""
     path = "./input/09.txt"
-    print("0902:", part2(file_to_str_array(path)))
+    print("0902:", part2(file_to_str_array(path)[0]))
 
 if __name__ == "__main__":
-    #part1()
-    #day09_01()
-    part2()
-    #day09_02()
+    day09_01()
+    day09_02()
