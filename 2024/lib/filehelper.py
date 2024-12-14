@@ -5,7 +5,7 @@ def file_to_array(path):
     return [int(line.strip()) for line in open(path, "r")]
 
 def file_to_bald_str_array(path):
-    """Open file and return each line as a list of ints."""
+    """Open file and return each line as a list of strs."""
     return [str(line.rstrip('\n')) for line in open(path, "r")]
 
 def file_to_str_array(path):
@@ -62,3 +62,13 @@ def get_string_list_from_file(path):
 
 def get_bald_string_list_from_file(path):
     return [line.replace('\n','') for line in open(path, "r")]
+
+def get_file(path):
+    output=''
+    with open(path,'r') as f:
+        for line in f.readlines():
+            output+=line
+    return output
+
+if __name__ == '__main__':
+    print(get_file('./input/13.txt'))

@@ -19,7 +19,7 @@ run: ## Run all code specified in main.py
 
 .PHONY: test
 test: ## Run All tests
-	python -m pytest
+	python3 -m pytest
 
 .PHONY: pylint
 pylint: ## Run pylint on all python files
