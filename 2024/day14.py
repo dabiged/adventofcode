@@ -104,12 +104,18 @@ def part2(inputdata=testdata.split('\n')):
     ''' For part 2 there is a cycle in the output where everything lines up on step 51, then every 103 steps thereafter.
     by lookat at every 103th subsequent step I was able to see the tree'''
     g=Grid(inputdata)
+    scores={}
     i=51
     g.step(51)
-    g.step(68*103)
-    print(g)
-    print(g.score())
-    return 51+(68*103)
+    for _ in range(70):
+        i+=103
+        g.step(103)
+        scores[i]=g.score()
+    #return 51+(68*103)
+    for k,v in scores.items():
+        if v==min(scores.values()):
+            return k
+
 
 def day14_01():
     """Run part 1 of Day 14's code"""
@@ -125,7 +131,3 @@ def day14_02():
 if __name__ == "__main__":
     day14_01()
     day14_02()
-
-
-
-
