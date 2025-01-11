@@ -1,4 +1,4 @@
-from collections import defaultdict
+from collections import defaultdict,deque
 
 
 class Grid:
@@ -20,7 +20,7 @@ class Grid:
         self.numcols=max([int(i.real) for i in self.grid.keys()])
 
     def on_grid(self,point):
-        return 0<= point.imag <= self.numrows and 0<= point.real < self.numcols
+        return 0<= point.imag <= self.numrows and 0<= point.real <= self.numcols
 
     def look(self,point,direction):
         '''
@@ -82,8 +82,43 @@ class Grid:
                 newgrid[(self.numrows-k.imag)*1j+k.real]=v
         self.grid=newgrid
 
+
+    def find_path(self,start,end):
+        ''' Find shortest path between start and end using dijkstra's algorithm.
+        Returns distance and path or None,[] if no path found.'''
+
+        visited=set()
+        queue=deque()
+        queue.append((start,0,[start]))
+        while queue:
+            currloc, distance, path = queue.popleft()
+            if currloc == end:
+                return distance, path
+            for neighbour in self.get_neighbours(currloc):
+                if self.grid[neighbour] != '#' and neighbour not in visited:
+                    queue.append((neighbour, distance+1, path+[neighbour]))
+                    visited.add(neighbour)
+        return None, []
+
+
     def __len__(self):
         return self.numrows*self.numcols
+
+    def show(self,path=[]):
+        ''' Similar to the __str__ method, but allows annotation with a list of locations.
+        Very useful for path finding
+        '''
+        output=''
+        for im in range(self.numrows+1):
+            for re in range(self.numcols+1):
+                if re+im*1j in path:
+                    output+='O'
+                elif self.grid[re+im*1j] != '#':
+                    output+='.'
+                else:
+                    output+=self.grid[re+im*1j]
+            output+='\n'
+        return output
 
     def __str__(self):
         output=''
